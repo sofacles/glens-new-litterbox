@@ -1,11 +1,11 @@
 import React from 'react';
-import RowVirtualizerFixed from './RowVirtualizerFixed';
+import ColorPickerHarness from './TypingUseContext/ColorPickerHarness';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <RowVirtualizerFixed />;
+       <ColorPickerHarness />
     </div>
   );
 }

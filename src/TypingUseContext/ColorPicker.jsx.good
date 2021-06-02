@@ -1,0 +1,30 @@
+import React from 'react';
+
+import { ColorPixel } from './ColorPixel';
+
+
+const ColorPicker = (props) => {
+  
+  const cells = [];
+  const rValue = 12;
+  const bValue = 9;
+  for (let gValue = 0; gValue <= 15; gValue++) {
+    cells.push(
+      <ColorPixel
+        r={rValue}
+        g={gValue}
+        b={bValue}
+        key={'' + rValue + gValue}
+      />
+    );
+  }
+
+  
+  return (
+    <div className="color-picker-container">
+   {cells.map(c => c)}
+    </div>
+  );
+};
+
+export default ColorPicker;
