@@ -1,11 +1,13 @@
-import React from 'react';
-import ColorPickerHarness from './TypingUseContext/ColorPickerHarness';
+import React, {useState} from 'react';
+import TableHarness from './PropsAreShallowlyWatched/TableHarness'
 import './App.css';
 
 function App() {
+
   return (
     <div className="App">
-       <ColorPickerHarness />
+      
+      <TableHarness />
     </div>
   );
 }
