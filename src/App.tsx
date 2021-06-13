@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
-import TableHarness from './PropsAreShallowlyWatched/TableHarness'
+import React from 'react';
+import PageHeaderHarness from './Slots/PageHeaderHarness';
+
 import './App.css';
 
 function App() {
@@ -7,7 +8,7 @@ function App() {
   return (
     <div className="App">
       
-      <TableHarness />
+      <PageHeaderHarness />
     </div>
   );
 }

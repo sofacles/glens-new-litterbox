@@ -1,0 +1,11 @@
+import React from 'react';
+
+const Label = props => <span>{props.content}</span>
+const Tab = props => <div>{props.content}</div>
+const Page = () => {
+    debugger;
+    return <Tab content={<Label content='Foo' />} />
+}
+
+export {Label, Tab, Page}
+

@@ -7,7 +7,7 @@ const TableHarness = () => {
     const data = FakeData.slice(0,10);
     const [primitiv, setPrimitiv] = useState("original");
  
-    return <div className="App">
+    return <div>
       
       <Table1 data={data} simpleProp={"primitiv"} />
 
