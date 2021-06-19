@@ -1,8 +1,26 @@
 import React from 'react';
+const outerStyle = {
+    paddingLeft: "10px"
+}
+
+const headerStyle = {
+    display: "flex",
+}
+
+const navStyle = {
+    textAlign: "left",
+}
 
 
 const PageHeader = (props) => {
-    return <div>This is a page Header <div className="icon-area">{props.content}</div> </div>
+    return <div style={outerStyle}>
+               <header style={headerStyle}>
+                    <div >{props.iconSlot}</div> 
+                    <div >{props.titleSlot}</div>
+                </header>  
+               
+                <nav style={navStyle}>{props.linksSlot}</nav>
+            </div>
 }
 
 export default PageHeader;
