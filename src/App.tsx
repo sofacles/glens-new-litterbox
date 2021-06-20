@@ -1,5 +1,5 @@
 import React from 'react';
-import PageHeaderHarness from './Slots/PageHeaderHarness';
+import Parent from './TypingRenderProps/Parent2';
 
 import './App.css';
 
@@ -7,8 +7,8 @@ function App() {
 
   return (
     <div className="App">
-      
-      <PageHeaderHarness />
+
+      <Parent />
     </div>
   );
 }
