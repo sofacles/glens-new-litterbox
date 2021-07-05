@@ -1,5 +1,5 @@
 import React from 'react';
-import Parent from './TypingRenderProps/Parent2';
+import Parent from './Toggler/Parent';
 
 import './App.css';
 
