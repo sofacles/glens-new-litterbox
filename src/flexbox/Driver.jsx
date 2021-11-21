@@ -13,42 +13,93 @@ const item = (substance) => {
 };
 
 const Driver = () => {
-  const [flexState, setFlexState] = useState({
+  const [containerFlexState, setContainerFlexState] = useState({
     display: "flex",
     flexDirection: "row",
     alignItems: "stretch",
   });
 
+  const [itemFlexState, setItemFlexState] = useState({ flexBasis: "auto" });
+
+  const [numItems, setNumItems] = useState(4);
+  const onItemCountChanged = (evt) => {
+    setNumItems(evt.target.value);
+  };
+
+  // container
   const onFlexDirectionChanged = (newVal) => {
-    setFlexState({ ...flexState, flexDirection: newVal });
+    setContainerFlexState({ ...containerFlexState, flexDirection: newVal });
   };
 
   const onAlignItemsChanged = (newVal) => {
-    setFlexState({ ...flexState, alignItems: newVal });
+    setContainerFlexState({ ...containerFlexState, alignItems: newVal });
   };
 
+  // items
+  const onFlexBasisChanged = (newVal) => {
+    setItemFlexState({ ...itemFlexState, flexBasis: newVal.target.value });
+  };
+
+  const columnStyle = {
+    alignItems: "flex-start",
+    display: "flex",
+    flexDirection: "column",
+    marginRight: "15px",
+  };
+
+  console.info(itemFlexState);
   return (
     <div style={{ display: "flex", flexDirection: "row", padding: "12px" }}>
-      <RadioGroup
-        groupName="flexDirection"
-        initialValue={flexState.flexDirection}
-        possibleValues={["row", "column"]}
-        onNewValue={onFlexDirectionChanged}
-      />
-      <RadioGroup
-        groupName="alignItems"
-        initialValue={flexState.alignItems}
-        possibleValues={[
-          "base-line",
-          "center",
-          "flex-start",
-          "flex-end",
-          "stretch",
-        ]}
-        onNewValue={onAlignItemsChanged}
-      />
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        <TheList containerStyle={flexState} />
+      <div style={columnStyle}>
+        <h1>Parent</h1>
+        <RadioGroup
+          groupName="flexDirection"
+          initialValue={containerFlexState.flexDirection}
+          possibleValues={["row", "column"]}
+          onNewValue={onFlexDirectionChanged}
+        />
+        <RadioGroup
+          groupName="alignItems"
+          initialValue={containerFlexState.alignItems}
+          possibleValues={[
+            "base-line",
+            "center",
+            "flex-start",
+            "flex-end",
+            "stretch",
+          ]}
+          onNewValue={onAlignItemsChanged}
+        />
+      </div>
+      <div style={columnStyle}>
+        <h1>Children</h1>
+
+        <div>
+          <label>flex basis (px, %, ?)</label>
+          <input
+            type="text"
+            onChange={onFlexBasisChanged}
+            value={itemFlexState.flexBasis}
+            name="flexBasis"
+          />
+        </div>
+        <div>
+          <label>items</label>
+          <input
+            type="text"
+            onChange={onItemCountChanged}
+            value={numItems}
+            name="itemCount"
+          />
+        </div>
+      </div>
+
+      <div style={columnStyle}>
+        <TheList
+          containerStyle={containerFlexState}
+          flexItemStyle={itemFlexState}
+          itemCount={numItems}
+        />
       </div>
     </div>
   );

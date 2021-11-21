@@ -18,9 +18,9 @@ const item = (substance, flexItemStyle) => {
 };
 
 const TheList = (props) => {
-  const { containerStyle } = props;
-  const flexItemStyle = {};
-  const theElements = elements.slice(0, 6);
+  const { containerStyle, flexItemStyle, itemCount } = props;
+
+  const theElements = elements.slice(0, itemCount);
   const theDivs = theElements.map((el) => item(el, flexItemStyle));
 
   const defaultContainerStyle = {
@@ -28,14 +28,14 @@ const TheList = (props) => {
   };
   if (containerStyle.flexDirection === "row") {
     defaultContainerStyle.height = "200px";
+    defaultContainerStyle.width = "800px";
   } else if (containerStyle.flexDirection === "column") {
+    defaultContainerStyle.height = "800px";
     defaultContainerStyle.width = "250px";
   }
 
   return (
-    <div style={{ ...defaultContainerStyle, ...containerStyle }}>
-      {theDivs}{" "}
-    </div>
+    <div style={{ ...defaultContainerStyle, ...containerStyle }}>{theDivs}</div>
   );
 };
 

@@ -14,7 +14,7 @@ const RadioGroup = (props) => {
   };
 
   const theRows = possibleValues.map((val) => (
-    <div style={rowStyle}>
+    <div style={rowStyle} key={val}>
       <input
         checked={currentValue === val}
         type="radio"
@@ -32,7 +32,6 @@ const RadioGroup = (props) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
-        marginRight: "15px",
       }}
     >
       <h3>{groupName}:</h3>
