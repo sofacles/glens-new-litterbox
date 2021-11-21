@@ -17,19 +17,36 @@ const Driver = () => {
   const flexContainerStyle = {
     display: "flex",
     flexDirection: flexState.flexDir,
+    alignItems: flexState.alignItems,
   };
 
   const onFlexDirectionChanged = (newVal) => {
     setFlexState({ ...flexState, flexDir: newVal });
   };
 
+  const onAlignItemsChanged = (newVal) => {
+    setFlexState({ ...flexState, alignItems: newVal });
+  };
+
   return (
-    <div style={{ display: "flex", flexDirection: "row" }}>
+    <div style={{ display: "flex", flexDirection: "row", padding: "12px" }}>
       <RadioGroup
         groupName="flexDirection"
         initialValue="row"
         possibleValues={["row", "column"]}
         onNewValue={onFlexDirectionChanged}
+      />
+      <RadioGroup
+        groupName="alignItems"
+        initialValue="stretch"
+        possibleValues={[
+          "base-line",
+          "center",
+          "flex-start",
+          "flex-end",
+          "stretch",
+        ]}
+        onNewValue={onAlignItemsChanged}
       />
       <div style={{ display: "flex", flexDirection: "column" }}>
         <TheList containerStyle={flexContainerStyle} />

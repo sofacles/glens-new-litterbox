@@ -32,6 +32,7 @@ const RadioGroup = (props) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "flex-start",
+        marginRight: "15px",
       }}
     >
       <h3>{groupName}:</h3>
