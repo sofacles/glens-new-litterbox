@@ -13,15 +13,14 @@ const item = (substance) => {
 };
 
 const Driver = () => {
-  const [flexState, setFlexState] = useState({ flexDir: "row" });
-  const flexContainerStyle = {
+  const [flexState, setFlexState] = useState({
     display: "flex",
-    flexDirection: flexState.flexDir,
-    alignItems: flexState.alignItems,
-  };
+    flexDirection: "row",
+    alignItems: "stretch",
+  });
 
   const onFlexDirectionChanged = (newVal) => {
-    setFlexState({ ...flexState, flexDir: newVal });
+    setFlexState({ ...flexState, flexDirection: newVal });
   };
 
   const onAlignItemsChanged = (newVal) => {
@@ -32,13 +31,13 @@ const Driver = () => {
     <div style={{ display: "flex", flexDirection: "row", padding: "12px" }}>
       <RadioGroup
         groupName="flexDirection"
-        initialValue="row"
+        initialValue={flexState.flexDirection}
         possibleValues={["row", "column"]}
         onNewValue={onFlexDirectionChanged}
       />
       <RadioGroup
         groupName="alignItems"
-        initialValue="stretch"
+        initialValue={flexState.alignItems}
         possibleValues={[
           "base-line",
           "center",
@@ -49,7 +48,7 @@ const Driver = () => {
         onNewValue={onAlignItemsChanged}
       />
       <div style={{ display: "flex", flexDirection: "column" }}>
-        <TheList containerStyle={flexContainerStyle} />
+        <TheList containerStyle={flexState} />
       </div>
     </div>
   );
