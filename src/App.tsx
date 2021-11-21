@@ -1,5 +1,5 @@
 import React from 'react';
-import Parent from './Toggler/Parent';
+import Driver from './flexbox/Driver';
 
 import './App.css';
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
 
-      <Parent />
+      <Driver />
     </div>
   );
 }
