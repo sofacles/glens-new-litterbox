@@ -1,27 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { elements } from "../Elements";
-
-const defaultStyle = {
-  border: "1px solid black",
-  margin: "5px",
-  padding: "5px",
-};
-
-const item = (substance, flexItemStyle) => {
-  return (
-    <div key={substance.number} style={{ ...defaultStyle, ...flexItemStyle }}>
-      <h4>{substance.number}</h4>
-      <h5>{substance.name}</h5>
-      <span>{substance.atomic_mass}</span>
-    </div>
-  );
-};
+import PeriodicElement from "./PeriodicElement";
 
 const TheList = (props) => {
-  const { containerStyle, flexItemStyle, itemCount } = props;
-
+  const { containerStyle, flexItemStyle, flexItemStyles, itemCount } = props;
   const theElements = elements.slice(0, itemCount);
-  const theDivs = theElements.map((el) => item(el, flexItemStyle));
+  const theDivs = theElements.map((el, ind) => (
+    <PeriodicElement
+      key={el.number}
+      substance={el}
+      flexItemStyle={flexItemStyles[ind] ?? ""}
+    />
+  ));
 
   const defaultContainerStyle = {
     backgroundColor: "#AAA",
