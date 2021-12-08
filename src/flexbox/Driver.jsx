@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import TheList from "./TheList.jsx";
+import { elements } from "../Elements";
 import RadioGroup from "./RadioGroup.jsx";
 import ItemFlexShortcutEditableDisplay from "./ItemFlexShortcutEditableDisplay.jsx";
+import { useFlexAndDataReducer } from "./useFlexAndDataReducer";
 
 const Driver = () => {
   const [containerFlexState, setContainerFlexState] = useState({
@@ -11,11 +13,11 @@ const Driver = () => {
     alignItems: "stretch",
   });
 
-  const [itemFlexState, setItemFlexState] = useState({ flex: "0 1 auto" });
+  const [itemFlexState, setItemFlexState] = useState({ flex: "1 1 auto" });
+  const [dataAndFlexItemStyles, dispatch] = useFlexAndDataReducer(elements, 4);
 
-  const [numItems, setNumItems] = useState(4);
   const onItemCountChanged = (evt) => {
-    setNumItems(evt.target.value);
+    dispatch({ type: "update_count", cargo: { newCount: evt.target.value } });
   };
 
   // container
@@ -101,7 +103,7 @@ const Driver = () => {
             <input
               type="text"
               onChange={onItemCountChanged}
-              value={numItems}
+              value={dataAndFlexItemStyles.length}
               name="itemCount"
             />
           </div>
@@ -110,16 +112,17 @@ const Driver = () => {
         <div style={columnStyle}>
           <TheList
             containerStyle={containerFlexState}
+            elements={dataAndFlexItemStyles}
             flexItemStyle={itemFlexState}
             flexItemStyles={flexStrings}
-            itemCount={numItems}
+            itemCount={dataAndFlexItemStyles.length} //should the list care about itemCount?
           />
         </div>
       </div>
-      <ItemFlexShortcutEditableDisplay
+      {/* <ItemFlexShortcutEditableDisplay
         flexStrings={flexStrings}
         onUpdate={onFlexStringsChanged}
-      />
+      /> */}
     </div>
   );
 };

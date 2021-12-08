@@ -1,17 +1,21 @@
 import React from "react";
-import { elements } from "../Elements";
+
 import PeriodicElement from "./PeriodicElement";
 
 const TheList = (props) => {
-  const { containerStyle, flexItemStyle, flexItemStyles, itemCount } = props;
+  const { containerStyle, flexItemStyle, flexItemStyles, itemCount, elements } =
+    props;
   const theElements = elements.slice(0, itemCount);
-  const theDivs = theElements.map((el, ind) => (
-    <PeriodicElement
-      key={el.number}
-      substance={el}
-      flexItemStyle={flexItemStyles[ind] ?? ""}
-    />
-  ));
+
+  const theDivs = theElements.map((el, ind) => {
+    return (
+      <PeriodicElement
+        key={el.physicalData.number}
+        substance={el.physicalData}
+        flexItemStyle={flexItemStyles[ind] ?? flexItemStyle.flex}
+      />
+    );
+  });
 
   const defaultContainerStyle = {
     backgroundColor: "#AAA",
