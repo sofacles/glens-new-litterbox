@@ -32,9 +32,8 @@ const Login = (props) => {
 
   return (
     <div data-testid="login">
-      <span data-testid="user-n-span">{userName}</span>
-      Uncomment this next line to have the whole div be inserted into body twice
-      {/* <div data-testid="best-friend">Best friend: bestFriend.current</div> */}
+      <h3 data-testid="user-n-span">{userName}</h3>
+
       <div data-testid="best-friend">Best friend: {bestFriend.current}</div>
       <button
         onClick={(evt) => {
