@@ -1,6 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 
-//Show a login/logout button and the user name
+// Show a login/logout button and the user name. This is a dumb component that calls function
+// props for login/logout and takes an "isLoggedIn" prop too.  The maintenance of state is happening
+// in the AccountPage component.
 const Avatar = (props) => {
   const { isLoggedIn = false, login, logout, userName } = props;
 

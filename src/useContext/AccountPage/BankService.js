@@ -4,14 +4,10 @@
 I'm trying to figure out if this thing gets called all the time and whether I can just keep
 state in a module on the client, or whether the fact that I import this module in a React 
 component means it's going to keep getting loaded and I'll lose my isLoggedIn state.
-
 */
 
-let isLoggedIn = false;
-
 const login = (userName, pwd) => {
-  if (userName === "Milan" && pwd === "Vesuvius") {
-    isLoggedIn = true;
+  if (userName === "James" && pwd === "Vesuvius") {
     return {
       balance: 800.0,
       firstName: "James",
@@ -22,7 +18,6 @@ const login = (userName, pwd) => {
 };
 
 const logout = () => {
-  isLoggedIn = false;
   return { isLoggedIn: false };
 };
 

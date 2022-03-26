@@ -1,4 +1,4 @@
-import React, { useState, Children } from "react";
+import React, { useState } from "react";
 const myAccount = {
   balance: 0,
   firstName: "Unset",
