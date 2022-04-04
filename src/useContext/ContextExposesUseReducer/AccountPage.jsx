@@ -4,7 +4,7 @@ import AccountBalance from "./AccountBalance";
 import { BankAccountContext } from "./BankAccountContext";
 
 export const AccountPage = () => {
-  const [state, dispatch] = useContext(BankAccountContext);
+  const { accountState, dispatch } = useContext(BankAccountContext);
   const doLogin = () => {
     dispatch({
       type: "login",
@@ -19,12 +19,12 @@ export const AccountPage = () => {
   return (
     <div>
       <Avatar
-        isLoggedIn={state.isLoggedIn}
+        isLoggedIn={accountState.isLoggedIn}
         login={doLogin}
         logout={doLogout}
-        userName={state.isLoggedIn ? state.firstName : "Unset"}
+        userName={accountState.isLoggedIn ? accountState.firstName : "Unset"}
       />
-      {state.isLoggedIn && <AccountBalance />}
+      {accountState.isLoggedIn && <AccountBalance />}
     </div>
   );
 };

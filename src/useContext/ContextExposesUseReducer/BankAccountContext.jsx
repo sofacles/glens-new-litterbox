@@ -10,7 +10,7 @@ const myAccount = {
 
 export const BankAccountContext = React.createContext([myAccount]);
 
-function bankReducer(state, action) {
+function bankReducer(accountState, action) {
   const { cargo } = action;
   switch (action.type) {
     case "login":
@@ -24,12 +24,11 @@ function bankReducer(state, action) {
   }
 }
 
-//What do I expose?  Dispatch? The reducer?  I'll try dispatch first.
 export const BankAccountProvider = ({ children }) => {
   const [accountState, dispatch] = useReducer(bankReducer, myAccount);
 
   return (
-    <BankAccountContext.Provider value={[accountState, dispatch]}>
+    <BankAccountContext.Provider value={{ accountState, dispatch }}>
       {children}
     </BankAccountContext.Provider>
   );

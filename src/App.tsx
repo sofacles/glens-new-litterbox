@@ -1,5 +1,5 @@
 import React from 'react';
-import { HomePage } from './useContext/ChildComponentSetsLoggedInAndOut/HomePage.jsx';
+import { HomePage } from './useContext/ContextExposesUseReducer/HomePage.jsx';
 
 import './App.css';
 
