@@ -1,22 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
+import { FlexAndDataContext } from "./FlexAndDataContext";
 
-// shows a text box for each flexStyle in the collection
-const ItemFlexShortcutEditableDisplay = (props) => {
-  const { flexStrings, onUpdate } = props;
+// Shows a text box for each flexStyle in the collection
+const ItemFlexShortcutEditableDisplay = () => {
+  const [dataAndFlexItemStyles, dispatch] = useContext(FlexAndDataContext);
 
-  const [localValues, setLocalValues] = useState([...flexStrings]);
-
-  const theDivs = localValues.map((flexStr, index) => (
+  const theDivs = dataAndFlexItemStyles.map((obj, index) => (
+    // {
+    //   physicalData: datum,
+    //   flex: defaultItemStyle,
+    //   }
     <div key={index}>
       <input
         type="text"
-        value={flexStr}
+        value={obj.flex.flex}
         name={`flexStr${index}`}
         onChange={(evt) => {
-          const newList = [...localValues];
-          newList[index] = evt.target.value;
-          setLocalValues(newList);
-          onUpdate(newList);
+          dispatch("UPDATE_FLEX_AT_INDEX", {
+            index: index,
+            flex: evt.target.value,
+          });
         }}
       />
     </div>
