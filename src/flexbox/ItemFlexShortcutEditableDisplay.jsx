@@ -16,9 +16,12 @@ const ItemFlexShortcutEditableDisplay = () => {
         value={obj.flex.flex}
         name={`flexStr${index}`}
         onChange={(evt) => {
-          dispatch("UPDATE_FLEX_AT_INDEX", {
-            index: index,
-            flex: evt.target.value,
+          dispatch({
+            type: "UPDATE_FLEX_AT_INDEX",
+            payload: {
+              index: index,
+              flex: evt.target.value,
+            },
           });
         }}
       />

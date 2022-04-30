@@ -33,10 +33,9 @@ function reducer(state, action) {
     case "decrement":
       return { count: state.count - 1 };
     case "UPDATE_FLEX_AT_INDEX":
-      debugger;
-      const foo = state;
-      break;
-
+      const newState = [...state];
+      newState[action.payload.index].flex = action.payload.flex;
+      return newState;
     default:
       throw new Error();
   }

@@ -22,8 +22,8 @@ const TheList = (props) => {
     backgroundColor: "#AAA",
   };
   if (containerStyle.flexDirection === "row") {
-    defaultContainerStyle.height = "200px";
-    defaultContainerStyle.width = "800px";
+    defaultContainerStyle.height = "100px";
+    defaultContainerStyle.width = "100%";
   } else if (containerStyle.flexDirection === "column") {
     defaultContainerStyle.height = "800px";
     defaultContainerStyle.width = "250px";
