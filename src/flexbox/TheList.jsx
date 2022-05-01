@@ -13,7 +13,7 @@ const TheList = (props) => {
       <PeriodicElement
         key={el.physicalData.number}
         substance={el.physicalData}
-        flexItemStyle={dataAndFlexItemStyles[ind].flex.flex}
+        flexItemStyle={dataAndFlexItemStyles[ind].style.flex}
       />
     );
   });

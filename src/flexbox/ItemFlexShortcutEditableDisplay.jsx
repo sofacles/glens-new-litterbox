@@ -13,7 +13,7 @@ const ItemFlexShortcutEditableDisplay = () => {
     <div key={index}>
       <input
         type="text"
-        value={obj.flex.flex}
+        value={obj.style.flex}
         name={`flexStr${index}`}
         onChange={(evt) => {
           dispatch({
