@@ -33,8 +33,18 @@ function reducer(state, action) {
 
     case "UPDATE_FLEX_AT_INDEX":
       const newState = [...state];
-      newState[action.payload.index].flex = action.payload.flex;
+      newState[action.payload.index].flex = { flex: action.payload.flex };
       return newState;
+    case "RESET_ALL_TO":
+      return state.map((el) => {
+        const newEl = { ...el };
+        console.info(newEl);
+        if (el.flex == "2") {
+          debugger;
+        }
+        newEl.flex.flex = action.cargo.defaultFlex;
+        return newEl;
+      });
     default:
       throw new Error();
   }

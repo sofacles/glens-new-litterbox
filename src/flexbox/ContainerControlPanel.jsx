@@ -18,9 +18,6 @@ export const ContainerControlPanel = ({
 
   //Can I only get dispatch?
   const [dataAndFlexItemStyles, dispatch] = flexAndDataContext;
-  const onItemCountChanged = (evt) => {
-    dispatch({ type: "UPDATE_COUNT", cargo: { newCount: evt.target.value } });
-  };
 
   return (
     <>
@@ -47,18 +44,6 @@ export const ContainerControlPanel = ({
               "stretch",
             ]}
             onNewValue={onAlignItemsChanged}
-          />
-        </section>
-
-        <section style={controlStyle}>
-          <p>
-            <label>count</label>
-          </p>
-          <input
-            type="text"
-            onChange={onItemCountChanged}
-            value={dataAndFlexItemStyles.length}
-            name="itemCount"
           />
         </section>
 

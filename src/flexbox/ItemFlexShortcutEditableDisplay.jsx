@@ -27,7 +27,12 @@ const ItemFlexShortcutEditableDisplay = () => {
       />
     </div>
   ));
-  return <div>{theDivs}</div>;
+  return (
+    <div>
+      <h2>Item flexes</h2>
+      {theDivs}
+    </div>
+  );
 };
 
 export default ItemFlexShortcutEditableDisplay;
