@@ -6,11 +6,17 @@ const defaultStyle = {
   padding: "5px",
 };
 
+const symbolStyle = {
+  margin: "10px",
+  marginBlockStart: "5px",
+  marginBlockEnd: "5px",
+};
+
 const PeriodicElement = ({ substance, flexItemStyle }) => {
   return (
     <div style={{ ...defaultStyle, flex: flexItemStyle }}>
-      <h4>{substance.number}</h4>
-      <h5>{substance.name}</h5>
+      <h4 style={symbolStyle}>{substance.symbol}</h4>
+      <h5 style={symbolStyle}>{substance.name}</h5>
       <span>{substance.atomic_mass}</span>
     </div>
   );

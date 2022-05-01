@@ -18,7 +18,7 @@ const initialState = periodicData.slice(0, 4).map((datum, index) => {
 
 function reducer(state, action) {
   switch (action.type) {
-    case "update_count":
+    case "UPDATE_COUNT":
       // Save all the existing styles when count is updated
       const existingFlexStyles = state.map((el) => el.flex);
       const newData = periodicData
@@ -30,8 +30,7 @@ function reducer(state, action) {
           };
         });
       return newData;
-    case "decrement":
-      return { count: state.count - 1 };
+
     case "UPDATE_FLEX_AT_INDEX":
       const newState = [...state];
       newState[action.payload.index].flex = action.payload.flex;
