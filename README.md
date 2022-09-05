@@ -1,46 +1,65 @@
-# Getting Started with Create React App
+So I cloned this repo on my new mac in Sep 2022 and got:
+Failed to compile:
+/Users/stevedegermark/websites/glens-new-litterbox/src/TypingUseContext/ColorPixel.tsx
+TypeScript error in /Users/stevedegermark/websites/glens-new-litterbox/src/TypingUseContext/ColorPixel.tsx(40,7):
+Type 'Properties<string | 0>' is not assignable to type 'Properties<string | number, string & {}>'.
+  Types of property 'fontSizeAdjust' are incompatible.
+    Type 'FontSizeAdjustProperty | undefined' is not assignable to type 'FontSizeAdjust | undefined'.
+      Type 'string' is not assignable to type 'FontSizeAdjust | undefined'.  TS2322
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+    38 |     <div
+    39 |       className="color-pixel"
+  > 40 |       style={style}
+       |       ^
+    41 |       onClick={(evt) => {
+    42 |         blueValueSet({ ...blueValue, selectedHexValue: hexValue });
+    43 |       }}
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `yarn start`
+So... maybe it's because when I installed node on this box I got a different version?  Maybe it's an npm version thing? React version?  Maybe something about @types/node?
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+I ran: npx create-react-app default-sep-2022  --template typescript
+and the differences in package.json are:
+my old app:
+ "dependencies": {
+    "@storybook/react": "^6.4.19",
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.12.4",
+    "@types/react": "^17.0.11",
+    "@types/react-dom": "^17.0.8",
+    "babel-loader": "8.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "react-virtual": "^2.7.1",
+    "typescript": "^4.1.2",
+    "web-vitals": "^1.0.1",
+    "webpack": "4.44.2"
+  },
+  
+my fresh new app has:
+ "dependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.5.2",
+    "@types/node": "^16.11.56",
+    "@types/react": "^18.0.18",
+    "@types/react-dom": "^18.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "typescript": "^4.8.2",
+    "web-vitals": "^2.1.4"
+  },
 
-### `yarn test`
+OK, maybe I can just copy typingUseContext/* into the new  CRA folder and see what happens.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+It works.  So, I copied the dependencies from the fresh new app to replace what I have in my current version of glens-new-litterbox.
 
-### `yarn build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
