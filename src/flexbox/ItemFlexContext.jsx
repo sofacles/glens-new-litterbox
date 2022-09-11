@@ -3,7 +3,7 @@ import { elements } from "../Elements";
 
 //This will hold the physical data for all the elements in the periodic table.  Nothing about styles.
 let periodicData = elements;
-console.log("FlexAndDataContext reads the elements from a file");
+console.log("ItemFlexContext reads the elements from a file");
 
 const initialItemFlex = { flex: "1 1 auto" };
 
@@ -46,13 +46,13 @@ function reducer(state, action) {
       throw new Error();
   }
 }
-export const FlexAndDataContext = createContext([initialState]);
+export const ItemFlexContext = createContext([initialState]);
 
-export const FlexAndDataContextProvider = ({ children }) => {
+export const ItemFlexContextProvider = ({ children }) => {
   const [dataAndFlexItemStyles, dispatch] = useReducer(reducer, initialState);
   return (
-    <FlexAndDataContext.Provider value={[dataAndFlexItemStyles, dispatch]}>
+    <ItemFlexContext.Provider value={[dataAndFlexItemStyles, dispatch]}>
       {children}
-    </FlexAndDataContext.Provider>
+    </ItemFlexContext.Provider>
   );
 };

@@ -1,12 +1,12 @@
 import React, { useContext } from "react";
 
 import PeriodicElement from "./PeriodicElement";
-import { FlexAndDataContext } from "./FlexAndDataContext";
+import { ItemFlexContext } from "./ItemFlexContext";
 const TheList = (props) => {
-  const flexAndDataContext = useContext(FlexAndDataContext);
+  const itemFlexContext = useContext(ItemFlexContext);
   // defaultFlexItemStyle will be applied to each item in the list, unless the flex item style of given item is overridden in the flexItemStyles array
   const { containerStyle, itemCount, elements } = props;
-  const [dataAndFlexItemStyles, dispatch] = flexAndDataContext;
+  const [dataAndFlexItemStyles, dispatch] = itemFlexContext;
 
   const theDivs = dataAndFlexItemStyles.map((el, ind) => {
     return (

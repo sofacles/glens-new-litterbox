@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import RadioGroup from "./RadioGroup.jsx";
-import { FlexAndDataContext } from "./FlexAndDataContext";
+import { ItemFlexContext } from "./ItemFlexContext";
 import ItemFlexShortcutEditableDisplay from "./ItemFlexShortcutEditableDisplay.jsx";
 
 const controlStyle = {
@@ -8,9 +8,9 @@ const controlStyle = {
 };
 
 export const ItemControlPanel = ({ itemCount }) => {
-  const flexAndDataContext = useContext(FlexAndDataContext);
+  const itemFlexContext = useContext(ItemFlexContext);
   const [defaultFlex, setDefaultFlex] = useState("1 1 auto");
-  const [dataAndFlexItemStyles, dispatch] = flexAndDataContext;
+  const [dataAndFlexItemStyles, dispatch] = itemFlexContext;
 
   const onItemCountChanged = (evt) => {
     dispatch({ type: "UPDATE_COUNT", cargo: { newCount: evt.target.value } });

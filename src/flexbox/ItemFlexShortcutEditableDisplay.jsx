@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { FlexAndDataContext } from "./FlexAndDataContext";
+import { ItemFlexContext } from "./ItemFlexContext";
 
 // Shows a text box for each flexStyle in the collection
 const ItemFlexShortcutEditableDisplay = () => {
-  const [dataAndFlexItemStyles, dispatch] = useContext(FlexAndDataContext);
+  const [dataAndFlexItemStyles, dispatch] = useContext(ItemFlexContext);
 
   const theDivs = dataAndFlexItemStyles.map((obj, index) => (
     // {

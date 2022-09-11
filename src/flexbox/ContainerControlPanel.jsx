@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import RadioGroup from "./RadioGroup.jsx";
-import { FlexAndDataContext } from "./FlexAndDataContext";
+import { ItemFlexContext } from "./ItemFlexContext";
 
 const controlStyle = {
   flex: "1 1 auto",
@@ -14,10 +14,10 @@ export const ContainerControlPanel = ({
   flexWrap,
   onFlexWrapChanged,
 }) => {
-  const flexAndDataContext = useContext(FlexAndDataContext);
+  const itemFlexContext = useContext(ItemFlexContext);
 
   //Can I only get dispatch?
-  const [dataAndFlexItemStyles, dispatch] = flexAndDataContext;
+  const [dataAndFlexItemStyles, dispatch] = itemFlexContext;
 
   return (
     <>

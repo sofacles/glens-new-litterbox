@@ -3,7 +3,7 @@ import TheList from "./TheList.jsx";
 import { ContainerControlPanel } from "./ContainerControlPanel";
 import { ItemControlPanel } from "./ItemControlPanel.jsx";
 
-import { FlexAndDataContextProvider } from "./FlexAndDataContext";
+import { ItemFlexContextProvider } from "./ItemFlexContext";
 //TODO: add the input that let's you change the default flex item style... or whatever makes sense
 const Driver = () => {
   const [containerFlexState, setContainerFlexState] = useState({
@@ -37,7 +37,7 @@ const Driver = () => {
 
   return (
     <div>
-      <FlexAndDataContextProvider>
+      <ItemFlexContextProvider>
         <div style={columnStyle}>
           <ContainerControlPanel
             alignItems={containerFlexState.alignItems}
@@ -50,7 +50,7 @@ const Driver = () => {
           <TheList containerStyle={containerFlexState} />
           <ItemControlPanel />
         </div>
-      </FlexAndDataContextProvider>
+      </ItemFlexContextProvider>
     </div>
   );
 };
