@@ -17,16 +17,15 @@ export const ItemControlPanel = ({ itemCount }) => {
   };
 
   const onResetFlex = (evt) => {
-    setDefaultFlex(evt.target.value);
     dispatch({
       type: "RESET_ALL_TO",
-      cargo: { defaultFlex: evt.target.value },
+      cargo: defaultFlex,
     });
   };
 
   return (
     <>
-      <h1>Stuff on the children</h1>
+      <h1>Item Control Panel</h1>
       <div style={{ display: "flex", alignItems: "stretch", width: "100%" }}>
         <section style={controlStyle}>
           <ItemFlexShortcutEditableDisplay />
@@ -45,9 +44,12 @@ export const ItemControlPanel = ({ itemCount }) => {
           <input
             type="text"
             value={defaultFlex}
-            onChange={onResetFlex}
+            onChange={(evt) => {
+              setDefaultFlex(evt.target.value);
+            }}
             name="resetFlex"
           />
+          <input type="button" onClick={onResetFlex} value="reset" />
         </section>
       </div>
     </>

@@ -2,11 +2,14 @@ import React, { useContext } from "react";
 
 import PeriodicElement from "./PeriodicElement";
 import { ItemFlexContext } from "./ItemFlexContext";
+import { ContainerContext } from "./ContainerContext"
 const TheList = (props) => {
   const itemFlexContext = useContext(ItemFlexContext);
+  const containerContext = useContext(ContainerContext);
   // defaultFlexItemStyle will be applied to each item in the list, unless the flex item style of given item is overridden in the flexItemStyles array
-  const { containerStyle, itemCount, elements } = props;
-  const [dataAndFlexItemStyles, dispatch] = itemFlexContext;
+  const [dataAndFlexItemStyles] = itemFlexContext;
+  const [containerStyles] = containerContext;
+
 
   const theDivs = dataAndFlexItemStyles.map((el, ind) => {
     return (
@@ -18,19 +21,9 @@ const TheList = (props) => {
     );
   });
 
-  const defaultContainerStyle = {
-    backgroundColor: "#AAA",
-  };
-  if (containerStyle.flexDirection === "row") {
-    defaultContainerStyle.height = "100px";
-    defaultContainerStyle.width = "100%";
-  } else if (containerStyle.flexDirection === "column") {
-    defaultContainerStyle.height = "800px";
-    defaultContainerStyle.width = "250px";
-  }
 
   return (
-    <div style={{ ...defaultContainerStyle, ...containerStyle }}>{theDivs}</div>
+    <div style={containerStyles}>{theDivs}</div>
   );
 };
 

@@ -18,7 +18,7 @@ const ItemFlexShortcutEditableDisplay = () => {
         onChange={(evt) => {
           dispatch({
             type: "UPDATE_FLEX_AT_INDEX",
-            payload: {
+            cargo: {
               index: index,
               flex: evt.target.value,
             },

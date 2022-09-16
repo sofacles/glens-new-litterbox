@@ -33,20 +33,19 @@ function reducer(state, action) {
 
     case "UPDATE_FLEX_AT_INDEX":
       const newState = [...state];
-      newState[action.payload.index].style = { flex: action.payload.flex };
+      newState[action.cargo.index].style = { flex: action.cargo.flex };
       return newState;
     case "RESET_ALL_TO":
       return state.map((el) => {
         const newEl = { ...el };
-        console.info(newEl);
-        newEl.style.flex = action.cargo.defaultFlex;
+        newEl.style.flex = action.cargo;
         return newEl;
       });
     default:
       throw new Error();
   }
 }
-export const ItemFlexContext = createContext([initialState]);
+export const ItemFlexContext = createContext(initialState);
 
 export const ItemFlexContextProvider = ({ children }) => {
   const [dataAndFlexItemStyles, dispatch] = useReducer(reducer, initialState);
