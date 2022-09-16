@@ -1,6 +1,6 @@
 import React, { createContext, useReducer } from 'react';
 
-const initialState = { backgroundColor: "#4AA", display: "flex", flexDirection: "row", flexWrap: "nowrap", alignItems: "stretch", width: "100%" };
+const initialState = { backgroundColor: "#4AA", display: "flex", flexDirection: "row", flexWrap: "nowrap", height: "200px", alignItems: "stretch", width: "100%" };
 
 
 function reducer(state, action) {
@@ -8,8 +8,7 @@ function reducer(state, action) {
 		case "UPDATE_ALIGN_ITEMS":
 			return { ...state, alignItems: action.cargo };
 		case "UPDATE_FLEX_DIRECTION":
-			const extras = action.cargo === "row" ? { height: "100px", width: "100%" } : { height: "800px", width: "400px" };
-
+			const extras = action.cargo === "row" ? { height: "200px", width: "100%" } : { height: "800px", width: "400px" };
 			return { ...state, flexDirection: action.cargo, ...extras };
 		case "UPDATE_FLEX_WRAP":
 			return { ...state, flexWrap: action.cargo };
