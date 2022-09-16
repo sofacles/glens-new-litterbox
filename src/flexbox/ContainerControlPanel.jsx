@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import RadioGroup from "./RadioGroup.jsx";
-import { ItemFlexContext } from "./ItemFlexContext";
+import { ContainerContext } from "./ContainerContext";
 
 const controlStyle = {
   flex: "1 1 auto",
@@ -8,34 +8,38 @@ const controlStyle = {
 
 export const ContainerControlPanel = ({
   alignItems,
-  onAlignItemsChanged,
   flexDirection,
-  onFlexDirectionChanged,
   flexWrap,
   onFlexWrapChanged,
 }) => {
-  const itemFlexContext = useContext(ItemFlexContext);
+  const containerContext = useContext(ContainerContext);
 
   //Can I only get dispatch?
-  const [dataAndFlexItemStyles, dispatch] = itemFlexContext;
+  const [ContainerStyles, dispatch] = containerContext;
 
   return (
     <>
       <h1>Parent flex styles</h1>
-      <div style={{ display: "flex", alignItems: "stretch", width: "100%" }}>
+      <div style={ContainerStyles}>
         <section style={controlStyle}>
           <RadioGroup
             groupName="flexDirection"
-            initialValue={flexDirection}
+            initialValue={ContainerStyles.flexDirection}
             possibleValues={["row", "column"]}
-            onNewValue={onFlexDirectionChanged}
+            onNewValue={(newVal) => {
+              debugger;
+              dispatch({
+                type: "UPDATE_FLEX_DIRECTION",
+                cargo: newVal
+              });
+            }}
           />
         </section>
 
         <section style={controlStyle}>
           <RadioGroup
             groupName="alignItems"
-            initialValue={alignItems}
+            initialValue={ContainerStyles.alignItems}
             possibleValues={[
               "base-line",
               "center",
@@ -43,16 +47,28 @@ export const ContainerControlPanel = ({
               "flex-end",
               "stretch",
             ]}
-            onNewValue={onAlignItemsChanged}
+            onNewValue={(newVal) => {
+              debugger;
+              dispatch({
+                type: "UPDATE_ALIGN_ITEMS",
+                cargo: newVal
+              });
+            }}
           />
         </section>
 
         <section style={controlStyle}>
           <RadioGroup
             groupName="flexWrap"
-            initialValue={flexWrap}
-            possibleValues={["no-wrap", "wrap", "wrap-reverse"]}
-            onNewValue={onFlexWrapChanged}
+            initialValue={ContainerStyles.flexWrap}
+            possibleValues={["nowrap", "wrap", "wrap-reverse"]}
+            onNewValue={(newVal) => {
+              debugger;
+              dispatch({
+                type: "UPDATE_FLEX_WRAP",
+                cargo: newVal,
+              });
+            }}
           />
         </section>
       </div>

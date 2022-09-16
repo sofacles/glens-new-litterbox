@@ -4,14 +4,11 @@ import { ContainerControlPanel } from "./ContainerControlPanel";
 import { ItemControlPanel } from "./ItemControlPanel.jsx";
 
 import { ItemFlexContextProvider } from "./ItemFlexContext";
+import { ContainerContextProvider } from "./ContainerContext";
+
 //TODO: add the input that let's you change the default flex item style... or whatever makes sense
 const Driver = () => {
-  const [containerFlexState, setContainerFlexState] = useState({
-    display: "flex",
-    flexDirection: "row",
-    flexWrap: "no-wrap",
-    alignItems: "stretch",
-  });
+
 
   const columnStyle = {
     alignItems: "flex-start",
@@ -20,37 +17,22 @@ const Driver = () => {
     marginRight: "15px",
   };
 
-  const onAlignItemsChanged = (newVal) => {
-    setContainerFlexState({ ...containerFlexState, alignItems: newVal });
-  };
 
-  const onFlexDirectionChanged = (newVal) => {
-    setContainerFlexState({ ...containerFlexState, flexDirection: newVal });
-  };
 
-  const onFlexWrapChanged = (newVal) => {
-    setContainerFlexState({
-      ...containerFlexState,
-      flexWrap: newVal,
-    });
-  };
+
+
 
   return (
     <div>
-      <ItemFlexContextProvider>
-        <div style={columnStyle}>
-          <ContainerControlPanel
-            alignItems={containerFlexState.alignItems}
-            onAlignItemsChanged={onAlignItemsChanged}
-            flexDirection={containerFlexState.flexDirection}
-            onFlexDirectionChanged={onFlexDirectionChanged}
-            flexWrap={containerFlexState.flexWrap}
-            onFlexWrapChanged={onFlexWrapChanged}
-          />
-          <TheList containerStyle={containerFlexState} />
-          <ItemControlPanel />
-        </div>
-      </ItemFlexContextProvider>
+      <ContainerContextProvider>
+        <ItemFlexContextProvider>
+          <div style={columnStyle}>
+            <ContainerControlPanel />
+            <TheList />
+            <ItemControlPanel />
+          </div>
+        </ItemFlexContextProvider>
+      </ContainerContextProvider>
     </div>
   );
 };
