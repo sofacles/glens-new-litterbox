@@ -38,8 +38,7 @@ function reducer(state, action) {
     case "RESET_ALL_TO":
       return state.map((el) => {
         const newEl = { ...el };
-        console.info(newEl);
-        newEl.style.flex = action.cargo.defaultFlex;
+        newEl.style.flex = action.cargo;
         return newEl;
       });
     default:

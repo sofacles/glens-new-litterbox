@@ -21,19 +21,9 @@ const TheList = (props) => {
     );
   });
 
-  const defaultContainerStyle = {
-    backgroundColor: "#AAA",
-  };
-  if (containerStyles.flexDirection === "row") {
-    defaultContainerStyle.height = "100px";
-    defaultContainerStyle.width = "100%";
-  } else if (containerStyles.flexDirection === "column") {
-    defaultContainerStyle.height = "800px";
-    defaultContainerStyle.width = "250px";
-  }
 
   return (
-    <div style={{ ...defaultContainerStyle, ...containerStyles }}>{theDivs}</div>
+    <div style={containerStyles}>{theDivs}</div>
   );
 };
 
