@@ -1,31 +1,23 @@
 import React, { useState, useContext } from "react";
-import TheList from "./TheList.jsx";
-import { ContainerControlPanel } from "./ContainerControlPanel";
-import { ItemControlPanel } from "./ItemControlPanel.jsx";
+import TestPage from './TestPage';
 
 import { ItemFlexContextProvider } from "./ItemFlexContext";
 import { ContainerContextProvider } from "./ContainerContext";
+import { TestPageLayoutContextProvider } from "./TestPageLayoutContext";
 
 const Driver = () => {
 
-  const columnStyle = {
-    alignItems: "flex-start",
-    display: "flex",
-    flexDirection: "column",
-    marginRight: "15px",
-  };
+
 
   return (
     <div>
-      <ContainerContextProvider>
-        <ItemFlexContextProvider>
-          <div style={columnStyle}>
-            <ContainerControlPanel />
-            <TheList />
-            <ItemControlPanel />
-          </div>
-        </ItemFlexContextProvider>
-      </ContainerContextProvider>
+      <TestPageLayoutContextProvider>
+        <ContainerContextProvider>
+          <ItemFlexContextProvider>
+            <TestPage />
+          </ItemFlexContextProvider>
+        </ContainerContextProvider>
+      </TestPageLayoutContextProvider>
     </div>
   );
 };
