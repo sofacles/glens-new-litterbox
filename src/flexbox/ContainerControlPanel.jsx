@@ -12,7 +12,9 @@ export const ContainerControlPanel = () => {
 
   //Can I only get dispatch?
   const [ContainerStyles, dispatch] = containerContext;
-  const [initialListOrientation, dispatch2] = useContext(TestPageLayoutContext);
+  const { initialListOrientation, dispatch2 } = useContext(
+    TestPageLayoutContext
+  );
 
   return (
     <>
