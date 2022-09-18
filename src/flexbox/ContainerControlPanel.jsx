@@ -12,20 +12,28 @@ export const ContainerControlPanel = () => {
 
   //Can I only get dispatch?
   const [ContainerStyles, dispatch] = containerContext;
-  const [initialListOrientation, dispatch2] = useContext(TestPageLayoutContext);
+  const { currentListOrientation, dispatch2 } = useContext(
+    TestPageLayoutContext
+  );
+
+  const localStyle = {
+    display: "flex",
+    flexDirection:
+      currentListOrientation.listOrientation == "row" ? "row" : "column",
+    marginBottom: "10px",
+    width: currentListOrientation.listOrientation == "row" ? "100%" : "100%",
+  };
 
   return (
-    <>
+    <div
+      style={{
+        padding: "10px",
+        width:
+          currentListOrientation.listOrientation === "row" ? "100%" : "33%",
+      }}
+    >
       <h1>Parent flex styles</h1>
-      <div
-        style={{
-          display: "flex",
-          flexDirection:
-            initialListOrientation.listOrientation == "row" ? "row" : "column",
-          marginBottom: "10px",
-          width: "100%",
-        }}
-      >
+      <div style={localStyle}>
         <section style={controlStyle}>
           <RadioGroup
             groupName="flexDirection"
@@ -75,6 +83,6 @@ export const ContainerControlPanel = () => {
           />
         </section>
       </div>
-    </>
+    </div>
   );
 };

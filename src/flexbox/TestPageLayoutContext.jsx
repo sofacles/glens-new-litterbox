@@ -11,12 +11,16 @@ function reducer(state, action) {
   }
 }
 
+//Tracks styles for the container for the test list.
+// It's either 3 broad horizontal stripes or three columns containing: container control panel, TheList and ItemControlPanel.
+
 export const TestPageLayoutContext = createContext(initialState);
 
 export const TestPageLayoutContextProvider = ({ children }) => {
-  const [initialListOrientation, dispatch] = useReducer(reducer, initialState);
+  const [currentListOrientation, dispatch] = useReducer(reducer, initialState);
+  const thing = { currentListOrientation, dispatch2: dispatch };
   return (
-    <TestPageLayoutContext.Provider value={[initialListOrientation, dispatch]}>
+    <TestPageLayoutContext.Provider value={thing}>
       {children}
     </TestPageLayoutContext.Provider>
   );

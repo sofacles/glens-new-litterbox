@@ -23,12 +23,12 @@ const TestPage = () => {
     flexDirection: "row",
   };
 
-  const [listFlexDirection, dispatch] = useContext(TestPageLayoutContext);
+  const { currentListOrientation } = useContext(TestPageLayoutContext);
 
   return (
     <div
       style={
-        listFlexDirection.listOrientation === "row"
+        currentListOrientation.listOrientation === "row"
           ? testPageStyleNormal
           : testPageStyleTall
       }

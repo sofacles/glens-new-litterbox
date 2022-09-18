@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import RadioGroup from "./RadioGroup.jsx";
 import { ItemFlexContext } from "./ItemFlexContext";
 import ItemFlexShortcutEditableDisplay from "./ItemFlexShortcutEditableDisplay.jsx";
+import { TestPageLayoutContext } from "./TestPageLayoutContext.jsx";
 
 const controlStyle = {
   flex: "1 1 auto",
@@ -11,6 +12,8 @@ export const ItemControlPanel = ({ itemCount }) => {
   const itemFlexContext = useContext(ItemFlexContext);
   const [defaultFlex, setDefaultFlex] = useState("1 1 auto");
   const [dataAndFlexItemStyles, dispatch] = itemFlexContext;
+
+  const { currentListOrientation } = useContext(TestPageLayoutContext);
 
   const onItemCountChanged = (evt) => {
     dispatch({ type: "UPDATE_COUNT", cargo: { newCount: evt.target.value } });
@@ -23,15 +26,32 @@ export const ItemControlPanel = ({ itemCount }) => {
     });
   };
 
+  const commonStyle = { display: "flex", alignItems: "stretch" };
+
+  const rowListStyle = { ...commonStyle, width: "100%" };
+  const columnListStyle = { ...commonStyle, flexDirection: "column" };
+
   return (
-    <>
+    <div
+      style={{
+        padding: "10px",
+        width:
+          currentListOrientation.listOrientation === "row" ? "100%" : "33%",
+      }}
+    >
       <h1>Item Control Panel</h1>
-      <div style={{ display: "flex", alignItems: "stretch", width: "100%" }}>
+      <div
+        style={
+          currentListOrientation.listOrientation === "row"
+            ? rowListStyle
+            : columnListStyle
+        }
+      >
         <section style={controlStyle}>
           <ItemFlexShortcutEditableDisplay />
         </section>
         <section style={controlStyle}>
-          <h2>count</h2>
+          <h3>count</h3>
           <input
             type="text"
             onChange={onItemCountChanged}
@@ -40,7 +60,7 @@ export const ItemControlPanel = ({ itemCount }) => {
           />
         </section>
         <section style={controlStyle}>
-          <h2>reset all to:</h2>
+          <h3>reset all to:</h3>
           <input
             type="text"
             value={defaultFlex}
@@ -52,6 +72,6 @@ export const ItemControlPanel = ({ itemCount }) => {
           <input type="button" onClick={onResetFlex} value="reset" />
         </section>
       </div>
-    </>
+    </div>
   );
 };
