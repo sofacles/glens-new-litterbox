@@ -12,16 +12,16 @@ export const ContainerControlPanel = () => {
 
   //Can I only get dispatch?
   const [ContainerStyles, dispatch] = containerContext;
-  const { initialListOrientation, dispatch2 } = useContext(
+  const { currentListOrientation, dispatch2 } = useContext(
     TestPageLayoutContext
   );
 
   const localStyle = {
     display: "flex",
     flexDirection:
-      initialListOrientation.listOrientation == "row" ? "row" : "column",
+      currentListOrientation.listOrientation == "row" ? "row" : "column",
     marginBottom: "10px",
-    width: initialListOrientation.listOrientation == "row" ? "100%" : "100%",
+    width: currentListOrientation.listOrientation == "row" ? "100%" : "100%",
   };
 
   return (
@@ -29,7 +29,7 @@ export const ContainerControlPanel = () => {
       style={{
         padding: "10px",
         width:
-          initialListOrientation.listOrientation === "row" ? "100%" : "33%",
+          currentListOrientation.listOrientation === "row" ? "100%" : "33%",
       }}
     >
       <h1>Parent flex styles</h1>

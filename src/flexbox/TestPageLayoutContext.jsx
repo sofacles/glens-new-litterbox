@@ -17,8 +17,8 @@ function reducer(state, action) {
 export const TestPageLayoutContext = createContext(initialState);
 
 export const TestPageLayoutContextProvider = ({ children }) => {
-  const [initialListOrientation, dispatch] = useReducer(reducer, initialState);
-  const thing = { initialListOrientation, dispatch2: dispatch };
+  const [currentListOrientation, dispatch] = useReducer(reducer, initialState);
+  const thing = { currentListOrientation, dispatch2: dispatch };
   return (
     <TestPageLayoutContext.Provider value={thing}>
       {children}

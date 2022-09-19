@@ -13,9 +13,7 @@ export const ItemControlPanel = ({ itemCount }) => {
   const [defaultFlex, setDefaultFlex] = useState("1 1 auto");
   const [dataAndFlexItemStyles, dispatch] = itemFlexContext;
 
-  const { initialListOrientation, dispatch2 } = useContext(
-    TestPageLayoutContext
-  );
+  const { currentListOrientation } = useContext(TestPageLayoutContext);
 
   const onItemCountChanged = (evt) => {
     dispatch({ type: "UPDATE_COUNT", cargo: { newCount: evt.target.value } });
@@ -38,13 +36,13 @@ export const ItemControlPanel = ({ itemCount }) => {
       style={{
         padding: "10px",
         width:
-          initialListOrientation.listOrientation === "row" ? "100%" : "33%",
+          currentListOrientation.listOrientation === "row" ? "100%" : "33%",
       }}
     >
       <h1>Item Control Panel</h1>
       <div
         style={
-          initialListOrientation.listOrientation === "row"
+          currentListOrientation.listOrientation === "row"
             ? rowListStyle
             : columnListStyle
         }
