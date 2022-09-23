@@ -35,16 +35,13 @@ export const ItemControlPanel = ({ itemCount }) => {
     <div
       style={{
         padding: "10px",
-        width:
-          currentListOrientation.listOrientation === "row" ? "100%" : "33%",
+        width: currentListOrientation === "row" ? "100%" : "33%",
       }}
     >
       <h1>Item Control Panel</h1>
       <div
         style={
-          currentListOrientation.listOrientation === "row"
-            ? rowListStyle
-            : columnListStyle
+          currentListOrientation === "row" ? rowListStyle : columnListStyle
         }
       >
         <section style={controlStyle}>

@@ -28,7 +28,7 @@ const TestPage = () => {
   return (
     <div
       style={
-        currentListOrientation.listOrientation === "row"
+        currentListOrientation === "row"
           ? testPageStyleNormal
           : testPageStyleTall
       }
