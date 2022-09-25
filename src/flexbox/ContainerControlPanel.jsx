@@ -10,7 +10,6 @@ const controlStyle = {
 export const ContainerControlPanel = () => {
   const containerContext = useContext(ContainerContext);
 
-  //Can I only get dispatch?
   const [ContainerStyles, dispatch] = containerContext;
   const { currentListOrientation, setCurrentListOrientation } = useContext(
     TestPageLayoutContext
@@ -18,9 +17,9 @@ export const ContainerControlPanel = () => {
 
   const localStyle = {
     display: "flex",
-    flexDirection: currentListOrientation == "row" ? "row" : "column",
+    flexDirection: currentListOrientation === "row" ? "row" : "column",
     marginBottom: "10px",
-    width: currentListOrientation == "row" ? "100%" : "100%",
+    width: "100%",
   };
 
   return (
@@ -61,6 +60,27 @@ export const ContainerControlPanel = () => {
             onNewValue={(newVal) => {
               dispatch({
                 type: "UPDATE_ALIGN_ITEMS",
+                cargo: newVal,
+              });
+            }}
+          />
+        </section>
+
+        <section style={controlStyle}>
+          <RadioGroup
+            groupName="justifyContent"
+            initialValue={ContainerStyles.justifyContent}
+            possibleValues={[
+              "flex-start",
+              "flex-end",
+              "center",
+              "space-between",
+              "space-around",
+              "space-evenly",
+            ]}
+            onNewValue={(newVal) => {
+              dispatch({
+                type: "UPDATE_JUSTIFY_CONTENT",
                 cargo: newVal,
               });
             }}

@@ -1,12 +1,13 @@
 import React, { createContext, useReducer } from "react";
 
 const initialState = {
+  alignItems: "stretch",
   backgroundColor: "#4AA",
   display: "flex",
   flexDirection: "row",
   flexWrap: "nowrap",
+  justifyContent: "flex-start",
   minHeight: "200px",
-  alignItems: "stretch",
   width: "100%",
 };
 
@@ -22,6 +23,8 @@ function reducer(state, action) {
       return { ...state, flexDirection: action.cargo, ...extras };
     case "UPDATE_FLEX_WRAP":
       return { ...state, flexWrap: action.cargo };
+    case "UPDATE_JUSTIFY_CONTENT":
+      return { ...state, justifyContent: action.cargo };
     default:
       return { ...state };
   }
