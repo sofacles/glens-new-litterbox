@@ -19,7 +19,7 @@ function reducer(state, action) {
       const extras =
         action.cargo === "row"
           ? { height: "200px", width: "100%" }
-          : { height: "800px", width: "400px" };
+          : { height: "auto", width: "400px" };
       return { ...state, flexDirection: action.cargo, ...extras };
     case "UPDATE_FLEX_WRAP":
       return { ...state, flexWrap: action.cargo };
