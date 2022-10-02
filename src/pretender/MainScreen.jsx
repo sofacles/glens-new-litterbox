@@ -16,7 +16,6 @@ const MainScreen = () => {
   }, [window.innerWidth]);
   return (
     <div
-      ref={screen}
       style={{
         width: "100%",
         height: "1000px",
@@ -24,12 +23,13 @@ const MainScreen = () => {
         position: "absolute",
       }}
       onKeyDown={(evt) => {
-        if (evt.key == "shift") {
+        if (evt.key == "Shift") {
           let newGameOffset = gameOffset + 10;
           if (newGameOffset > WRAP_DISTANCE) newGameOffset = -WRAP_DISTANCE;
           setGameOffset(newGameOffset);
         }
       }}
+      tabIndex="0"
     >
       <Ship x={200} y={200} />
       <Mountains

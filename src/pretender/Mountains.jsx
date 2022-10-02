@@ -17,25 +17,25 @@ const Mountains = (props) => {
   };
 
   const adjustedLines = [];
-  for (var i = 0; i < peaks.length; i++) {
-    debugger;
+  for (var i = 0; i < peaks.length - 1; i++) {
     adjustedLines.push({
       x1: adjustXForOffset(peaks[i].x),
       y1: peaks[i].y,
       x2: adjustXForOffset(peaks[i + 1].x),
-      y2: peaks[i + 1],
+      y2: peaks[i + 1].y,
     });
   }
 
-  const myLines = adjustedLines.map((lin) => {
+  const myLines = adjustedLines.map((lin, idx) => {
     return (
       <line
-        key={isLiteralExpression.y1}
+        key={"kui" + idx}
         x1={lin.x1}
         y1={lin.y1}
         x2={lin.x2}
         y2={lin.y2}
-        stroke="yellow-orange"
+        width="2"
+        stroke="#fc6b03"
       />
     );
   });
