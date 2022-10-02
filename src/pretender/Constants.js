@@ -1,0 +1,1 @@
+export const WRAP_DISTANCE = 2000;
