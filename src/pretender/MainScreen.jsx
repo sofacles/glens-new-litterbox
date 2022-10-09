@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
+import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
 import { WRAP_DISTANCE } from "./Constants";
@@ -15,31 +16,35 @@ const MainScreen = () => {
     setScreenHeight(800);
   }, [window.innerWidth]);
   return (
-    <svg
-      height="1000"
-      width="1000"
-      xmlns="http://www.w3.org/2000/svg"
-      style={{
-        overflow: "hidden",
-        position: "relative",
-      }}
-      onKeyDown={(evt) => {
-        debugger;
-        if (evt.key == "Shift") {
-          let newGameOffset = gameOffset + 10;
-          if (newGameOffset > WRAP_DISTANCE) newGameOffset = -WRAP_DISTANCE;
-          setGameOffset(newGameOffset);
-        }
-      }}
-      tabIndex="0"
-    >
-      <Ship x={200} y={200} />
-      <Mountains
-        gameOffset={gameOffset}
-        screenHeight={screenHeight}
-        screenWidth={screenWidth}
-      />
-    </svg>
+    <>
+      <InstrumentPanel gameOffset={gameOffset} />
+      <svg
+        height="1000"
+        width={screenWidth}
+        xmlns="http://www.w3.org/2000/svg"
+        style={{
+          outline: "0px solid transparent",
+          overflow: "hidden",
+          position: "relative",
+          backgroundColor: "#000000",
+        }}
+        onKeyDown={(evt) => {
+          if (evt.key == "Shift") {
+            let newGameOffset = gameOffset + 10;
+            if (newGameOffset > WRAP_DISTANCE) newGameOffset = -WRAP_DISTANCE;
+            setGameOffset(newGameOffset);
+          }
+        }}
+        tabIndex="0"
+      >
+        <Ship x={700} y={700} />
+        <Mountains
+          gameOffset={gameOffset}
+          screenHeight={screenHeight}
+          screenWidth={screenWidth}
+        />
+      </svg>
+    </>
   );
 };
 
