@@ -1,7 +1,6 @@
 import React from "react";
 import peaks from "./MountainData.js";
 import { WRAP_DISTANCE } from "./Constants";
-import { isLiteralExpression } from "typescript";
 
 const Mountains = (props) => {
   //initial state: we are in the middle of the world: x = 0;
@@ -20,9 +19,9 @@ const Mountains = (props) => {
   for (var i = 0; i < peaks.length - 1; i++) {
     adjustedLines.push({
       x1: adjustXForOffset(peaks[i].x),
-      y1: peaks[i].y,
+      y1: screenHeight - peaks[i].y,
       x2: adjustXForOffset(peaks[i + 1].x),
-      y2: peaks[i + 1].y,
+      y2: screenHeight - peaks[i + 1].y,
     });
   }
 
@@ -43,11 +42,7 @@ const Mountains = (props) => {
   //I need to give the ridgelines their new dimensions.  For now I'll just offset all the points and hope that Reactt is smart enough
   //to only draw the ones that appear on screen
 
-  return (
-    <svg viewBox="0 0  1000 2000" xmlns="http://www.w3.org/2000/svg">
-      {myLines}
-    </svg>
-  );
+  return <>{myLines}</>;
 };
 
 export default Mountains;
