@@ -1,5 +1,5 @@
 import React from 'react';
-import MainScreen from "./pretender/MainScreen";
+import GameWrapper from "./pretender/GameWrapper";
 
 import './App.css';
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
 
-      <MainScreen />
+      <GameWrapper />
     </div>
   );
 }
