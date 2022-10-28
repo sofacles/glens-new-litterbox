@@ -8,13 +8,14 @@ import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 
 const MainScreen = () => {
   const { state, dispatch } = useContext(OffsetMountainDataContext);
-  const { gameOffset, screenWidth } = state;
+  const { gameOffset, screenDimensions } = state;
+  //console.log(`in MainScreen constructor, `)
   return (
     <>
       <InstrumentPanel gameOffset={gameOffset} />
       <svg
-        height="1000"
-        width={screenWidth}
+        height={screenDimensions.height}
+        width={screenDimensions.width}
         xmlns="http://www.w3.org/2000/svg"
         style={{
           outline: "0px solid transparent",
