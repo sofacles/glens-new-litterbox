@@ -1,25 +1,54 @@
 import React, { createContext, useEffect, useReducer, useState } from "react";
 import peaks from "../MountainData.js";
 
-import { GAME_WIDTH, WRAP_DISTANCE } from "../Constants";
+import {
+  GAME_WIDTH,
+  INSTRUMENT_PANEL_HEIGHT,
+  PANEL_WIDTH,
+  WRAP_DISTANCE,
+} from "../Constants";
+
 import { useScreenDimensions } from "./useScreenDimensions";
 
 // I think I'll be able to remove this?  The unrendered points on either side of the screen are in margins of width slopWidth
 const slopWidth = 100;
 
-// When a mountain point has scrolled more than slopWidth off the viewport
-// I move the mountains that are any farther scrolled off than that and tack them on to the other side of the mountain collection.
-// OK, this means permanently updating the data, not the lines.
+// mountain data is in cartesian coordinates, so convert to screen Y by subtacting the data's y value + instrument panel height from screenHeight
+const adjustMountainPointsForScreenHeight = (
+  points,
+  screenHeight,
+  offset = 0
+) => {
+  //returns the original y values of the peaks, but corrected for the current offset
+  const createShiftedArrayOfYValues = (panelOffset) => {
+    const retVal = peaks
+      .slice(offset)
+      .map((p) => p.y)
+      .concat(peaks.slice(0, panelOffset));
+    return retVal;
+  };
 
-const adjustMountainPointsForScreenHeight = (points, screenHeight) => {
+  const offsetInPanels = offset / PANEL_WIDTH;
+  const offsetPeaks =
+    Math.abs(offset) < PANEL_WIDTH
+      ? createShiftedArrayOfYValues(offsetInPanels)
+      : peaks;
+
+  //a positive offset is when the ship has gone right, the mountains move left.
   const adjustedPoints = [];
   for (let i = 0; i < points.length; i++) {
-    adjustedPoints.push({ x: points[i].x, y: screenHeight - points[i].y });
+    adjustedPoints.push({
+      x: points[i].x,
+      y: screenHeight - offsetPeaks[i],
+    });
   }
   return adjustedPoints;
 };
 
-//This function does not recalculate the y values
+// When a mountain point has scrolled more than slopWidth off the viewport
+// I move the mountains that are any farther scrolled off than that and tack them on to the other side of the mountain collection.
+// OK, this means permanently updating the data, not the lines.
+// This function does not recalculate the y values
 // offset is how much to move them since the last time they were moved.  A positive offset means the ship is flying left, so the
 // mountains are moving to the right
 const adjustCurrentPointsForOffset = (currentPoints, offset, gameWidth) => {
@@ -75,14 +104,20 @@ const reducer = (state, action) => {
       console.log(
         `UPDATE_GAME_DIMENSIONS gets: ${JSON.stringify(action.cargo)}`
       );
+      // InitialState gets calculated with height: 800, so we may have lost the original y values of the mountain data.  We could just use peaks, but what if the ship has
+      // moved and the mountain data's x values have been updated too?  For now, map the currently scrolled points to the untainted mountain
+      // data (peaks).  Take the current offset and figure out how what the frameshift is and then read the orginal y values and update all the y values in
+      // allPointsCorrected with the value in that mapping.
       const stateWithNewWidth = {
         ...state,
         screenDimensions: action.cargo,
         allPointsCorrected: adjustMountainPointsForScreenHeight(
           state.allPointsCorrected,
-          action.cargo.height
+          action.cargo.height,
+          state.gameOffset
         ),
       };
+
       return stateWithNewWidth;
   }
 };
@@ -103,11 +138,3 @@ export const OffsetMountainDataProvider = ({ children }) => {
     </OffsetMountainDataContext.Provider>
   );
 };
-
-////{screenSize: {…}}
-// screenSize
-// :
-// {height: 0, width: 0}
-// [[Prototype]]
-// :
-// Object

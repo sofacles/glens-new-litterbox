@@ -9,7 +9,6 @@ import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 const MainScreen = () => {
   const { state, dispatch } = useContext(OffsetMountainDataContext);
   const { gameOffset, screenDimensions } = state;
-  //console.log(`in MainScreen constructor, `)
   return (
     <>
       <InstrumentPanel gameOffset={gameOffset} />
