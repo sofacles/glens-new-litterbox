@@ -2,7 +2,7 @@ import React, { useContext, useRef, useState, useEffect } from "react";
 import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
-import { GAME_WIDTH, WRAP_DISTANCE } from "./Constants";
+import { WRAP_DISTANCE } from "./Constants";
 
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 

@@ -2,7 +2,6 @@ import React, { createContext, useEffect, useReducer, useState } from "react";
 import peaks from "../MountainData.js";
 
 import {
-  GAME_WIDTH,
   INSTRUMENT_PANEL_HEIGHT,
   PANEL_WIDTH,
   WRAP_DISTANCE,
