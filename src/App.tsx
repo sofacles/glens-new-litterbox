@@ -1,5 +1,5 @@
 import React from 'react';
-import Driver from './flexbox/Driver';
+import GameWrapper from "./pretender/GameWrapper";
 
 import './App.css';
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
 
-      <Driver />
+      <GameWrapper />
     </div>
   );
 }
