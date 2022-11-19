@@ -30,6 +30,8 @@ const ColorPixel: React.FC<ColorPixelProps> = (props: ColorPixelProps) => {
   const style: CSS.Properties = {
     backgroundColor: '#' + hexValue,
     border: `1px solid #${hexValue}`,
+    height: '2px',
+    width: '2px'
   };
 
   
