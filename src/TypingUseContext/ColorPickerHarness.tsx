@@ -1,13 +1,13 @@
 import React from 'react';
 import ColorPicker from './ColorPicker';
-import {ThirdColorProvider} from './ThirdColorContext';
+import {ThirdColorWithStateProvider} from './ThirdColorContextWithState';
 
 const ColorPickerHarness = () => {
-return ( <ThirdColorProvider>
+return ( <ThirdColorWithStateProvider>
 <ColorPicker onColorChosen={(color:string) => {
   console.log(`${color} was chosen`);
 }} />
-</ThirdColorProvider>);
+</ThirdColorWithStateProvider>);
 };
 
 export default ColorPickerHarness;

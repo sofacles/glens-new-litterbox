@@ -6,25 +6,29 @@ export type ThirdColorInfo = {
     selectedHexValue: string
 };
 
-type ThirdColorContextValue = [ThirdColorInfo, Dispatch<SetStateAction<ThirdColorInfo>>];
+//Maybe this is the kind of thing that Julian was talking about, since I was getting one of those "blah is a type, but
+// foo expects a value" errors in my borked branch
+type ThirdColorContextWithStateValue = [ThirdColorInfo, Dispatch<SetStateAction<ThirdColorInfo>>];
 
-export const ThirdColorContext = createContext<ThirdColorContextValue>(
+export const ThirdColorContextWithState = createContext<ThirdColorContextWithStateValue>(
    [ {thirdColorLevel: 7, selectedHexValue: '777' },
-   () => console.error("I wonder about this"),
+   (err) => {
+    console.error(`errored out trying to createContext: ${err}`);
+  },
 ]);
 
 // The Red varies with the Y axis of color picker, Green varies with the X axis, and I have a slider
 // component that changes the blue value of all the squares in the grid as it goes up and down.
 // This context is all about blue: the "Third Color"
   
-export const ThirdColorProvider = (props: PropsWithChildren<{}>) => {
+export const ThirdColorWithStateProvider = (props: PropsWithChildren<{}>) => {
   const [state, setState] = useState<ThirdColorInfo>({
     thirdColorLevel: 7,
     selectedHexValue: '777',
     });
 
-  return <ThirdColorContext.Provider value={[state, setState]}>
+  return <ThirdColorContextWithState.Provider value={[state, setState]}>
       {props.children}
-    </ThirdColorContext.Provider>;
+    </ThirdColorContextWithState.Provider>;
   
 };

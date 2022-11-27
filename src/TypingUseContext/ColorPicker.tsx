@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import {ThirdColorContext} from './ThirdColorContext';
+import {ThirdColorContextWithState} from './ThirdColorContextWithState';
 
 import { ColorPixel, ColorPixelProps } from './ColorPixel';
 
@@ -13,7 +13,7 @@ const ColorPicker: React.FC<ColorPickerProps> = (props: ColorPickerProps) => {
   const rValue = 12;
   const bValue = 9;
 
-const [blueValue] = useContext(ThirdColorContext);
+const [blueValue] = useContext(ThirdColorContextWithState);
 
 
   for (let gValue = 0; gValue <= 15; gValue++) {

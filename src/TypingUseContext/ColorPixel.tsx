@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import { ThirdColorContext} from './ThirdColorContext';
+import { ThirdColorContextWithState} from './ThirdColorContextWithState';
 
 import CSS from 'csstype';
 
@@ -26,7 +26,7 @@ const HexValues = [
 
 const ColorPixel: React.FC<ColorPixelProps> = (props: ColorPixelProps) => {
   const hexValue = HexValues[props.r] + HexValues[props.g] + HexValues[props.b];
-  const [blueValue, blueValueSet] = useContext(ThirdColorContext);
+  const [blueValue, blueValueSet] = useContext(ThirdColorContextWithState);
   const style: CSS.Properties = {
     backgroundColor: '#' + hexValue,
     border: `1px solid #${hexValue}`,
