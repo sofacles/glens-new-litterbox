@@ -6,8 +6,11 @@ export type ThirdColorInfo = {
     selectedHexValue: string
 };
 
-//Maybe this is the kind of thing that Julian was talking about, since I was getting one of those "blah is a type, but
-// foo expects a value" errors in my borked branch
+// Maybe this is the kind of thing that Julian was talking about, since I was getting one of those "blah is a type, but
+// foo expects a value" errors in my borked branch.  As a side note, thanks, React Team for naming the type of the setState
+// function with the words "Dispatch" and "Action" so I can confuse usages of setState with usages of useReducer.
+
+
 type ThirdColorContextWithStateValue = [ThirdColorInfo, Dispatch<SetStateAction<ThirdColorInfo>>];
 
 export const ThirdColorContextWithState = createContext<ThirdColorContextWithStateValue>(

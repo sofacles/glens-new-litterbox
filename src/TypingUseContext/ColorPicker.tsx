@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import {ThirdColorContextWithState} from './ThirdColorContextWithState';
+// import {ThirdColorContextWithState} from './ThirdColorContextWithState';
+import {ThirdColorContextWithReducer} from './ThirdColorContextWithReducer';
 
 import { ColorPixel, ColorPixelProps } from './ColorPixel';
 
@@ -13,7 +14,8 @@ const ColorPicker: React.FC<ColorPickerProps> = (props: ColorPickerProps) => {
   const rValue = 12;
   const bValue = 9;
 
-const [blueValue] = useContext(ThirdColorContextWithState);
+  // const [blueValue] = useContext(ThirdColorContextWithState);
+  const {state, dispatch} = useContext(ThirdColorContextWithReducer);
 
 
   for (let gValue = 0; gValue <= 15; gValue++) {
@@ -33,7 +35,8 @@ const [blueValue] = useContext(ThirdColorContextWithState);
     <div className="color-picker-container">
    {cells.map(c => c)}
     </div>
-    <div>selectedHexValue: {blueValue.selectedHexValue}</div>
+    <div>selectedHexValue: {state.selectedHexValue}</div>
+    {/* <div>selectedHexValue: {state.selectedHexValue}</div> */}
     </>
   );
 };
