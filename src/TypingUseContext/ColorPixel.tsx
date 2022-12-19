@@ -1,5 +1,6 @@
 import React, {useContext} from 'react';
-import { ThirdColorContext} from './ThirdColorContext';
+//import { ThirdColorContextWithState} from './ThirdColorContextWithState';
+import {ThirdColorContextWithReducer} from './ThirdColorContextWithReducer';
 
 import CSS from 'csstype';
 
@@ -26,7 +27,8 @@ const HexValues = [
 
 const ColorPixel: React.FC<ColorPixelProps> = (props: ColorPixelProps) => {
   const hexValue = HexValues[props.r] + HexValues[props.g] + HexValues[props.b];
-  const [blueValue, blueValueSet] = useContext(ThirdColorContext);
+  // const [blueValue, blueValueSet] = useContext(ThirdColorContextWithState);
+  const {state, dispatch} = useContext(ThirdColorContextWithReducer);
   const style: CSS.Properties = {
     backgroundColor: '#' + hexValue,
     border: `1px solid #${hexValue}`,
@@ -41,7 +43,8 @@ const ColorPixel: React.FC<ColorPixelProps> = (props: ColorPixelProps) => {
       className="color-pixel"
       style={style}
       onClick={(evt) => {
-        blueValueSet({ ...blueValue, selectedHexValue: hexValue });
+        // blueValueSet({ ...blueValue, selectedHexValue: hexValue });
+        dispatch({ Type: "UPDATE_SELECTED_COLOR", Cargo: {selectedHexValue: hexValue }});
       }}
     />
   );
