@@ -150,7 +150,7 @@ export const OffsetMountainDataProvider = ({ children } : PropsWithChildren) => 
   }, [screenSize]);
 
   return (
-    <OffsetMountainDataContext.Provider value={ state, dispatch}>
+    <OffsetMountainDataContext.Provider value={{ state, dispatch }}>
       {children}
     </OffsetMountainDataContext.Provider>
   );
