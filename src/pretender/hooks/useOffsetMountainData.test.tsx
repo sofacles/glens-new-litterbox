@@ -22,9 +22,9 @@ describe("renders with the correct initial state", () => {
   });
 
   it("has not shuffled any of the peaks around", () => {
-    expect(screen.getByTestId("leftMostPixelX")).toHaveTextContent(peaks[0].x);
+    expect(screen.getByTestId("leftMostPixelX")).toHaveTextContent(peaks[0].x.toString());
     expect(screen.getByTestId("leftMostPixelY")).toHaveTextContent(
-      peaks[peaks.length - 1].y + verticalOffset
+      (peaks[peaks.length - 1].y + verticalOffset).toString()
     );
   });
 });
@@ -75,9 +75,9 @@ describe("when UPDATE_GAME_OFFSET is dispatched with a number greater than PANEL
   it("has moved the left most mountain peak to the right end of the array", () => {
     //the peak that was all the way on the right had x:2000.  It will have been moved to the left 110 pixels, so 2000 - 110 = 1890.  Then when we talk the peak onto the right side of the world, we look at 1790 and add
     // 100 to it -> 1990
-    expect(screen.getByTestId("rightMostPixelX")).toHaveTextContent(1990);
+    expect(screen.getByTestId("rightMostPixelX")).toHaveTextContent("1990");
     expect(screen.getByTestId("rightMostPixelY")).toHaveTextContent(
-      verticalOffset
+      verticalOffset.toString()
     );
   });
 });
