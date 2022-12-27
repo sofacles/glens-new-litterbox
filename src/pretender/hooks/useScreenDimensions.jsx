@@ -6,9 +6,6 @@ function useScreenDimensions() {
 
   useEffect(() => {
     function handleScreenSize() {
-      console.log(
-        `setting screen size to ${window.innerHeight}, ${window.innerWidth}`
-      );
       setScreenSize({
         height: window.innerHeight - INSTRUMENT_PANEL_HEIGHT,
         width: window.innerWidth,

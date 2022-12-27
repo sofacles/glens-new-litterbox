@@ -14,21 +14,27 @@ const ComponentThatUsesHook = () => {
         dispatch({type: 'UPDATE_GAME_OFFSET', cargo: {offsetDifference: -10}})
     }
 
-    const moveMountains150Left = () => {
-        dispatch({type: 'UPDATE_GAME_OFFSET', cargo: {offsetDifference: 150}})
+    const moveMountains110Left = () => {
+        dispatch({type: 'UPDATE_GAME_OFFSET', cargo: {offsetDifference: 110}})
     }
     
-    // console.info(state);
     return(
     <div>
         <h1>test component</h1>
         <div>
             <button  onClick={moveMountainsRight}>move mountains right</button>
             <button  onClick={moveMountainsLeft}>move mountains left</button>
-            <button  onClick={moveMountains150Left}>move mountains 150 pixels left</button>
+            <button  onClick={moveMountains110Left}>move mountains 110 pixels left</button>
         </div>
          <span>offset: {state.gameOffset}</span>
-         <div data-testid="leftMostPixel">LeftMostPixel is {`x: ${state.allPointsCorrected[0].x}, y:${state.allPointsCorrected[0].y}`} </div>
+         <div >
+            <span data-testid="leftMostPixelX">{state.allPointsCorrected[0].x}</span>
+            <span data-testid="leftMostPixelY">{state.allPointsCorrected[0].y}</span>
+           </div>
+         <div >
+         <span data-testid="rightMostPixelX">{state.allPointsCorrected[state.allPointsCorrected.length - 1].x}</span>
+         <span data-testid="rightMostPixelY">{state.allPointsCorrected[state.allPointsCorrected.length - 1].y}</span>
+        </div>
     </div>
     ); 
 };

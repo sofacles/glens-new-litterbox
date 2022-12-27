@@ -52,8 +52,10 @@ const adjustMountainPointsForScreenHeight = (
 // This function does not recalculate the y values
 // offset is how much to move them since the last time they were moved.  A positive offset means the ship is flying left, so the
 // mountains are moving to the right
+
 const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: number, gameWidth: number) => {
   const adjustedPoints: PointType[] = [];
+  
   //move all the points to the right or left
   for (var i = 0; i < currentPoints.length; i++) {
     adjustedPoints.push({
@@ -68,9 +70,9 @@ const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: numbe
     if (adjustedPoints[0].x < cutoffPoint) {
       const leftmost = adjustedPoints.shift();
       if(leftmost) {
-   //give it a new x value, 100 greater than the rightmost point
-   leftmost.x = adjustedPoints[adjustedPoints.length - 1].x + 100;
-   adjustedPoints.push(leftmost);
+        //give it a new x value, 100 greater than the rightmost point
+        leftmost.x = adjustedPoints[adjustedPoints.length - 1].x + 100;
+        adjustedPoints.push(leftmost);
       }
    
     }
@@ -111,9 +113,6 @@ const reducer = (state : OffsetMountainDataType, action : ActionType) : OffsetMo
       return theNewState;
 
     case "UPDATE_GAME_DIMENSIONS":
-      console.log(
-        `UPDATE_GAME_DIMENSIONS gets: ${JSON.stringify(action.cargo)}`
-      );
       // InitialState gets calculated with height: 800, so we may have lost the original y values of the mountain data.  We could just use peaks, but what if the ship has
       // moved and the mountain data's x values have been updated too?  For now, map the currently scrolled points to the untainted mountain
       // data (peaks).  Take the current offset and figure out how what the frameshift is and then read the orginal y values and update all the y values in
