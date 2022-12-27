@@ -82,9 +82,9 @@ const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: numbe
     if (adjustedPoints[adjustedPoints.length - 1].x > cutoffPoint) {
       const rightmost = adjustedPoints.pop();
       if(rightmost) {
+        rightmost.x = adjustedPoints[0].x - 100;
         adjustedPoints.unshift(rightmost);
       }
-      
     }
   }
   return adjustedPoints;

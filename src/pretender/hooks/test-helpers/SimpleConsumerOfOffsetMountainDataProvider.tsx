@@ -18,6 +18,10 @@ const ComponentThatUsesHook = () => {
         dispatch({type: 'UPDATE_GAME_OFFSET', cargo: {offsetDifference: 110}})
     }
     
+    const moveMountains110Right = () => {
+        dispatch({type: 'UPDATE_GAME_OFFSET', cargo: {offsetDifference: -110}})
+    }
+    
     return(
     <div>
         <h1>test component</h1>
@@ -25,6 +29,7 @@ const ComponentThatUsesHook = () => {
             <button  onClick={moveMountainsRight}>move mountains right</button>
             <button  onClick={moveMountainsLeft}>move mountains left</button>
             <button  onClick={moveMountains110Left}>move mountains 110 pixels left</button>
+            <button  onClick={moveMountains110Right}>move mountains 110 pixels right</button>
         </div>
          <span>offset: {state.gameOffset}</span>
          <div >

@@ -81,3 +81,26 @@ describe("when UPDATE_GAME_OFFSET is dispatched with a number greater than PANEL
     );
   });
 });
+
+//flying to the left, mountains are scrolling to the right, offset is decreasing below zero.
+describe("when UPDATE_GAME_OFFSET is dispatched with a negative number whose abs value is greater than PANEL_WIDTH", () => {
+  beforeEach(() => {
+    renderTestContainer();
+
+    fireEvent.click(screen.getByText("move mountains 110 pixels right"));
+  });
+
+  it("has a gameOffset equal to the amount you passed to the reducer", () => {
+    const linkElement = screen.getByText(/offset: -110/i);
+    expect(linkElement).toBeInTheDocument();
+  });
+
+  it("has moved the right most mountain peak to the left end of the array", () => {
+    //The peak that was all the way on the left had x:-2000.  It will have been moved to the right 110 pixels, so -2000 - (-110) = -1890.  The rightmost  {x: 2000, y: 0} peak should 
+    //have been tacked onto the left side of the adjusted points and have an x value equal to 100 less than -1890: -1990.
+    expect(screen.getByTestId("leftMostPixelX")).toHaveTextContent("-1990");
+    expect(screen.getByTestId("leftMostPixelY")).toHaveTextContent(
+      verticalOffset.toString()
+    );
+  });
+});
