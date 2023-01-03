@@ -1,12 +1,8 @@
-import React, { createContext, Dispatch, ReactNode, PropsWithChildren, useEffect, useReducer, useState } from "react";
+import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
 import peaks from "../MountainData.js";
 import { ActionType, OffsetMountainDataType, PointType } from "../types";
 
-import {
-  INSTRUMENT_PANEL_HEIGHT,
-  PANEL_WIDTH,
-  WRAP_DISTANCE,
-} from "../Constants";
+import {PANEL_WIDTH} from "../Constants";
 
 import { useScreenDimensions } from "./useScreenDimensions";
 
@@ -71,7 +67,7 @@ const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: numbe
       const leftmost = adjustedPoints.shift();
       if(leftmost) {
         //give it a new x value, 100 greater than the rightmost point
-        leftmost.x = adjustedPoints[adjustedPoints.length - 1].x + 100;
+        leftmost.x = adjustedPoints[adjustedPoints.length - 1].x + PANEL_WIDTH;
         adjustedPoints.push(leftmost);
       }
    
@@ -83,7 +79,7 @@ const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: numbe
     if (adjustedPoints[adjustedPoints.length - 1].x > cutoffPoint) {
       const rightmost = adjustedPoints.pop();
       if(rightmost) {
-        rightmost.x = adjustedPoints[0].x - 100;
+        rightmost.x = adjustedPoints[0].x - PANEL_WIDTH;
         adjustedPoints.unshift(rightmost);
       }
     }

@@ -1,15 +1,14 @@
-import React, { useContext, useRef, useState, useEffect } from "react";
+import React, { useContext } from "react";
 import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
-import { WRAP_DISTANCE } from "./Constants";
 import useAnimationFrame from "./hooks/useAnimationFrame";
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 
 const MainScreen = () => {
-  const { state, dispatch } = useContext(OffsetMountainDataContext);
+  const { state } = useContext(OffsetMountainDataContext);
   const { gameOffset, screenDimensions } = state;
-  const { changeDirection, goLeft, go, stop } = useAnimationFrame();
+  const { changeDirection, go, stop } = useAnimationFrame();
 
   return (
     <>

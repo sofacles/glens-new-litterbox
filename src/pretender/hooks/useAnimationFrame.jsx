@@ -1,8 +1,8 @@
-import React, { useContext, useState, useRef } from "react";
+import React, { useContext } from "react";
 import { OffsetMountainDataContext } from "./useOffsetMountainData";
 
 const useAnimationFrame = () => {
-  const { state, dispatch } = useContext(OffsetMountainDataContext);
+  const { dispatch } = useContext(OffsetMountainDataContext);
 
   const PX_PER_SECOND = 200;
   const [direction, setDirection] = React.useState("stopped");
@@ -15,7 +15,7 @@ const useAnimationFrame = () => {
   const previousTimeRef = React.useRef();
 
   const animate = (time) => {
-    if (previousTimeRef.current != undefined) {
+    if (previousTimeRef.current !== undefined) {
       const deltaTime = time - previousTimeRef.current;
 
       // Pass a function to the setter of the state
@@ -26,7 +26,7 @@ const useAnimationFrame = () => {
         type: "UPDATE_GAME_OFFSET",
         cargo: {
           offsetDifference:
-            direction == "right"
+            direction === "right"
               ? Math.floor((deltaTime * PX_PER_SECOND) / 1000)
               : -Math.floor((deltaTime * PX_PER_SECOND) / 1000),
         },
@@ -53,6 +53,7 @@ const useAnimationFrame = () => {
       setDirection("right");
     },
     stop: () => {
+      previousTimeRef.current = undefined;
       setIsThrusting(false);
     },
     changeDirection: () => {
