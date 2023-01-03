@@ -77,8 +77,9 @@ const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: numbe
    
     }
   } else if (offset < 0) {
-    //the right-most point may need to be removed and tacked onto the left side of the peaks
-    const cutoffPoint = gameWidth / 2 + slopWidth;
+    //the right-most point may need to be removed and tacked onto the left side of the peaks, but the cutoff point to the right needs to be farther out, since we're effectively
+    // measuring from the left edge of the screen.
+    const cutoffPoint = gameWidth + slopWidth;
     if (adjustedPoints[adjustedPoints.length - 1].x > cutoffPoint) {
       const rightmost = adjustedPoints.pop();
       if(rightmost) {

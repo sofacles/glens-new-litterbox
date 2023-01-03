@@ -9,7 +9,7 @@ import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 const MainScreen = () => {
   const { state, dispatch } = useContext(OffsetMountainDataContext);
   const { gameOffset, screenDimensions } = state;
-  const { goLeft, goRight, stop } = useAnimationFrame();
+  const { changeDirection, goLeft, go, stop } = useAnimationFrame();
 
   return (
     <>
@@ -26,7 +26,9 @@ const MainScreen = () => {
         }}
         onKeyDown={(evt) => {
           if (evt.key == "Shift") {
-            goRight();
+            go();
+          } else if (evt.key == "x") {
+            changeDirection();
           }
         }}
         onKeyUp={(evt) => {

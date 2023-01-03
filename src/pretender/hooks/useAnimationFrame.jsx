@@ -6,6 +6,7 @@ const useAnimationFrame = () => {
 
   const PX_PER_SECOND = 200;
   const [direction, setDirection] = React.useState("stopped");
+  const [isThrusting, setIsThrusting] = React.useState(false);
 
   // Use useRef for mutable variables that we want to persist
   // without triggering a re-render on their change
@@ -21,7 +22,6 @@ const useAnimationFrame = () => {
       // to make sure we always have the latest state
       // setCount(prevCount => (prevCount + deltaTime * 0.01) % 100);
       // OK, my use case is I'm trying to figure out how much to scroll the mountains.
-
       dispatch({
         type: "UPDATE_GAME_OFFSET",
         cargo: {
@@ -37,27 +37,26 @@ const useAnimationFrame = () => {
   };
 
   React.useEffect(() => {
-    if (direction === "right") {
-      requestRef.current = requestAnimationFrame(animate);
-      return () => cancelAnimationFrame(requestRef.current);
-    } else if (direction === "left") {
+    if (isThrusting) {
       requestRef.current = requestAnimationFrame(animate);
       return () => cancelAnimationFrame(requestRef.current);
     } else {
-      debugger;
       cancelAnimationFrame(requestRef.current);
     }
-  }, [direction]);
+  }, [direction, isThrusting]);
 
   return {
-    goLeft: () => {
-      setDirection("left");
+    go: () => {
+      setIsThrusting(true);
     },
     goRight: () => {
       setDirection("right");
     },
     stop: () => {
-      setDirection("stopped");
+      setIsThrusting(false);
+    },
+    changeDirection: () => {
+      setDirection((dir) => (dir === "right" ? "left" : "right"));
     },
   };
 };
