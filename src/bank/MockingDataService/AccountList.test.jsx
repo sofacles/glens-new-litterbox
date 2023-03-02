@@ -1,22 +1,25 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import { AccountList } from "./AccountList";
+import Data from "../DataService/Data";
 
-/*
-You can mock a child component;
-The Login component that HomePage renders has a userName hard-coded to Barb, 
-but you can mock it like this:
-*/
-// jest.mock("./Login", () => {
+// jest.mock("../DataService/Data", () => {
 //   return {
-//     Login: () => {
-//       return <span data-testid="login">Glen</span>;
-//     },
-//   };
-// });
+//     class {
+//   get accounts() {return [887]}
+// }
 
+const mockGetAccountAt = jest.fn((index) => 788);
+jest.mock("../DataService/Data", () => {
+  return jest.fn().mockImplementation(() => {
+    return {
+      getAccountAt: mockGetAccountAt,
+    };
+  });
+});
 test("renders home page", () => {
   render(<AccountList />);
+  screen.debug();
   const acctList = screen.getByTestId("account-list");
   expect(acctList).toHaveTextContent("453");
 });

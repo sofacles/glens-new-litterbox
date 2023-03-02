@@ -1,18 +1,9 @@
 import React from "react";
-import DataService from "../DataService/Data";
+import Data from "../DataService/Data";
 
 const AccountList = () => {
   debugger;
-  const dataService = new DataService();
-  const rows = [];
-  dataService.accounts.forEach((acct) => {
-    debugger;
-    rows.push(
-      <tr key={acct}>
-        <td>{acct}</td>
-      </tr>
-    );
-  });
+  const dataService = new Data();
 
   return (
     <table data-testid="account-list">
@@ -21,7 +12,11 @@ const AccountList = () => {
           <th>account number</th>
         </tr>
       </thead>
-      <tbody>{rows}</tbody>
+      <tbody>
+        <tr>
+          <td>{dataService.getAccountAt(0)}</td>
+        </tr>
+      </tbody>
     </table>
   );
 };

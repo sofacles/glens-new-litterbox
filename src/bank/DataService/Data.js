@@ -9,4 +9,7 @@ export default class Data {
     set accounts(val) {
          this._accounts = val;
     }
+    getAccountAt(index) {
+        return this._accounts[index];
+    }
 } 
