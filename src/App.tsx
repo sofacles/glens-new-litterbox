@@ -1,5 +1,5 @@
 import React from 'react';
-import GameWrapper from "./pretender/GameWrapper";
+import {AccountList} from "./bank/MockingDataService/AccountList";
 
 import './App.css';
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="App">
 
-      <GameWrapper />
+      <AccountList />
     </div>
   );
 }
