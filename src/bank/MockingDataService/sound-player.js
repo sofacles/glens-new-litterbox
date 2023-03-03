@@ -5,5 +5,6 @@ export default class SoundPlayer {
   
     playSoundFile(fileName) {
       console.log('Playing sound file ' + fileName);
+      return 'Playing sound file';
     }
   }

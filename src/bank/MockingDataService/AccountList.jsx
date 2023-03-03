@@ -1,9 +1,8 @@
 import React from "react";
-import Data from "../DataService/Data";
+import SoundPlayer from "./sound-player";
 
 const AccountList = () => {
-  debugger;
-  const dataService = new Data();
+  const soundPlayer = new SoundPlayer();
 
   return (
     <table data-testid="account-list">
@@ -14,7 +13,7 @@ const AccountList = () => {
       </thead>
       <tbody>
         <tr>
-          <td>{dataService.getAccountAt(0)}</td>
+          <td>{soundPlayer.playSoundFile("a.mp3")}</td>
         </tr>
       </tbody>
     </table>
