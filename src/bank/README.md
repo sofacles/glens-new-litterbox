@@ -9,3 +9,6 @@ WithProps
 MockFetch
 
 TODO: if some other service or shim or something handles the network calls, maybe saves some state, how do you mock that in the client of the service?
+
+I added a "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache" which lets you debug unit tests in chrome. Just open:
+chrome://inspect/#devices
