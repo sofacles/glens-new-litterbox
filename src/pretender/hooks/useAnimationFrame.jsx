@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useCallback, useContext } from "react";
 import { OffsetMountainDataContext } from "./useOffsetMountainData";
 
 const useAnimationFrame = () => {
@@ -14,36 +14,39 @@ const useAnimationFrame = () => {
   const requestRef = React.useRef();
   const previousTimeRef = React.useRef();
 
-  const animate = (time) => {
-    if (previousTimeRef.current !== undefined) {
-      const deltaTime = time - previousTimeRef.current;
+  const animateCallback = useCallback(
+    (time) => {
+      if (previousTimeRef.current !== undefined) {
+        const deltaTime = time - previousTimeRef.current;
 
-      // Pass a function to the setter of the state
-      // to make sure we always have the latest state
-      // setCount(prevCount => (prevCount + deltaTime * 0.01) % 100);
-      // OK, my use case is I'm trying to figure out how much to scroll the mountains.
-      dispatch({
-        type: "UPDATE_GAME_OFFSET",
-        cargo: {
-          offsetDifference:
-            direction === "right"
-              ? Math.floor((deltaTime * PX_PER_SECOND) / 1000)
-              : -Math.floor((deltaTime * PX_PER_SECOND) / 1000),
-        },
-      });
-    }
-    previousTimeRef.current = time;
-    requestRef.current = requestAnimationFrame(animate);
-  };
+        // Pass a function to the setter of the state
+        // to make sure we always have the latest state
+        // setCount(prevCount => (prevCount + deltaTime * 0.01) % 100);
+        // OK, my use case is I'm trying to figure out how much to scroll the mountains.
+        dispatch({
+          type: "UPDATE_GAME_OFFSET",
+          cargo: {
+            offsetDifference:
+              direction === "right"
+                ? Math.floor((deltaTime * PX_PER_SECOND) / 1000)
+                : -Math.floor((deltaTime * PX_PER_SECOND) / 1000),
+          },
+        });
+      }
+      previousTimeRef.current = time;
+      requestRef.current = requestAnimationFrame(animateCallback);
+    },
+    [direction, dispatch]
+  );
 
   React.useEffect(() => {
     if (isThrusting) {
-      requestRef.current = requestAnimationFrame(animate);
+      requestRef.current = requestAnimationFrame(animateCallback);
       return () => cancelAnimationFrame(requestRef.current);
     } else {
       cancelAnimationFrame(requestRef.current);
     }
-  }, [direction, isThrusting]);
+  }, [animateCallback, direction, isThrusting]);
 
   return {
     go: () => {

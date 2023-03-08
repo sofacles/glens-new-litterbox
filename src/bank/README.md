@@ -12,3 +12,13 @@ TODO: if some other service or shim or something handles the network calls, mayb
 
 I added a "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache" which lets you debug unit tests in chrome. Just open:
 chrome://inspect/#devices
+
+Mocking dependent classes.
+
+See the MockingDataService folder. I show how to mock a dependent class the way the (jest docs show)[https://jestjs.io/docs/es6-class-mocks#calling-jestmock-with-the-module-factory-parameter], with the module factory parameter in MockingClassMethod.jsx.
+
+You can also do it with jest.spyOn, but you can't just:
+jest.spyOn(MyDependencyClass, "utilityFxn1")
+
+You have to go:
+jest.spyOn(MyDependencyClass.prototype, "utilityFxn1")

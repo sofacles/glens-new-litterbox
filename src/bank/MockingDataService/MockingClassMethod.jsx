@@ -1,5 +1,4 @@
 import React from "react";
-import SoundPlayer from "./sound-player";
 import Data from "../DataService/Data";
 
 const AccountList = () => {
