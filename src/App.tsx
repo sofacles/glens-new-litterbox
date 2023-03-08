@@ -8,7 +8,7 @@ function App() {
 debugger;
   return (
     <div className="App">
-      <AccountList />
+      <AnimalRace />
     </div>
   );
 }

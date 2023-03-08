@@ -4,17 +4,18 @@
 // same direction.
 export default class Organism {
     constructor() {
-     
         this.secondsElapsed = 0;
         this.position = 0;
         //setInterval(this.move, 1000);
     }
     move() {
+        debugger;
       // By default an organism doesn't really have a speed, so in this class this is a NOOP.
+      // If I just instantiate a Shrew and a Junco, I never get into this base class move method.
     }
 
     reportPositionAtT(t) {
-        for(let i = 0; i< t; t++) {
+        for(let i = 0; i< t; i++) {
             this.move();
         }
         return this.position;
