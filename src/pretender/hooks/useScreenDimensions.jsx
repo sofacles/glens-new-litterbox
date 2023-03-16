@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { INSTRUMENT_PANEL_HEIGHT } from "../Constants";
 
 function useScreenDimensions() {

@@ -4,8 +4,7 @@ import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 const Mountains = (props) => {
   //initial state: we are in the middle of the world: x = 0;
   // we want to show a portion of the mountains that's equal to the screen width
-  const { state, dispatch } = useContext(OffsetMountainDataContext);
-  const { gameOffset } = state;
+  const { state } = useContext(OffsetMountainDataContext);
   const { allPointsCorrected } = state;
 
   const generateAdjustedLines = (points) => {

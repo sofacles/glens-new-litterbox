@@ -5,7 +5,7 @@ const useAnimationFrame = () => {
   const { dispatch } = useContext(OffsetMountainDataContext);
 
   const PX_PER_SECOND = 200;
-  const [direction, setDirection] = React.useState("stopped");
+  const [direction, setDirection] = React.useState("right");
   const [isThrusting, setIsThrusting] = React.useState(false);
 
   // Use useRef for mutable variables that we want to persist
@@ -51,9 +51,6 @@ const useAnimationFrame = () => {
   return {
     go: () => {
       setIsThrusting(true);
-    },
-    goRight: () => {
-      setDirection("right");
     },
     stop: () => {
       previousTimeRef.current = undefined;

@@ -1,5 +1,5 @@
 import React from 'react';
-import {AccountList} from "./spiesAndMocks/MockingDataService/MockingClassMethod";
+import GameWrapper from "./pretender/GameWrapper";
 import {AnimalRace} from "./spiesAndMocks/MockingClassHierarchy/MockingBaseClassMethod";
 
 import './App.css';
@@ -7,7 +7,7 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <AnimalRace />
+      <GameWrapper />
     </div>
   );
 }

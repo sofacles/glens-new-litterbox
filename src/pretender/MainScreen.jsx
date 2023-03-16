@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
@@ -9,6 +9,7 @@ const MainScreen = () => {
   const { state } = useContext(OffsetMountainDataContext);
   const { gameOffset, screenDimensions } = state;
   const { changeDirection, go, stop } = useAnimationFrame();
+  const [currentlyPressedKeys] = useState(new Map());
 
   return (
     <>
@@ -24,14 +25,23 @@ const MainScreen = () => {
           backgroundColor: "#000000",
         }}
         onKeyDown={(evt) => {
-          if (evt.key == "Shift") {
+          const plainKey = evt.key.toLowerCase();
+
+          currentlyPressedKeys.set(plainKey, true);
+          if (
+            currentlyPressedKeys.has("shift") &&
+            currentlyPressedKeys.get("shift")
+          ) {
             go();
-          } else if (evt.key == "x") {
+          }
+          if (currentlyPressedKeys.get("x")) {
             changeDirection();
           }
         }}
         onKeyUp={(evt) => {
-          if (evt.key == "Shift") {
+          const plainKey = evt.key.toLowerCase();
+          currentlyPressedKeys.set(plainKey, false);
+          if (plainKey === "shift") {
             stop();
           }
         }}
