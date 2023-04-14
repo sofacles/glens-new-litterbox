@@ -4,6 +4,7 @@ import Mountains from "./Mountains";
 import Ship from "./Ship";
 import useAnimationFrame from "./hooks/useAnimationFrame";
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
+import { THRUST_KEY } from "./Constants";
 
 const MainScreen = () => {
   const { state } = useContext(OffsetMountainDataContext);
@@ -29,8 +30,8 @@ const MainScreen = () => {
 
           currentlyPressedKeys.set(plainKey, true);
           if (
-            currentlyPressedKeys.has("shift") &&
-            currentlyPressedKeys.get("shift")
+            currentlyPressedKeys.has(THRUST_KEY) &&
+            currentlyPressedKeys.get(THRUST_KEY)
           ) {
             go();
           }
@@ -41,7 +42,7 @@ const MainScreen = () => {
         onKeyUp={(evt) => {
           const plainKey = evt.key.toLowerCase();
           currentlyPressedKeys.set(plainKey, false);
-          if (plainKey === "shift") {
+          if (plainKey === THRUST_KEY) {
             stop();
           }
         }}

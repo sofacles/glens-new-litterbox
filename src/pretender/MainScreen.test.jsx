@@ -1,5 +1,18 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { THRUST_KEY } from "./Constants";
+import MainScreen from "./MainScreen";
 
-import MainScreen from './MainScreen';
-
-describe('MainScreen', () => {};)
+let mainScreen;
+describe("MainScreen", () => {
+  describe("thrusting", () => {
+    describe("when you press the thrust key", () => {
+      test("the mountains should scroll by", () => {
+        const { keyboard } = userEvent.setup();
+        mainScreen = render(<MainScreen />);
+        debugger;
+        keyboard("x");
+      });
+    });
+  });
+});
