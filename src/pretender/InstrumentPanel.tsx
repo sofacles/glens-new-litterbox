@@ -2,7 +2,10 @@ import React, { useContext } from "react";
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 import { OffsetMountainDataType } from "./types";
 
-const InstrumentPanel = ({ gameOffset } : OffsetMountainDataType) => {
+const InstrumentPanel = ({
+  gameOffset,
+  shipOffset,
+}: OffsetMountainDataType) => {
   //subBoxes are the three boxes of the control panel: lives, pilots map, and controlPanel
   const { state } = useContext(OffsetMountainDataContext);
   const subBoxStyle = {
@@ -29,6 +32,7 @@ const InstrumentPanel = ({ gameOffset } : OffsetMountainDataType) => {
         style={{ ...subBoxStyle, borderRight: `${borderWidth} solid red` }}
       ></div>
       <div style={subBoxStyle}>gameOffset: {gameOffset}</div>
+      <div style={subBoxStyle}>shipOffset: {shipOffset}</div>
       <div style={subBoxStyle}>
         state.screenDimensions.height: {state.screenDimensions.height}
       </div>

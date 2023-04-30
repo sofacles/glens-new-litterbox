@@ -17,5 +17,11 @@ export type OffsetMountainDataType = {
     gameOffset: number,
     allPointsCorrected: PointType[],
     screenDimensions: screenDimensionsType,
+    //shipOffset is really just here for the instrument panel?
+    shipOffset: number;
 }
 
+export type ShipDataType = {
+    offsetY: number,
+    screenDimensions: { height: number, width: number}
+}

@@ -5,3 +5,7 @@ export const PANEL_WIDTH = 100; //The distance between mountain points
 export const INSTRUMENT_PANEL_HEIGHT = 50;
 
 export const THRUST_KEY = "shift";
+
+export const SHIP_UP_KEY = "tab";
+
+export const UP_DOWN_NEITHER = { UP: "UP", DOWN: "DOWN", NEITHER: "NEITHER"};
