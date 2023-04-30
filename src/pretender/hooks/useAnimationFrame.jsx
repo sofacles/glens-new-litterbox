@@ -8,7 +8,7 @@ const useAnimationFrame = () => {
   const { dispatch } = useContext(OffsetMountainDataContext);
   const { shipDispatch } = useContext(ShipDataContext);
 
-  const PX_PER_SECOND = 200;
+  const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState(
@@ -43,11 +43,15 @@ const useAnimationFrame = () => {
         }
 
         if (shipMovingUpOrDown !== UP_DOWN_NEITHER.NEITHER) {
+          const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
           shipDispatch({
             type: "UPDATE_SHIP_Y",
             cargo: {
               upOrDown: shipMovingUpOrDown,
-              changeInY: -Math.floor((deltaTime * PX_PER_SECOND) / 1000),
+              changeInY:
+                shipMovingUpOrDown === UP_DOWN_NEITHER.UP
+                  ? -pixelsToMove
+                  : pixelsToMove,
             },
           });
         }

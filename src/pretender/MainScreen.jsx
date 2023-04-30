@@ -5,7 +5,12 @@ import Ship from "./Ship";
 import useAnimationFrame from "./hooks/useAnimationFrame";
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 import { ShipDataContext } from "./hooks/useShipData";
-import { THRUST_KEY, UP_DOWN_NEITHER, SHIP_UP_KEY } from "./Constants";
+import {
+  THRUST_KEY,
+  UP_DOWN_NEITHER,
+  SHIP_UP_KEY,
+  SHIP_DOWN_KEY,
+} from "./Constants";
 
 const MainScreen = () => {
   const { state } = useContext(OffsetMountainDataContext);
@@ -30,7 +35,6 @@ const MainScreen = () => {
         }}
         onKeyDown={(evt) => {
           const plainKey = evt.key.toLowerCase();
-
           currentlyPressedKeys.set(plainKey, true);
           if (
             currentlyPressedKeys.has(THRUST_KEY) &&
@@ -48,6 +52,14 @@ const MainScreen = () => {
             evt.preventDefault();
             changeShipY(UP_DOWN_NEITHER.UP);
           }
+
+          if (
+            currentlyPressedKeys.has(SHIP_DOWN_KEY) &&
+            currentlyPressedKeys.get(SHIP_DOWN_KEY)
+          ) {
+            evt.preventDefault();
+            changeShipY(UP_DOWN_NEITHER.DOWN);
+          }
         }}
         onKeyUp={(evt) => {
           const plainKey = evt.key.toLowerCase();
@@ -56,10 +68,12 @@ const MainScreen = () => {
             stop();
           }
 
-          if (plainKey === SHIP_UP_KEY) {
+          if (plainKey === SHIP_UP_KEY || plainKey === SHIP_DOWN_KEY) {
             resetAnimationTimer();
             changeShipY(UP_DOWN_NEITHER.NEITHER);
           }
+
+          evt.preventDefault();
         }}
         tabIndex="0"
       >
