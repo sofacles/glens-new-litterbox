@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import { ShipDataContext, OffsetMountainDataProvider } from "../useShipData";
 
 const ComponentThatUsesHook = () => {
-  const { state, dispatch } = useContext(OffsetMountainDataContext);
+  const { shipState, shipDispatch } = useContext(ShipDataContext);
   const moveMountainsRight = () => {
-    dispatch({ type: "UPDATE_GAME_OFFSET", cargo: { offsetDifference: 10 } });
+    shipDispatch({
+      type: "UPDATE_GAME_OFFSET",
+      cargo: { offsetDifference: 10 },
+    });
   };
   const moveMountainsLeft = () => {
     dispatch({ type: "UPDATE_GAME_OFFSET", cargo: { offsetDifference: -10 } });
