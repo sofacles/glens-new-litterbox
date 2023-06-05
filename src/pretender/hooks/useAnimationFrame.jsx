@@ -44,7 +44,10 @@ const useAnimationFrame = () => {
 
         if (shipMovingUpOrDown !== UP_DOWN_NEITHER.NEITHER) {
           const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
-          shipDispatch({
+          console.log(
+            `inside animate callback pixelsToMove is: ${pixelsToMove}`
+          );
+          const dispatchObj = {
             type: "UPDATE_SHIP_Y",
             cargo: {
               upOrDown: shipMovingUpOrDown,
@@ -53,7 +56,9 @@ const useAnimationFrame = () => {
                   ? -pixelsToMove
                   : pixelsToMove,
             },
-          });
+          };
+          console.log(`dispatching: ${JSON.stringify(dispatchObj)}`);
+          shipDispatch(dispatchObj);
         }
       }
       previousTimeRef.current = time;
