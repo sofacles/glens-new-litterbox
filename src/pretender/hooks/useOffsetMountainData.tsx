@@ -1,8 +1,14 @@
-import React, { createContext, Dispatch, PropsWithChildren, useEffect, useReducer } from "react";
+import React, {
+  createContext,
+  Dispatch,
+  PropsWithChildren,
+  useEffect,
+  useReducer,
+} from "react";
 import peaks from "../MountainData.js";
 import { ActionType, OffsetMountainDataType, PointType } from "../types";
 
-import {PANEL_WIDTH} from "../Constants";
+import { PANEL_WIDTH } from "../Constants";
 
 import { useScreenDimensions } from "./useScreenDimensions";
 
@@ -11,17 +17,16 @@ const slopWidth = 100;
 
 // mountain data is in cartesian coordinates, so convert to screen Y by subtacting the data's y value + instrument panel height from screenHeight
 const adjustMountainPointsForScreenHeight = (
-  points : PointType[],
+  points: PointType[],
   screenHeight: number,
   offset = 0
 ): PointType[] => {
-
-
   //returns the original y values of the peaks, but corrected for the current offset
-  const createShiftedArrayOfYValues = (panelOffset : number): number[] => {
-    const retVal = peaks.map(p => p.y)
+  const createShiftedArrayOfYValues = (panelOffset: number): number[] => {
+    const retVal = peaks
+      .map((p) => p.y)
       .slice(offset)
-      .concat(peaks.slice(0, panelOffset).map(p => p.y));
+      .concat(peaks.slice(0, panelOffset).map((p) => p.y));
     return retVal;
   };
 
@@ -29,7 +34,7 @@ const adjustMountainPointsForScreenHeight = (
   const offsetPeak_y_values =
     Math.abs(offset) < PANEL_WIDTH
       ? createShiftedArrayOfYValues(offsetInPanels)
-      : peaks.map( a => a.y);
+      : peaks.map((a) => a.y);
 
   //a positive offset is when the ship has gone right, the mountains move left.
   const adjustedPoints = [];
@@ -49,9 +54,13 @@ const adjustMountainPointsForScreenHeight = (
 // offset is how much to move them since the last time they were moved.  A positive offset means the ship is flying left, so the
 // mountains are moving to the right
 
-const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: number, gameWidth: number) => {
+const adjustCurrentPointsForOffset = (
+  currentPoints: PointType[],
+  offset: number,
+  gameWidth: number
+) => {
   const adjustedPoints: PointType[] = [];
-  
+
   //move all the points to the right or left
   for (var i = 0; i < currentPoints.length; i++) {
     adjustedPoints.push({
@@ -65,12 +74,11 @@ const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: numbe
     const cutoffPoint = -(gameWidth / 2 + slopWidth);
     if (adjustedPoints[0].x < cutoffPoint) {
       const leftmost = adjustedPoints.shift();
-      if(leftmost) {
+      if (leftmost) {
         //give it a new x value, 100 greater than the rightmost point
         leftmost.x = adjustedPoints[adjustedPoints.length - 1].x + PANEL_WIDTH;
         adjustedPoints.push(leftmost);
       }
-   
     }
   } else if (offset < 0) {
     //the right-most point may need to be removed and tacked onto the left side of the peaks, but the cutoff point to the right needs to be farther out, since we're effectively
@@ -78,7 +86,7 @@ const adjustCurrentPointsForOffset = (currentPoints : PointType[], offset: numbe
     const cutoffPoint = gameWidth + slopWidth;
     if (adjustedPoints[adjustedPoints.length - 1].x > cutoffPoint) {
       const rightmost = adjustedPoints.pop();
-      if(rightmost) {
+      if (rightmost) {
         rightmost.x = adjustedPoints[0].x - PANEL_WIDTH;
         adjustedPoints.unshift(rightmost);
       }
@@ -92,10 +100,10 @@ const initialState = {
   screenDimensions: { height: 600, width: 1000 },
 };
 
-
-
-
-const reducer = (state : OffsetMountainDataType, action : ActionType) : OffsetMountainDataType => {
+const reducer = (
+  state: OffsetMountainDataType,
+  action: ActionType
+): OffsetMountainDataType => {
   switch (action.type) {
     case "UPDATE_GAME_OFFSET":
       const theNewState = {
@@ -126,18 +134,17 @@ const reducer = (state : OffsetMountainDataType, action : ActionType) : OffsetMo
 
       return stateWithNewWidth;
 
-      default: 
+    default:
       return state;
   }
 };
 
-export const OffsetMountainDataContext = createContext<{state : OffsetMountainDataType, dispatch : Dispatch<ActionType>}>(
-  {state: initialState, dispatch: () => null}
-  );
+export const OffsetMountainDataContext = createContext<{
+  state: OffsetMountainDataType;
+  dispatch: Dispatch<ActionType>;
+}>({ state: initialState, dispatch: () => null });
 
-
-
-export const OffsetMountainDataProvider = ({ children } : PropsWithChildren) => {
+export const OffsetMountainDataProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const screenSize = useScreenDimensions();
 
