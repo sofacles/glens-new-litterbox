@@ -5,21 +5,23 @@ import Ship from "./Ship";
 import useAnimationFrame from "./hooks/useAnimationFrame";
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 import { ShipDataContext } from "./hooks/useShipData";
-import {
-  THRUST_KEY,
-  UP_DOWN_NEITHER,
-  SHIP_UP_KEY,
-  SHIP_DOWN_KEY,
-} from "./Constants";
+import { useMultipleKeys } from "./hooks/useMultipleKeys";
 
 const MainScreen = () => {
   const { state } = useContext(OffsetMountainDataContext);
   const { shipState } = useContext(ShipDataContext);
   const { gameOffset, screenDimensions } = state;
+
   const { changeDirection, go, resetAnimationTimer, stop, changeShipY } =
     useAnimationFrame();
-  const [currentlyPressedKeys] = useState(new Map());
 
+  const { onKeyDown, onKeyUp } = useMultipleKeys({
+    changeDirectionHandler: changeDirection,
+    changeShipYHandler: changeShipY,
+    goHandler: go,
+    resetAnimationHandler: resetAnimationTimer,
+    stopHandler: stop,
+  });
   return (
     <>
       <InstrumentPanel shipOffset={shipState.offsetY} gameOffset={gameOffset} />
@@ -27,53 +29,13 @@ const MainScreen = () => {
         height={screenDimensions.height}
         width={screenDimensions.width}
         xmlns="http://www.w3.org/2000/svg"
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
         style={{
           outline: "0px solid transparent",
           overflow: "hidden",
           position: "relative",
           backgroundColor: "#000000",
-        }}
-        onKeyDown={(evt) => {
-          const plainKey = evt.key.toLowerCase();
-          currentlyPressedKeys.set(plainKey, true);
-          if (
-            currentlyPressedKeys.has(THRUST_KEY) &&
-            currentlyPressedKeys.get(THRUST_KEY)
-          ) {
-            go();
-          }
-          if (currentlyPressedKeys.get("x")) {
-            changeDirection();
-          }
-          if (
-            currentlyPressedKeys.has(SHIP_UP_KEY) &&
-            currentlyPressedKeys.get(SHIP_UP_KEY)
-          ) {
-            evt.preventDefault();
-            changeShipY(UP_DOWN_NEITHER.UP);
-          }
-
-          if (
-            currentlyPressedKeys.has(SHIP_DOWN_KEY) &&
-            currentlyPressedKeys.get(SHIP_DOWN_KEY)
-          ) {
-            evt.preventDefault();
-            changeShipY(UP_DOWN_NEITHER.DOWN);
-          }
-        }}
-        onKeyUp={(evt) => {
-          const plainKey = evt.key.toLowerCase();
-          currentlyPressedKeys.set(plainKey, false);
-          if (plainKey === THRUST_KEY) {
-            stop();
-          }
-
-          if (plainKey === SHIP_UP_KEY || plainKey === SHIP_DOWN_KEY) {
-            resetAnimationTimer();
-            changeShipY(UP_DOWN_NEITHER.NEITHER);
-          }
-
-          evt.preventDefault();
         }}
         tabIndex="0"
       >

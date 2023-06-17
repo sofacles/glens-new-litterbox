@@ -19,6 +19,7 @@ const initialState = {
 
 const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
   const { screenDimensions } = state;
+  console.log(`Inside reducer, action.type is ${action.type}`);
   switch (action.type) {
     case "UPDATE_SHIP_Y":
       let theNewOffset = state.offsetY + action.cargo.changeInY;
@@ -27,6 +28,9 @@ const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
       //  or at the bottom
       else if (theNewOffset > screenDimensions.height - halfShipHeight)
         theNewOffset = screenDimensions.height - halfShipHeight;
+      console.log(`inside UPDATE_SHIP_Y, theNewOffset is ${theNewOffset}`);
+      console.log(`screenDimensions.height: ${screenDimensions.height}`);
+      console.log(`action.cargo.changeInY: ${action.cargo.changeInY}`);
       return {
         ...state,
         offsetY: theNewOffset,
@@ -36,6 +40,7 @@ const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
       // moved and the mountain data's x values have been updated too?  For now, map the currently scrolled points to the untainted mountain
       // data (peaks).  Take the current offset and figure out how what the frameshift is and then read the orginal y values and update all the y values in
       // allPointsCorrected with the value in that mapping.
+      //console.log(`action.cargo is ${JSON.stringify(action.cargo)}`);
       const stateWithNewWidth = {
         ...state,
         screenDimensions: action.cargo,

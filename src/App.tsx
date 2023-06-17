@@ -1,8 +1,7 @@
-import React from 'react';
+import React from "react";
 import GameWrapper from "./pretender/GameWrapper";
-import {AnimalRace} from "./spiesAndMocks/MockingClassHierarchy/MockingBaseClassMethod";
 
-import './App.css';
+import "./App.css";
 
 function App() {
   return (
