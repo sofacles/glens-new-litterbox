@@ -1,10 +1,5 @@
 import React, { useContext, useState } from "react";
-import {
-  THRUST_KEY,
-  UP_DOWN_NEITHER,
-  SHIP_UP_KEY,
-  SHIP_DOWN_KEY,
-} from "../Constants";
+import { UP_DOWN_NEITHER, SHIP_UP_KEY, SHIP_DOWN_KEY } from "../Constants";
 import { KeyBindingContext } from "./useKeyBindings";
 
 //I want to be able to test the ship moving up and down, but I'm having trouble getting the onKeyDown handler to be called
@@ -25,8 +20,7 @@ export const useMultipleKeys = ({
 }) => {
   const [currentlyPressedKeys] = useState(new Map());
   const { state } = useContext(KeyBindingContext);
-
-  const thrust = state.bindings.thrust;
+  const { thrust } = state.bindings;
 
   const onKeyDown = (evt) => {
     const plainKey = evt.key.toLowerCase();
@@ -58,7 +52,7 @@ export const useMultipleKeys = ({
   const onKeyUp = (evt) => {
     const plainKey = evt.key.toLowerCase();
     currentlyPressedKeys.set(plainKey, false);
-    if (plainKey === THRUST_KEY) {
+    if (plainKey === thrust) {
       stopHandler();
     }
 

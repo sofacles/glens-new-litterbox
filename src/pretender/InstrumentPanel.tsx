@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import { Link } from "react-router-dom";
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 import { OffsetMountainDataType } from "./types";
 
@@ -35,6 +36,11 @@ const InstrumentPanel = ({
       <div style={subBoxStyle}>shipOffset: {shipOffset}</div>
       <div style={subBoxStyle}>
         state.screenDimensions.height: {state.screenDimensions.height}
+      </div>
+      <div style={subBoxStyle}>
+        <Link to="/keys">
+          <span style={{ color: "red" }}>keys</span>
+        </Link>
       </div>
     </div>
   );

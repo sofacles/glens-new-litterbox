@@ -1,11 +1,12 @@
 import React, { createContext, useReducer } from "react";
 import { THRUST_KEY } from "../Constants";
+import { ActionType } from "../types";
 
 const defaultKeyBindings = { bindings: { thrust: THRUST_KEY } };
 
 export const KeyBindingContext = createContext({
-  ...defaultKeyBindings,
-  dispatch: () => {},
+  state: { bindings: defaultKeyBindings },
+  dispatch: (action) => {},
 });
 
 const reducer = (state, action) => {
