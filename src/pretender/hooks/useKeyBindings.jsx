@@ -5,7 +5,7 @@ import { ActionType } from "../types";
 const defaultKeyBindings = { bindings: { thrust: THRUST_KEY } };
 
 export const KeyBindingContext = createContext({
-  state: { bindings: defaultKeyBindings },
+  state: defaultKeyBindings,
   dispatch: (action) => {},
 });
 
