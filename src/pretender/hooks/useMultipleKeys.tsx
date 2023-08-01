@@ -1,6 +1,7 @@
-import React, { useContext, useState } from "react";
-import { UP_DOWN_NEITHER, SHIP_UP_KEY, SHIP_DOWN_KEY } from "../Constants";
+import React, { KeyboardEvent, useContext, useState } from "react";
+import { SHIP_UP_KEY, SHIP_DOWN_KEY, UP, DOWN, NEITHER } from "../Constants";
 import { KeyBindingContext } from "./useKeyBindings";
+import { UseMultipleKeysPropsType } from "../types";
 
 //I want to be able to test the ship moving up and down, but I'm having trouble getting the onKeyDown handler to be called
 // in a unit test, which is because React or maybe react-testing-library doesn't really handle svg elements.
@@ -17,12 +18,12 @@ export const useMultipleKeys = ({
   stopHandler,
   changeShipYHandler,
   changeDirectionHandler,
-}) => {
+}: UseMultipleKeysPropsType) => {
   const [currentlyPressedKeys] = useState(new Map());
   const { state } = useContext(KeyBindingContext);
   const { thrust } = state.bindings;
 
-  const onKeyDown = (evt) => {
+  const onKeyDown = (evt: KeyboardEvent) => {
     const plainKey = evt.key.toLowerCase();
     currentlyPressedKeys.set(plainKey, true);
     if (
@@ -40,7 +41,7 @@ export const useMultipleKeys = ({
     ) {
       evt.preventDefault();
       console.log("calling changeShipYHandler");
-      changeShipYHandler(UP_DOWN_NEITHER.UP);
+      changeShipYHandler(UP);
     }
 
     if (
@@ -48,11 +49,11 @@ export const useMultipleKeys = ({
       currentlyPressedKeys.get(SHIP_DOWN_KEY)
     ) {
       evt.preventDefault();
-      changeShipYHandler(UP_DOWN_NEITHER.DOWN);
+      changeShipYHandler(DOWN);
     }
   };
 
-  const onKeyUp = (evt) => {
+  const onKeyUp = (evt: KeyboardEvent) => {
     const plainKey = evt.key.toLowerCase();
     currentlyPressedKeys.set(plainKey, false);
     if (plainKey === thrust.mappedKey) {
@@ -61,7 +62,7 @@ export const useMultipleKeys = ({
 
     if (plainKey === SHIP_UP_KEY || plainKey === SHIP_DOWN_KEY) {
       resetAnimationHandler();
-      changeShipYHandler(UP_DOWN_NEITHER.NEITHER);
+      changeShipYHandler(NEITHER);
     }
 
     evt.preventDefault();

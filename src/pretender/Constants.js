@@ -8,7 +8,9 @@ export const THRUST_KEY = "shift";
 
 export const SHIP_DOWN_KEY = "z"; //TODO: if this is "capslock" the key up handler doesn't really work, even with prevent default
 export const SHIP_UP_KEY = "tab";
+export const  UP = "UP"; 
+export const DOWN = "DOWN";
+export const NEITHER = "NEITHER";
 
-export const UP_DOWN_NEITHER = { UP: "UP", DOWN: "DOWN", NEITHER: "NEITHER"};
 
 export const UPDATE_KEY_BINDING = 'UPDATE_KEY_BINDING';

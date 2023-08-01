@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from "react";
 import { OffsetMountainDataContext } from "./useOffsetMountainData";
 import { ShipDataContext } from "./useShipData";
 
-import { UP_DOWN_NEITHER } from "../Constants";
+import { UP_DOWN_NEITHER_type } from "../types";
 
 const useAnimationFrame = () => {
   const { dispatch } = useContext(OffsetMountainDataContext);
@@ -11,9 +11,7 @@ const useAnimationFrame = () => {
   const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
   const [isThrusting, setIsThrusting] = React.useState(false);
-  const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState(
-    UP_DOWN_NEITHER.NEITHER
-  );
+  const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
   // Use useRef for mutable variables that we want to persist
   // without triggering a re-render on their change
@@ -42,7 +40,7 @@ const useAnimationFrame = () => {
           });
         }
 
-        if (shipMovingUpOrDown !== UP_DOWN_NEITHER.NEITHER) {
+        if (shipMovingUpOrDown !== "NEITHER") {
           const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
           console.log(
             `inside animate callback pixelsToMove is: ${pixelsToMove}`
@@ -52,9 +50,7 @@ const useAnimationFrame = () => {
             cargo: {
               upOrDown: shipMovingUpOrDown,
               changeInY:
-                shipMovingUpOrDown === UP_DOWN_NEITHER.UP
-                  ? -pixelsToMove
-                  : pixelsToMove,
+                shipMovingUpOrDown === "UP" ? -pixelsToMove : pixelsToMove,
             },
           };
           console.log(`dispatching: ${JSON.stringify(dispatchObj)}`);
@@ -75,7 +71,7 @@ const useAnimationFrame = () => {
       3. Neither thrusting nor moving the ship and down
       4. Both moving the ship and thrusting
     */
-    if (isThrusting || shipMovingUpOrDown !== UP_DOWN_NEITHER.NEITHER) {
+    if (isThrusting || shipMovingUpOrDown !== "NEITHER") {
       requestRef.current = requestAnimationFrame(animateCallback);
       return () => cancelAnimationFrame(requestRef.current);
     } else {
