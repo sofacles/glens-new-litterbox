@@ -22,7 +22,7 @@ const KeyMappingEditor = (props: KeyMappingEditorProps) => {
       <span>{commandName}</span>
       {!isEditing && (
         <>
-          <span></span>
+          <span>{mappedKey}</span>
           <button
             onClick={() => {
               toggleEditMode(commandName);

@@ -7,6 +7,7 @@ import KeyMappingEditor from "./KeyMappingEditor";
 
 const KeyMappings = () => {
   const { state, dispatch } = useContext(KeyBindingContext);
+  const { bindings } = state;
   const [isEditing, setIsEditing] = useState(false);
   const [keyBeingEdited, setKeyBeingEdited] = useState<string | undefined>(
     undefined
@@ -28,9 +29,9 @@ const KeyMappings = () => {
     >
       <h1>Mappings</h1>
       <KeyMappingEditor
-        commandName="thrust"
-        isEditing={"thrust" === keyBeingEdited}
-        mappedKey="shift"
+        commandName={bindings.thrust.name}
+        isEditing={bindings.thrust.name === keyBeingEdited}
+        mappedKey={bindings.thrust.mappedKey}
         toggleEditMode={(key) => {
           setKeyBeingEdited(key);
           setIsEditing(true);

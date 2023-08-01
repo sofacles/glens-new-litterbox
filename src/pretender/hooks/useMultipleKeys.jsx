@@ -25,7 +25,10 @@ export const useMultipleKeys = ({
   const onKeyDown = (evt) => {
     const plainKey = evt.key.toLowerCase();
     currentlyPressedKeys.set(plainKey, true);
-    if (currentlyPressedKeys.has(thrust) && currentlyPressedKeys.get(thrust)) {
+    if (
+      currentlyPressedKeys.has(thrust.mappedKey) &&
+      currentlyPressedKeys.get(thrust.mappedKey)
+    ) {
       goHandler();
     }
     if (currentlyPressedKeys.get("x")) {
@@ -52,7 +55,7 @@ export const useMultipleKeys = ({
   const onKeyUp = (evt) => {
     const plainKey = evt.key.toLowerCase();
     currentlyPressedKeys.set(plainKey, false);
-    if (plainKey === thrust) {
+    if (plainKey === thrust.mappedKey) {
       stopHandler();
     }
 
