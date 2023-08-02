@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { KeyBindingContext } from "./hooks/useKeyBindings";
 import { UPDATE_KEY_BINDING } from "./Constants";
@@ -15,12 +15,23 @@ const KeyMappingsPane = () => {
     undefined
   );
 
+  const refToPaneDiv = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (refToPaneDiv.current) {
+      debugger;
+      refToPaneDiv.current.focus();
+    }
+  }, []);
+
   const toggleEditModeFor = (keyBinding: KeyBindingType) => {
     setKeyBeingEdited(keyBinding.name);
     setIsEditing(true);
+    refToPaneDiv.current?.focus();
   };
   return (
     <div
+      ref={refToPaneDiv}
       style={{
         backgroundColor: "#000",
         color: "red",

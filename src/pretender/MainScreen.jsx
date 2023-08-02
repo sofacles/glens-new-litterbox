@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
@@ -11,6 +11,13 @@ const MainScreen = () => {
   const { state } = useContext(OffsetMountainDataContext);
   const { shipState } = useContext(ShipDataContext);
   const { gameOffset, screenDimensions } = state;
+  const screenRef = useRef();
+
+  useEffect(() => {
+    if (screenRef.current) {
+      screenRef.current.focus();
+    }
+  }, []);
 
   const { changeDirection, go, resetAnimationTimer, stop, changeShipY } =
     useAnimationFrame();
@@ -27,6 +34,7 @@ const MainScreen = () => {
       <InstrumentPanel shipOffset={shipState.offsetY} gameOffset={gameOffset} />
       <svg
         height={screenDimensions.height}
+        ref={screenRef}
         width={screenDimensions.width}
         xmlns="http://www.w3.org/2000/svg"
         onKeyDown={onKeyDown}
