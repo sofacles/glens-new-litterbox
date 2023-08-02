@@ -21,7 +21,7 @@ export const useMultipleKeys = ({
 }: UseMultipleKeysPropsType) => {
   const [currentlyPressedKeys] = useState(new Map());
   const { state } = useContext(KeyBindingContext);
-  const { thrust } = state.bindings;
+  const { changeShipDirection, shipUp, shipDown, thrust } = state.bindings;
 
   const onKeyDown = (evt: KeyboardEvent) => {
     const plainKey = evt.key.toLowerCase();
@@ -32,21 +32,23 @@ export const useMultipleKeys = ({
     ) {
       goHandler();
     }
-    if (currentlyPressedKeys.get("x")) {
+    if (
+      currentlyPressedKeys.get(changeShipDirection.mappedKey) &&
+      currentlyPressedKeys.get(changeShipDirection.mappedKey)
+    ) {
       changeDirectionHandler();
     }
     if (
-      currentlyPressedKeys.has(SHIP_UP_KEY) &&
-      currentlyPressedKeys.get(SHIP_UP_KEY)
+      currentlyPressedKeys.has(shipUp.mappedKey) &&
+      currentlyPressedKeys.get(shipUp.mappedKey)
     ) {
       evt.preventDefault();
-      console.log("calling changeShipYHandler");
       changeShipYHandler(UP_DOWN_NEITHER.UP);
     }
 
     if (
-      currentlyPressedKeys.has(SHIP_DOWN_KEY) &&
-      currentlyPressedKeys.get(SHIP_DOWN_KEY)
+      currentlyPressedKeys.has(shipDown.mappedKey) &&
+      currentlyPressedKeys.get(shipDown.mappedKey)
     ) {
       evt.preventDefault();
       changeShipYHandler(UP_DOWN_NEITHER.DOWN);
@@ -60,7 +62,7 @@ export const useMultipleKeys = ({
       stopHandler();
     }
 
-    if (plainKey === SHIP_UP_KEY || plainKey === SHIP_DOWN_KEY) {
+    if (plainKey === shipUp.mappedKey || plainKey === shipDown.mappedKey) {
       resetAnimationHandler();
       changeShipYHandler(UP_DOWN_NEITHER.NEITHER);
     }

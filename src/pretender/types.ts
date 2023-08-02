@@ -35,3 +35,8 @@ export type UseMultipleKeysPropsType = {
   changeShipYHandler: (upDownNeither: UP_DOWN_NEITHER_type) => {};
   changeDirectionHandler: () => {};
 };
+
+export type KeyBindingType = {
+  mappedKey: string;
+  name: string;
+};
