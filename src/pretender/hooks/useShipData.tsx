@@ -29,7 +29,6 @@ const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
       else if (theNewOffset > screenDimensions.height - halfShipHeight)
         theNewOffset = screenDimensions.height - halfShipHeight;
       console.log(`inside UPDATE_SHIP_Y, theNewOffset is ${theNewOffset}`);
-      console.log(`screenDimensions.height: ${screenDimensions.height}`);
       console.log(`action.cargo.changeInY: ${action.cargo.changeInY}`);
       return {
         ...state,

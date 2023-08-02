@@ -19,7 +19,6 @@ const KeyMappingsPane = () => {
 
   useEffect(() => {
     if (refToPaneDiv.current) {
-      debugger;
       refToPaneDiv.current.focus();
     }
   }, []);
