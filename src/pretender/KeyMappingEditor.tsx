@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { KeyBindingContext } from "./hooks/useKeyBindings";
+import { KeyBindingType } from "./types";
 
 type toggleEditModeType = (key: string) => void;
 type KeyMappingEditorProps = {
   toggleEditMode: toggleEditModeType;
-  commandName: string;
+  keyBinding: KeyBindingType;
   isEditing: boolean;
-  mappedKey: string;
 };
-//TODO show the updated key mapping after edit
 
 const KeyMappingEditor = (props: KeyMappingEditorProps) => {
-  const { toggleEditMode, commandName, isEditing, mappedKey } = props;
+  const { toggleEditMode, isEditing, keyBinding } = props;
+  const { name, mappedKey } = keyBinding;
 
   const rowStyle = {
     display: "flex",
@@ -19,20 +19,20 @@ const KeyMappingEditor = (props: KeyMappingEditorProps) => {
   };
   return (
     <div style={rowStyle}>
-      <span>{commandName}</span>
+      <span>{name}</span>
       {!isEditing && (
         <>
           <span>{mappedKey}</span>
           <button
             onClick={() => {
-              toggleEditMode(commandName);
+              toggleEditMode(name);
             }}
           >
             edit
           </button>
         </>
       )}
-      {isEditing && <span>OK, press the key for {commandName}</span>}
+      {isEditing && <span>OK, press the key for {name}</span>}
     </div>
   );
 };
