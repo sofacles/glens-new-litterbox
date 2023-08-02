@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, useContext, useState } from "react";
-import { SHIP_UP_KEY, SHIP_DOWN_KEY, UP, DOWN, NEITHER } from "../Constants";
+import { SHIP_UP_KEY, SHIP_DOWN_KEY, UP_DOWN_NEITHER } from "../Constants";
 import { KeyBindingContext } from "./useKeyBindings";
 import { UseMultipleKeysPropsType } from "../types";
 
@@ -41,7 +41,7 @@ export const useMultipleKeys = ({
     ) {
       evt.preventDefault();
       console.log("calling changeShipYHandler");
-      changeShipYHandler(UP);
+      changeShipYHandler(UP_DOWN_NEITHER.UP);
     }
 
     if (
@@ -49,7 +49,7 @@ export const useMultipleKeys = ({
       currentlyPressedKeys.get(SHIP_DOWN_KEY)
     ) {
       evt.preventDefault();
-      changeShipYHandler(DOWN);
+      changeShipYHandler(UP_DOWN_NEITHER.DOWN);
     }
   };
 
@@ -62,7 +62,7 @@ export const useMultipleKeys = ({
 
     if (plainKey === SHIP_UP_KEY || plainKey === SHIP_DOWN_KEY) {
       resetAnimationHandler();
-      changeShipYHandler(NEITHER);
+      changeShipYHandler(UP_DOWN_NEITHER.NEITHER);
     }
 
     evt.preventDefault();
