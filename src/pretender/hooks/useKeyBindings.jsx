@@ -1,9 +1,13 @@
 import React, { createContext, useReducer } from "react";
-import { THRUST_KEY } from "../Constants";
+import { THRUST_KEY, SHIP_DOWN_KEY, SHIP_UP_KEY } from "../Constants";
 import { ActionType } from "../types";
 
 const defaultKeyBindings = {
-  bindings: { thrust: { mappedKey: THRUST_KEY, name: "thrust" } },
+  bindings: {
+    shipDown: { mappedKey: SHIP_DOWN_KEY, name: "shipDown" },
+    shipUp: { mappedKey: SHIP_UP_KEY, name: "shipUp" },
+    thrust: { mappedKey: THRUST_KEY, name: "thrust" },
+  },
 };
 
 export const KeyBindingContext = createContext({
@@ -17,7 +21,7 @@ const reducer = (state, action) => {
       const theNewState = {
         bindings: state.bindings,
       };
-      //{ mappedKey: THRUST_KEY, name: "thrust" }
+      //{ mappedKey: "shift", name: "thrust" }
       theNewState.bindings[action.cargo.key] = {
         mappedKey: action.cargo.value,
         name: action.cargo.key,

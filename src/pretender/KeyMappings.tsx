@@ -8,15 +8,20 @@ import KeyMappingEditor from "./KeyMappingEditor";
 const KeyMappings = () => {
   const { state, dispatch } = useContext(KeyBindingContext);
   const { bindings } = state;
+  const { thrust } = bindings;
   const [isEditing, setIsEditing] = useState(false);
   const [keyBeingEdited, setKeyBeingEdited] = useState<string | undefined>(
     undefined
   );
   return (
     <div
-      style={{ backgroundColor: "#aaaaff", height: "800px", width: "100%" }}
+      style={{
+        backgroundColor: "#000",
+        color: "red",
+        height: "800px",
+        width: "100%",
+      }}
       onKeyDown={(evt) => {
-        debugger;
         if (isEditing) {
           dispatch({
             type: UPDATE_KEY_BINDING,
@@ -29,16 +34,18 @@ const KeyMappings = () => {
     >
       <h1>Mappings</h1>
       <KeyMappingEditor
-        commandName={bindings.thrust.name}
-        isEditing={bindings.thrust.name === keyBeingEdited}
-        mappedKey={bindings.thrust.mappedKey}
+        commandName={thrust.name}
+        isEditing={thrust.name === keyBeingEdited}
+        mappedKey={thrust.mappedKey}
         toggleEditMode={(key) => {
           setKeyBeingEdited(key);
           setIsEditing(true);
         }}
       />
       <footer>
-        <Link to="/">Back to game</Link>
+        <Link to="/" style={{ color: "red" }}>
+          Back to game
+        </Link>
       </footer>
     </div>
   );
