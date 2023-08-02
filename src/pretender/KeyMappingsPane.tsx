@@ -5,7 +5,7 @@ import { UPDATE_KEY_BINDING } from "./Constants";
 import { ItemFlexContext } from "../flexbox/ItemFlexContext";
 import KeyMappingEditor from "./KeyMappingEditor";
 
-const KeyMappings = () => {
+const KeyMappingsPane = () => {
   const { state, dispatch } = useContext(KeyBindingContext);
   const { bindings } = state;
   const { thrust } = bindings;
@@ -51,4 +51,4 @@ const KeyMappings = () => {
   );
 };
 
-export default KeyMappings;
+export default KeyMappingsPane;

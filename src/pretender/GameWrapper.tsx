@@ -4,7 +4,7 @@ import { OffsetMountainDataProvider } from "./hooks/useOffsetMountainData";
 import { ShipDataProvider } from "./hooks/useShipData";
 import { KeyBindingProvider } from "./hooks/useKeyBindings";
 import MainScreen from "./MainScreen";
-import KeyMappings from "./KeyMappings";
+import KeyMappingsPane from "./KeyMappingsPane";
 
 const GameWrapper = () => {
   return (
@@ -14,7 +14,7 @@ const GameWrapper = () => {
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<MainScreen />} />
-              <Route path="/keys" element={<KeyMappings />} />
+              <Route path="/keys" element={<KeyMappingsPane />} />
             </Routes>
           </BrowserRouter>
         </ShipDataProvider>
