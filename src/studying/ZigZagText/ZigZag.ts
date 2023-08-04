@@ -23,14 +23,12 @@ const ZigZag = (letters: string, nRows: number) => {
       }
       //we are right at nRows here, but I want to point to the grid row that second to last
       rowIndex -= 2;
-
+      //special case for when you only have one row
+      rowIndex = rowIndex > 0 ? rowIndex : 0;
       //then move up on a slope of 1 until you get ALMOST to the top again
-      if (rowIndex > 0) {
-        while (rowIndex >= 1 && !finished()) {
-          grid[rowIndex--] += letters[stringIndex++];
-        }
-      } else {
-        rowIndex = 0;
+
+      while (rowIndex >= 1 && !finished()) {
+        grid[rowIndex--] += letters[stringIndex++];
       }
     }
   } catch (err) {
