@@ -33,7 +33,8 @@ export type UseMultipleKeysPropsType = {
   resetAnimationHandler: () => {};
   stopHandler: () => {};
   changeShipYHandler: (upDownNeither: UP_DOWN_NEITHER_type) => {};
-  changeDirectionHandler: () => {};
+  changeShipDirectionHandler: () => {};
+  fireShotHandler: () => {};
 };
 
 export type KeyBindingType = {

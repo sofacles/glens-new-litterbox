@@ -10,6 +10,8 @@ const useAnimationFrame = () => {
 
   const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
+  // Used for firing one bullet.  If they just hold the fire button down, only one new bullet appears on the screen.
+  const [isShooting, setIsShooting] = React.useState(false);
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
@@ -19,7 +21,7 @@ const useAnimationFrame = () => {
   const requestRef = React.useRef();
   const previousTimeRef = React.useRef();
 
-  // At the stage of development before I move the ship up and down, unwrapping this useCallback and just assigning the fxn of time
+  // Unwrapping this useCallback and just assigning the fxn of time
   // to animateCallback doesn't seem to hurt performance.  There may be other reasons for doing this, but I recently read that this can
   // be an issue because every time a component gets rendered, a brand new function gets re-created, so if you happen to be passing a function
   // as a prop to a child component and that component is memoized, memoization won't work.  Memoization means the the component won't rerender unless
@@ -56,6 +58,11 @@ const useAnimationFrame = () => {
           console.log(`dispatching: ${JSON.stringify(dispatchObj)}`);
           shipDispatch(dispatchObj);
         }
+
+        if (isShooting) {
+          //TODO: make sure there are less than 4 bullets on the screen
+          //
+        }
       }
       previousTimeRef.current = time;
       requestRef.current = requestAnimationFrame(animateCallback);
@@ -70,6 +77,7 @@ const useAnimationFrame = () => {
       2. moving the ship up and down without thrusting 
       3. Neither thrusting nor moving the ship and down
       4. Both moving the ship and thrusting
+      .. in combination with anything else that might be moving on the screen
     */
     if (isThrusting || shipMovingUpOrDown !== "NEITHER") {
       requestRef.current = requestAnimationFrame(animateCallback);
@@ -93,8 +101,15 @@ const useAnimationFrame = () => {
       previousTimeRef.current = undefined;
       setIsThrusting(false);
     },
-    changeDirection: () => {
-      setDirection((dir) => (dir === "right" ? "left" : "right"));
+    changeShipDirection: () => {
+      setDirection((dir) => {
+        const newDirection = dir === "right" ? "left" : "right";
+        console.log(`changing direction from ${dir} to ${newDirection}`);
+        return newDirection;
+      });
+    },
+    shoot: () => {
+      setIsShooting(true);
     },
   };
 };

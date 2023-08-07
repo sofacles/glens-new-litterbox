@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef } from "react";
+import Bullet from "./Bullet";
 import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
@@ -19,14 +20,21 @@ const MainScreen = () => {
     }
   }, []);
 
-  const { changeDirection, go, resetAnimationTimer, stop, changeShipY } =
-    useAnimationFrame();
+  const {
+    changeShipDirection,
+    go,
+    resetAnimationTimer,
+    stop,
+    changeShipY,
+    shoot,
+  } = useAnimationFrame();
 
   const { onKeyDown, onKeyUp } = useMultipleKeys({
-    changeDirectionHandler: changeDirection,
+    changeShipDirectionHandler: changeShipDirection,
     changeShipYHandler: changeShipY,
     goHandler: go,
     resetAnimationHandler: resetAnimationTimer,
+    fireShotHandler: shoot,
     stopHandler: stop,
   });
   return (
@@ -48,6 +56,7 @@ const MainScreen = () => {
         tabIndex="0"
       >
         <Ship x={300} y={shipState.offsetY} />
+        <Bullet />
         <Mountains />
       </svg>
     </>

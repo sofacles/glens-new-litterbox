@@ -15,13 +15,15 @@ changeShipYHander whatever function should be called to tell the ship what direc
 export const useMultipleKeys = ({
   goHandler,
   resetAnimationHandler,
+  fireShotHandler,
   stopHandler,
   changeShipYHandler,
-  changeDirectionHandler,
+  changeShipDirectionHandler,
 }: UseMultipleKeysPropsType) => {
   const [currentlyPressedKeys] = useState(new Map());
   const { state } = useContext(KeyBindingContext);
-  const { changeShipDirection, shipUp, shipDown, thrust } = state.bindings;
+  const { changeShipDirection, shipUp, shipDown, shoot, thrust } =
+    state.bindings;
 
   const onKeyDown = (evt: KeyboardEvent) => {
     const plainKey = evt.key.toLowerCase();
@@ -33,10 +35,10 @@ export const useMultipleKeys = ({
       goHandler();
     }
     if (
-      currentlyPressedKeys.get(changeShipDirection.mappedKey) &&
+      currentlyPressedKeys.has(changeShipDirection.mappedKey) &&
       currentlyPressedKeys.get(changeShipDirection.mappedKey)
     ) {
-      changeDirectionHandler();
+      changeShipDirectionHandler();
     }
     if (
       currentlyPressedKeys.has(shipUp.mappedKey) &&
@@ -52,6 +54,13 @@ export const useMultipleKeys = ({
     ) {
       evt.preventDefault();
       changeShipYHandler(UP_DOWN_NEITHER.DOWN);
+    }
+
+    if (
+      currentlyPressedKeys.has(shoot.mappedKey) &&
+      currentlyPressedKeys.get(shoot.mappedKey)
+    ) {
+      fireShotHandler();
     }
   };
 

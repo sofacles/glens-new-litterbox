@@ -1,12 +1,12 @@
 import React from "react";
-import Harness from "./studying/Harness";
+import GameWrapper from "./pretender/GameWrapper";
 
 import "./App.css";
 
 function App() {
   return (
     <div className="App">
-      <Harness />
+      <GameWrapper />
     </div>
   );
 }
