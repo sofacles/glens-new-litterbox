@@ -30,16 +30,14 @@ const MainScreen = () => {
     shoot,
   } = useAnimationFrame();
 
-  const localShoot = () => {
-    shoot();
-  };
+  let shipX = 300;
 
   const { onKeyDown, onKeyUp } = useMultipleKeys({
     changeShipDirectionHandler: changeShipDirection,
     changeShipYHandler: changeShipY,
     goHandler: go,
     resetAnimationHandler: resetAnimationTimer,
-    fireShotHandler: localShoot,
+    fireShotHandler: shoot,
     stopHandler: stop,
   });
 
@@ -61,10 +59,10 @@ const MainScreen = () => {
         }}
         tabIndex="0"
       >
-        <Ship x={300} y={shipState.offsetY} />
+        <Ship x={shipX} y={shipState.offsetY} />
         <Bullet
           isVisible={bullets.bullet1.isVisible}
-          x={bullets.bullet1.location.x}
+          x={bullets.bullet1.location.x + shipX}
           y={shipState.offsetY}
         />
         <Mountains />

@@ -163,9 +163,10 @@ const reducer = (
       const newState = { ...state };
       newState.bullets.bullet1.isVisible = true;
       newState.bullets.bullet1.location.x += action.cargo.pixelsToMove;
-      if (newState.bullets.bullet1.location.x > ScreenWidth) {
-        newState.bullets.bullet1.location.x -= ScreenWidth;
+      if (newState.bullets.bullet1.location.x > action.cargo.screenWidth) {
+        newState.bullets.bullet1.isVisible = false;
       }
+
       return newState;
 
     case "HIDE_BULLET1":

@@ -1,5 +1,6 @@
 import React, { useCallback, useContext, useState } from "react";
 import { OffsetMountainDataContext } from "./useOffsetMountainData";
+import { useScreenDimensions } from "./useScreenDimensions";
 
 import { ShipDataContext } from "./useShipData";
 
@@ -9,6 +10,7 @@ import { MAX_BULLET_AGE } from "../Constants";
 const useAnimationFrame = () => {
   const { dispatch } = useContext(OffsetMountainDataContext);
   const { shipDispatch } = useContext(ShipDataContext);
+  const screenSize = useScreenDimensions();
 
   const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
@@ -62,9 +64,14 @@ const useAnimationFrame = () => {
         if (isBullet1Moving === true) {
           //TODO: make sure there are less than 4 bullets on the screen
           //maybe I need to dispatch here
+          const { width } = screenSize;
           dispatch({
             type: "START_BULLET1",
-            cargo: { pixelsToMove: pixelsToMove * 1.5, deltaT: deltaTime },
+            cargo: {
+              pixelsToMove: pixelsToMove * 1.5,
+              deltaT: deltaTime,
+              screenWidth: width,
+            },
           });
 
           window.setTimeout(
