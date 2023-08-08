@@ -19,7 +19,6 @@ const initialState = {
 
 const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
   const { screenDimensions } = state;
-  console.log(`Inside reducer, action.type is ${action.type}`);
   switch (action.type) {
     case "UPDATE_SHIP_Y":
       let theNewOffset = state.offsetY + action.cargo.changeInY;
@@ -28,8 +27,6 @@ const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
       //  or at the bottom
       else if (theNewOffset > screenDimensions.height - halfShipHeight)
         theNewOffset = screenDimensions.height - halfShipHeight;
-      console.log(`inside UPDATE_SHIP_Y, theNewOffset is ${theNewOffset}`);
-      console.log(`action.cargo.changeInY: ${action.cargo.changeInY}`);
       return {
         ...state,
         offsetY: theNewOffset,

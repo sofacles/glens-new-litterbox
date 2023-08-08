@@ -18,18 +18,14 @@ class LinkedList {
   }
 
   printList() {
-    console.log("printing the linked list");
     if (this.isEmpty) {
-      console.log("List is empty.");
       return "";
     }
     let output = "";
     let ptr = this.head;
-    console.log(ptr.value);
     output += `${ptr.value}, `;
     while (ptr.next !== null) {
       ptr = ptr.next;
-      console.log(ptr.value);
       output += `${ptr.value}, `;
     }
     return output;

@@ -1,8 +1,10 @@
-import React, { useCallback, useContext } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import { OffsetMountainDataContext } from "./useOffsetMountainData";
+
 import { ShipDataContext } from "./useShipData";
 
 import { UP_DOWN_NEITHER_type } from "../types";
+import { MAX_BULLET_AGE } from "../Constants";
 
 const useAnimationFrame = () => {
   const { dispatch } = useContext(OffsetMountainDataContext);
@@ -10,8 +12,9 @@ const useAnimationFrame = () => {
 
   const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
-  // Used for firing one bullet.  If they just hold the fire button down, only one new bullet appears on the screen.
-  const [isShooting, setIsShooting] = React.useState(false);
+
+  // Track whether bullets are currently being animated on the screen
+  const [isBullet1Moving, setIsBullet1Moving] = React.useState(false);
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
@@ -30,6 +33,8 @@ const useAnimationFrame = () => {
     (time) => {
       if (previousTimeRef.current !== undefined) {
         const deltaTime = time - previousTimeRef.current;
+        const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
+        console.log(`inside animate callback pixelsToMove is: ${pixelsToMove}`);
         if (isThrusting) {
           dispatch({
             type: "UPDATE_GAME_OFFSET",
@@ -43,10 +48,6 @@ const useAnimationFrame = () => {
         }
 
         if (shipMovingUpOrDown !== "NEITHER") {
-          const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
-          console.log(
-            `inside animate callback pixelsToMove is: ${pixelsToMove}`
-          );
           const dispatchObj = {
             type: "UPDATE_SHIP_Y",
             cargo: {
@@ -55,20 +56,39 @@ const useAnimationFrame = () => {
                 shipMovingUpOrDown === "UP" ? -pixelsToMove : pixelsToMove,
             },
           };
-          console.log(`dispatching: ${JSON.stringify(dispatchObj)}`);
           shipDispatch(dispatchObj);
         }
 
-        if (isShooting) {
+        if (isBullet1Moving === true) {
           //TODO: make sure there are less than 4 bullets on the screen
-          //
+          //maybe I need to dispatch here
+          dispatch({
+            type: "START_BULLET1",
+            cargo: { pixelsToMove: pixelsToMove * 1.5, deltaT: deltaTime },
+          });
+
+          window.setTimeout(
+            () => dispatch({ type: "HIDE_BULLET1" }),
+            MAX_BULLET_AGE
+          );
         }
       }
       previousTimeRef.current = time;
       requestRef.current = requestAnimationFrame(animateCallback);
     },
-    [direction, dispatch, isThrusting, shipDispatch, shipMovingUpOrDown]
+    [
+      direction,
+      dispatch,
+      isBullet1Moving,
+      isThrusting,
+      shipDispatch,
+      shipMovingUpOrDown,
+    ]
   );
+
+  const resetAnimationTimer = () => {
+    previousTimeRef.current = undefined;
+  };
 
   React.useEffect(() => {
     /*
@@ -77,15 +97,26 @@ const useAnimationFrame = () => {
       2. moving the ship up and down without thrusting 
       3. Neither thrusting nor moving the ship and down
       4. Both moving the ship and thrusting
+      5. Shooting
       .. in combination with anything else that might be moving on the screen
     */
-    if (isThrusting || shipMovingUpOrDown !== "NEITHER") {
+    if (
+      isThrusting ||
+      shipMovingUpOrDown !== "NEITHER" ||
+      isBullet1Moving == true
+    ) {
       requestRef.current = requestAnimationFrame(animateCallback);
       return () => cancelAnimationFrame(requestRef.current);
     } else {
       cancelAnimationFrame(requestRef.current);
     }
-  }, [animateCallback, direction, isThrusting, shipMovingUpOrDown]);
+  }, [
+    animateCallback,
+    direction,
+    isBullet1Moving,
+    isThrusting,
+    shipMovingUpOrDown,
+  ]);
 
   return {
     go: () => {
@@ -94,9 +125,7 @@ const useAnimationFrame = () => {
     changeShipY: (upOrDown) => {
       setShipMovingUpOrDown(upOrDown);
     },
-    resetAnimationTimer: () => {
-      previousTimeRef.current = undefined;
-    },
+    resetAnimationTimer,
     stop: () => {
       previousTimeRef.current = undefined;
       setIsThrusting(false);
@@ -104,12 +133,14 @@ const useAnimationFrame = () => {
     changeShipDirection: () => {
       setDirection((dir) => {
         const newDirection = dir === "right" ? "left" : "right";
-        console.log(`changing direction from ${dir} to ${newDirection}`);
         return newDirection;
       });
     },
+
     shoot: () => {
-      setIsShooting(true);
+      setIsBullet1Moving(true);
+
+      setTimeout(() => setIsBullet1Moving(false), 2000);
     },
   };
 };

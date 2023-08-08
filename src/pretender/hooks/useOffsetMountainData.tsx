@@ -8,12 +8,15 @@ import React, {
 import peaks from "../MountainData.js";
 import { ActionType, OffsetMountainDataType, PointType } from "../types";
 
-import { PANEL_WIDTH } from "../Constants";
+import { MAX_BULLET_AGE, PANEL_WIDTH } from "../Constants";
 
 import { useScreenDimensions } from "./useScreenDimensions";
+import useAnimationFrame from "./useAnimationFrame";
 
 // I think I'll be able to remove this?  The unrendered points on either side of the screen are in margins of width slopWidth
 const slopWidth = 100;
+
+const ScreenWidth = 2000; //TODO: I can't use useScreenDimensions outside of my provider component below, so how do I know screen width in here?
 
 // mountain data is in cartesian coordinates, so convert to screen Y by subtacting the data's y value + instrument panel height from screenHeight
 const adjustMountainPointsForScreenHeight = (
@@ -47,12 +50,32 @@ const adjustMountainPointsForScreenHeight = (
   return adjustedPoints;
 };
 
+//Start Bullet Section
+// when a bullet is more than two seconds old, it disappears and becomes available for another shooting event
+const defaultBulletPositions = {
+  bullet1: {
+    location: { x: 0, y: 0 },
+    isVisible: false,
+  },
+  bullet2: {
+    location: { x: 0, y: 0 },
+    isVisible: false,
+  },
+  bullet3: {
+    location: { x: 0, y: 0 },
+    isVisible: false,
+  },
+};
+
+//End Bullet Section
 // When a mountain point has scrolled more than slopWidth off the viewport
 // I move the mountains that are any farther scrolled off than that and tack them on to the other side of the mountain collection.
 // OK, this means permanently updating the data, not the lines.
 // This function does not recalculate the y values
 // offset is how much to move them since the last time they were moved.  A positive offset means the ship is flying left, so the
 // mountains are moving to the right
+
+// Aug 2023, where should I put the flying bullets?  I have the mountains moving when the ship moves, and the ship just moves itself up and down
 
 const adjustCurrentPointsForOffset = (
   currentPoints: PointType[],
@@ -99,6 +122,7 @@ const initialState = {
   allPointsCorrected: adjustMountainPointsForScreenHeight(peaks, 800),
   screenDimensions: { height: 600, width: 1000 },
   shipOffset: 300,
+  bullets: defaultBulletPositions,
 };
 
 const reducer = (
@@ -135,11 +159,26 @@ const reducer = (
 
       return stateWithNewWidth;
 
+    case "START_BULLET1":
+      const newState = { ...state };
+      newState.bullets.bullet1.isVisible = true;
+      newState.bullets.bullet1.location.x += action.cargo.pixelsToMove;
+      if (newState.bullets.bullet1.location.x > ScreenWidth) {
+        newState.bullets.bullet1.location.x -= ScreenWidth;
+      }
+      return newState;
+
+    case "HIDE_BULLET1":
+      const newState1 = { ...state };
+      newState1.bullets.bullet1.isVisible = false;
+      return newState1;
+
     default:
       return state;
   }
 };
 
+//Adding bullet movement here.  If I keep it here, I should change this hook's name to NonShipObjectsOffsetData or something.
 export const OffsetMountainDataContext = createContext<{
   state: OffsetMountainDataType;
   dispatch: Dispatch<ActionType>;

@@ -10,6 +10,7 @@ import { useMultipleKeys } from "./hooks/useMultipleKeys";
 
 const MainScreen = () => {
   const { state } = useContext(OffsetMountainDataContext);
+  const { bullets } = state;
   const { shipState } = useContext(ShipDataContext);
   const { gameOffset, screenDimensions } = state;
   const screenRef = useRef();
@@ -29,14 +30,19 @@ const MainScreen = () => {
     shoot,
   } = useAnimationFrame();
 
+  const localShoot = () => {
+    shoot();
+  };
+
   const { onKeyDown, onKeyUp } = useMultipleKeys({
     changeShipDirectionHandler: changeShipDirection,
     changeShipYHandler: changeShipY,
     goHandler: go,
     resetAnimationHandler: resetAnimationTimer,
-    fireShotHandler: shoot,
+    fireShotHandler: localShoot,
     stopHandler: stop,
   });
+
   return (
     <>
       <InstrumentPanel shipOffset={shipState.offsetY} gameOffset={gameOffset} />
@@ -56,7 +62,11 @@ const MainScreen = () => {
         tabIndex="0"
       >
         <Ship x={300} y={shipState.offsetY} />
-        <Bullet />
+        <Bullet
+          isVisible={bullets.bullet1.isVisible}
+          x={bullets.bullet1.location.x}
+          y={shipState.offsetY}
+        />
         <Mountains />
       </svg>
     </>

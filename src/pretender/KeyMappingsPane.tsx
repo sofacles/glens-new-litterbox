@@ -9,7 +9,7 @@ import { KeyBindingType } from "./types";
 const KeyMappingsPane = () => {
   const { state, dispatch } = useContext(KeyBindingContext);
   const { bindings } = state;
-  const { changeShipDirection, shipUp, shipDown, thrust } = bindings;
+  const { changeShipDirection, shipUp, shipDown, shoot, thrust } = bindings;
   const [isEditing, setIsEditing] = useState(false);
   const [keyBeingEdited, setKeyBeingEdited] = useState<string | undefined>(
     undefined
@@ -68,6 +68,11 @@ const KeyMappingsPane = () => {
       <KeyMappingEditor
         keyBinding={changeShipDirection}
         isEditing={changeShipDirection.name === keyBeingEdited}
+        toggleEditMode={toggleEditModeFor}
+      />
+      <KeyMappingEditor
+        keyBinding={shoot}
+        isEditing={shoot.name === keyBeingEdited}
         toggleEditMode={toggleEditModeFor}
       />
       <footer>

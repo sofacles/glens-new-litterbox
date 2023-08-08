@@ -1,9 +1,14 @@
+/* 
+Handles the mappings between keyboard keys and game commands
+*/
+
 import React, { createContext, useReducer } from "react";
 import {
   CHANGE_SHIP_DIRECTION_KEY,
   THRUST_KEY,
   SHIP_DOWN_KEY,
   SHIP_UP_KEY,
+  SHOOT_KEY,
 } from "../Constants";
 import { ActionType } from "../types";
 
@@ -15,6 +20,7 @@ const defaultKeyBindings = {
     },
     shipDown: { mappedKey: SHIP_DOWN_KEY, name: "shipDown" },
     shipUp: { mappedKey: SHIP_UP_KEY, name: "shipUp" },
+    shoot: { mappedKey: SHOOT_KEY, name: "shoot" },
     thrust: { mappedKey: THRUST_KEY, name: "thrust" },
   },
 };
