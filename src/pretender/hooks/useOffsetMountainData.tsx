@@ -169,9 +169,30 @@ const reducer = (
 
       return newState;
 
+    case "MOVE_BULLET1":
+      const moveBullet1State = { ...state };
+      console.log(
+        `In MOVE_BULLET1 we're meant to move ${action.cargo.pixelsToMove}`
+      );
+      if (
+        moveBullet1State.bullets.bullet1.location.x +
+          action.cargo.pixelsToMove >
+        action.cargo.screenWidth
+      ) {
+        moveBullet1State.bullets.bullet1.isVisible = false;
+        moveBullet1State.bullets.bullet1.location.x = 0;
+      } else {
+        moveBullet1State.bullets.bullet1.isVisible = true;
+        moveBullet1State.bullets.bullet1.location.x +=
+          action.cargo.pixelsToMove;
+      }
+
+      return moveBullet1State;
+
     case "HIDE_BULLET1":
       const newState1 = { ...state };
       newState1.bullets.bullet1.isVisible = false;
+      newState1.bullets.bullet1.location.x = 0;
       return newState1;
 
     default:

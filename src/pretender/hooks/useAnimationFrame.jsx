@@ -11,12 +11,18 @@ const useAnimationFrame = () => {
   const { dispatch } = useContext(OffsetMountainDataContext);
   const { shipDispatch } = useContext(ShipDataContext);
   const screenSize = useScreenDimensions();
+  const { width } = screenSize;
 
   const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
 
   // Track whether bullets are currently being animated on the screen
-  const [isBullet1Moving, setIsBullet1Moving] = React.useState(false);
+  const [bullet1, setBullet1] = React.useState({
+    isActive: false,
+    tStart: 0,
+    lastTimeStamp: 0,
+  });
+  const [bullet1inMotion, setBullet1inMotion] = useState(false);
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
@@ -31,67 +37,73 @@ const useAnimationFrame = () => {
   // be an issue because every time a component gets rendered, a brand new function gets re-created, so if you happen to be passing a function
   // as a prop to a child component and that component is memoized, memoization won't work.  Memoization means the the component won't rerender unless
   // the props change, but in this case the function prop will change every time.
-  const animateCallback = useCallback(
-    (time) => {
-      if (previousTimeRef.current !== undefined) {
-        const deltaTime = time - previousTimeRef.current;
-        const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
-        console.log(`inside animate callback pixelsToMove is: ${pixelsToMove}`);
-        if (isThrusting) {
-          dispatch({
-            type: "UPDATE_GAME_OFFSET",
-            cargo: {
-              offsetDifference:
-                direction === "right"
-                  ? Math.floor((deltaTime * PX_PER_SECOND) / 1000)
-                  : -Math.floor((deltaTime * PX_PER_SECOND) / 1000),
-            },
+  const animateCallback = (time) => {
+    if (previousTimeRef.current !== undefined) {
+      const deltaTime = time - previousTimeRef.current;
+      const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
+      if (isThrusting) {
+        dispatch({
+          type: "UPDATE_GAME_OFFSET",
+          cargo: {
+            offsetDifference:
+              direction === "right"
+                ? Math.floor((deltaTime * PX_PER_SECOND) / 1000)
+                : -Math.floor((deltaTime * PX_PER_SECOND) / 1000),
+          },
+        });
+      }
+
+      if (shipMovingUpOrDown !== "NEITHER") {
+        const dispatchObj = {
+          type: "UPDATE_SHIP_Y",
+          cargo: {
+            upOrDown: shipMovingUpOrDown,
+            changeInY:
+              shipMovingUpOrDown === "UP" ? -pixelsToMove : pixelsToMove,
+          },
+        };
+        shipDispatch(dispatchObj);
+      }
+
+      if (bullet1.isActive) {
+        console.log(`bullet1.lastTimeStamp: ${bullet1.lastTimeStamp}`);
+        if (!bullet1inMotion) {
+          setBullet1({
+            isActive: true,
+            tStart: time,
+            lastTimeStamp: time,
           });
-        }
-
-        if (shipMovingUpOrDown !== "NEITHER") {
-          const dispatchObj = {
-            type: "UPDATE_SHIP_Y",
-            cargo: {
-              upOrDown: shipMovingUpOrDown,
-              changeInY:
-                shipMovingUpOrDown === "UP" ? -pixelsToMove : pixelsToMove,
-            },
-          };
-          shipDispatch(dispatchObj);
-        }
-
-        if (isBullet1Moving === true) {
-          //TODO: make sure there are less than 4 bullets on the screen
-          //maybe I need to dispatch here
-          const { width } = screenSize;
           dispatch({
             type: "START_BULLET1",
             cargo: {
-              pixelsToMove: pixelsToMove * 1.5,
-              deltaT: deltaTime,
+              pixelsToMove: 0,
               screenWidth: width,
             },
           });
-
-          window.setTimeout(
-            () => dispatch({ type: "HIDE_BULLET1" }),
-            MAX_BULLET_AGE
-          );
+          setBullet1inMotion(true);
+        } else {
+          const { width } = screenSize;
+          dispatch({
+            type: "MOVE_BULLET1",
+            cargo: {
+              pixelsToMove:
+                (((time - bullet1.lastTimeStamp) * PX_PER_SECOND) / 1000) * 1.5,
+              screenWidth: width,
+            },
+          });
+          setBullet1((bullet1) => {
+            return {
+              isActive: true,
+              tStart: bullet1.tStart,
+              lastTimeStamp: time,
+            };
+          });
         }
       }
-      previousTimeRef.current = time;
-      requestRef.current = requestAnimationFrame(animateCallback);
-    },
-    [
-      direction,
-      dispatch,
-      isBullet1Moving,
-      isThrusting,
-      shipDispatch,
-      shipMovingUpOrDown,
-    ]
-  );
+    }
+    previousTimeRef.current = time;
+    requestRef.current = requestAnimationFrame(animateCallback);
+  };
 
   const resetAnimationTimer = () => {
     previousTimeRef.current = undefined;
@@ -110,7 +122,7 @@ const useAnimationFrame = () => {
     if (
       isThrusting ||
       shipMovingUpOrDown !== "NEITHER" ||
-      isBullet1Moving == true
+      bullet1.isActive == true
     ) {
       requestRef.current = requestAnimationFrame(animateCallback);
       return () => cancelAnimationFrame(requestRef.current);
@@ -120,7 +132,7 @@ const useAnimationFrame = () => {
   }, [
     animateCallback,
     direction,
-    isBullet1Moving,
+    bullet1.isActive,
     isThrusting,
     shipMovingUpOrDown,
   ]);
@@ -145,9 +157,19 @@ const useAnimationFrame = () => {
     },
 
     shoot: () => {
-      setIsBullet1Moving(true);
-
-      setTimeout(() => setIsBullet1Moving(false), 2000);
+      setBullet1({
+        tStart: 0,
+        isActive: true,
+        lastTimeStamp: 0,
+      });
+      setTimeout(() => {
+        setBullet1({
+          tStart: 0,
+          isActive: false,
+          lastTimeStamp: 0,
+        });
+        setBullet1inMotion(false);
+      }, 2000);
     },
   };
 };
