@@ -37,72 +37,83 @@ const useAnimationFrame = () => {
   // be an issue because every time a component gets rendered, a brand new function gets re-created, so if you happen to be passing a function
   // as a prop to a child component and that component is memoized, memoization won't work.  Memoization means the the component won't rerender unless
   // the props change, but in this case the function prop will change every time.
-  const animateCallback = (time) => {
-    if (previousTimeRef.current !== undefined) {
-      const deltaTime = time - previousTimeRef.current;
-      const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
-      if (isThrusting) {
-        dispatch({
-          type: "UPDATE_GAME_OFFSET",
-          cargo: {
-            offsetDifference:
-              direction === "right"
-                ? Math.floor((deltaTime * PX_PER_SECOND) / 1000)
-                : -Math.floor((deltaTime * PX_PER_SECOND) / 1000),
-          },
-        });
-      }
-
-      if (shipMovingUpOrDown !== "NEITHER") {
-        const dispatchObj = {
-          type: "UPDATE_SHIP_Y",
-          cargo: {
-            upOrDown: shipMovingUpOrDown,
-            changeInY:
-              shipMovingUpOrDown === "UP" ? -pixelsToMove : pixelsToMove,
-          },
-        };
-        shipDispatch(dispatchObj);
-      }
-
-      if (bullet1.isActive) {
-        console.log(`bullet1.lastTimeStamp: ${bullet1.lastTimeStamp}`);
-        if (!bullet1.lastTimeStamp === 0) {
-          setBullet1({
-            isActive: true,
-            tStart: time,
-            lastTimeStamp: time,
-          });
+  const animateCallback = useCallback(
+    (time) => {
+      if (previousTimeRef.current !== undefined) {
+        const deltaTime = time - previousTimeRef.current;
+        const pixelsToMove = Math.floor((deltaTime * PX_PER_SECOND) / 1000);
+        if (isThrusting) {
           dispatch({
-            type: "START_BULLET1",
+            type: "UPDATE_GAME_OFFSET",
             cargo: {
-              pixelsToMove: 0,
-              screenWidth: width,
+              offsetDifference:
+                direction === "right"
+                  ? Math.floor((deltaTime * PX_PER_SECOND) / 1000)
+                  : -Math.floor((deltaTime * PX_PER_SECOND) / 1000),
             },
-          });
-        } else {
-          const { width } = screenSize;
-          dispatch({
-            type: "MOVE_BULLET1",
-            cargo: {
-              pixelsToMove:
-                (((time - bullet1.lastTimeStamp) * PX_PER_SECOND) / 1000) * 1.5,
-              screenWidth: width,
-            },
-          });
-          setBullet1((bullet1) => {
-            return {
-              isActive: true,
-              tStart: bullet1.tStart,
-              lastTimeStamp: time,
-            };
           });
         }
+
+        if (shipMovingUpOrDown !== "NEITHER") {
+          const dispatchObj = {
+            type: "UPDATE_SHIP_Y",
+            cargo: {
+              upOrDown: shipMovingUpOrDown,
+              changeInY:
+                shipMovingUpOrDown === "UP" ? -pixelsToMove : pixelsToMove,
+            },
+          };
+          shipDispatch(dispatchObj);
+        }
+
+        if (bullet1.isActive) {
+          console.log(`bullet1.lastTimeStamp: ${bullet1.lastTimeStamp}`);
+          if (!bullet1.lastTimeStamp === 0) {
+            setBullet1({
+              isActive: true,
+              tStart: time,
+              lastTimeStamp: time,
+            });
+            dispatch({
+              type: "START_BULLET1",
+              cargo: {
+                pixelsToMove: 0,
+                screenWidth: width,
+              },
+            });
+          } else {
+            const { width } = screenSize;
+            dispatch({
+              type: "MOVE_BULLET1",
+              cargo: {
+                pixelsToMove:
+                  (((time - bullet1.lastTimeStamp) * PX_PER_SECOND) / 1000) *
+                  1.5,
+                screenWidth: width,
+              },
+            });
+            setBullet1((bullet1) => {
+              return {
+                isActive: true,
+                tStart: bullet1.tStart,
+                lastTimeStamp: time,
+              };
+            });
+          }
+        }
       }
-    }
-    previousTimeRef.current = time;
-    requestRef.current = requestAnimationFrame(animateCallback);
-  };
+      previousTimeRef.current = time;
+      requestRef.current = requestAnimationFrame(animateCallback);
+    },
+    [
+      direction,
+      dispatch,
+      bullet1.isActive,
+      isThrusting,
+      shipDispatch,
+      shipMovingUpOrDown,
+    ]
+  );
 
   const resetAnimationTimer = () => {
     previousTimeRef.current = undefined;
