@@ -22,7 +22,7 @@ const useAnimationFrame = () => {
     tStart: 0,
     lastTimeStamp: 0,
   });
-  const [bullet1inMotion, setBullet1inMotion] = useState(false);
+
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
@@ -67,7 +67,7 @@ const useAnimationFrame = () => {
 
       if (bullet1.isActive) {
         console.log(`bullet1.lastTimeStamp: ${bullet1.lastTimeStamp}`);
-        if (!bullet1inMotion) {
+        if (!bullet1.lastTimeStamp === 0) {
           setBullet1({
             isActive: true,
             tStart: time,
@@ -80,7 +80,6 @@ const useAnimationFrame = () => {
               screenWidth: width,
             },
           });
-          setBullet1inMotion(true);
         } else {
           const { width } = screenSize;
           dispatch({
@@ -168,7 +167,6 @@ const useAnimationFrame = () => {
           isActive: false,
           lastTimeStamp: 0,
         });
-        setBullet1inMotion(false);
       }, 2000);
     },
   };
