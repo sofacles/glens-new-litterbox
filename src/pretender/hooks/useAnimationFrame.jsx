@@ -73,8 +73,6 @@ const useAnimationFrame = () => {
         dispatch({
           type: "START_BULLET1",
           cargo: {
-            pixelsToMove: 0,
-            screenWidth: width,
             tStart: time,
             lastTimeStamp: time,
           },

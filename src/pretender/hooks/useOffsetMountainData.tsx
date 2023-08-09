@@ -127,19 +127,17 @@ const reducer = (
   state: OffsetMountainDataType,
   action: ActionType
 ): OffsetMountainDataType => {
-  const myNewState = { ...state };
+  const newState = { ...state };
   switch (action.type) {
     case "UPDATE_GAME_OFFSET":
-      const theNewState = {
-        ...state,
-        gameOffset: state.gameOffset + action.cargo.offsetDifference,
-        allPointsCorrected: adjustCurrentPointsForOffset(
-          state.allPointsCorrected,
-          action.cargo.offsetDifference,
-          state.screenDimensions.width
-        ),
-      };
-      return theNewState;
+      newState.gameOffset = state.gameOffset + action.cargo.offsetDifference;
+      newState.allPointsCorrected = adjustCurrentPointsForOffset(
+        state.allPointsCorrected,
+        action.cargo.offsetDifference,
+        state.screenDimensions.width
+      );
+
+      return newState;
 
     case "UPDATE_GAME_DIMENSIONS":
       // InitialState gets calculated with height: 800, so we may have lost the original y values of the mountain data.  We could just use peaks, but what if the ship has
@@ -158,24 +156,18 @@ const reducer = (
       return stateWithNewWidth;
 
     case "ACTIVATE_BULLET1":
-      myNewState.bullets.bullet1.isVisible = true;
-      myNewState.bullets.bullet1.tStart = 0;
-      myNewState.bullets.bullet1.lastTimeStamp = 0;
-      return myNewState;
+      newState.bullets.bullet1.isVisible = true;
+      newState.bullets.bullet1.tStart = 0;
+      newState.bullets.bullet1.lastTimeStamp = 0;
+      return newState;
 
     case "DEACTIVATE_BULLET1":
-      myNewState.bullets.bullet1.isVisible = false;
-      myNewState.bullets.bullet1.tStart = 0;
-      myNewState.bullets.bullet1.lastTimeStamp = 0;
-      return myNewState;
+      newState.bullets.bullet1.isVisible = false;
+      newState.bullets.bullet1.tStart = 0;
+      newState.bullets.bullet1.lastTimeStamp = 0;
+      return newState;
 
     case "START_BULLET1":
-      const newState = { ...state };
-
-      newState.bullets.bullet1.location.x += action.cargo.pixelsToMove;
-      if (newState.bullets.bullet1.location.x > action.cargo.screenWidth) {
-        newState.bullets.bullet1.isVisible = false;
-      }
       newState.bullets.bullet1.tStart = action.cargo.tStart;
       newState.bullets.bullet1.lastTimeStamp = action.cargo.lastTimeStamp;
       return newState;
