@@ -8,7 +8,7 @@ import { UP_DOWN_NEITHER_type } from "../types";
 import { MAX_BULLET_AGE } from "../Constants";
 
 const useAnimationFrame = () => {
-  const { dispatch } = useContext(OffsetMountainDataContext);
+  const { state, dispatch } = useContext(OffsetMountainDataContext);
   const { shipDispatch } = useContext(ShipDataContext);
   const screenSize = useScreenDimensions();
   const { width } = screenSize;
@@ -16,13 +16,7 @@ const useAnimationFrame = () => {
   const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
 
-  // Track whether bullets are currently being animated on the screen
-  const [bullet1, setBullet1] = React.useState({
-    isActive: false,
-    tStart: 0,
-    lastTimeStamp: 0,
-  });
-
+  const bullet1 = state.bullets.bullet1;
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
@@ -65,19 +59,16 @@ const useAnimationFrame = () => {
         shipDispatch(dispatchObj);
       }
 
-      if (bullet1.isActive) {
+      if (bullet1.isVisible) {
         console.log(`bullet1.lastTimeStamp: ${bullet1.lastTimeStamp}`);
-        if (!bullet1.lastTimeStamp === 0) {
-          setBullet1({
-            isActive: true,
-            tStart: time,
-            lastTimeStamp: time,
-          });
+        if (bullet1.lastTimeStamp === 0) {
           dispatch({
             type: "START_BULLET1",
             cargo: {
               pixelsToMove: 0,
               screenWidth: width,
+              tStart: time,
+              lastTimeStamp: time,
             },
           });
         } else {
@@ -86,16 +77,11 @@ const useAnimationFrame = () => {
             type: "MOVE_BULLET1",
             cargo: {
               pixelsToMove:
-                (((time - bullet1.lastTimeStamp) * PX_PER_SECOND) / 1000) * 1.5,
+                (((time - bullet1.lastTimeStamp) * PX_PER_SECOND) / 1000) * 0.5,
               screenWidth: width,
-            },
-          });
-          setBullet1((bullet1) => {
-            return {
-              isActive: true,
-              tStart: bullet1.tStart,
+              //tStart: bullet1.tStart, should already be set from the block above, right?
               lastTimeStamp: time,
-            };
+            },
           });
         }
       }
@@ -121,7 +107,7 @@ const useAnimationFrame = () => {
     if (
       isThrusting ||
       shipMovingUpOrDown !== "NEITHER" ||
-      bullet1.isActive == true
+      bullet1.isVisible == true
     ) {
       requestRef.current = requestAnimationFrame(animateCallback);
       return () => cancelAnimationFrame(requestRef.current);
@@ -156,18 +142,7 @@ const useAnimationFrame = () => {
     },
 
     shoot: () => {
-      setBullet1({
-        tStart: 0,
-        isActive: true,
-        lastTimeStamp: 0,
-      });
-      setTimeout(() => {
-        setBullet1({
-          tStart: 0,
-          isActive: false,
-          lastTimeStamp: 0,
-        });
-      }, 2000);
+      dispatch({ type: "ACTIVATE_BULLET1" });
     },
   };
 };

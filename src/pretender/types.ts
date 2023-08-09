@@ -16,6 +16,8 @@ export type PointType = {
 export type BulletType = {
   location: PointType;
   isVisible: boolean;
+  tStart: number;
+  lastTimeStamp: number;
 };
 
 export type BulletCollectionType = {

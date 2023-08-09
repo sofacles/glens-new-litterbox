@@ -51,23 +51,21 @@ const adjustMountainPointsForScreenHeight = (
 };
 
 //Start Bullet Section
+const inactiveBullet = {
+  location: { x: 0, y: 0 },
+  isVisible: false,
+  tStart: 0,
+  lastTimeStamp: 0,
+};
 // when a bullet is more than two seconds old, it disappears and becomes available for another shooting event
 const defaultBulletPositions = {
-  bullet1: {
-    location: { x: 0, y: 0 },
-    isVisible: false,
-  },
-  bullet2: {
-    location: { x: 0, y: 0 },
-    isVisible: false,
-  },
-  bullet3: {
-    location: { x: 0, y: 0 },
-    isVisible: false,
-  },
+  bullet1: { ...inactiveBullet },
+  bullet2: { ...inactiveBullet },
+  bullet3: { ...inactiveBullet },
 };
 
 //End Bullet Section
+
 // When a mountain point has scrolled more than slopWidth off the viewport
 // I move the mountains that are any farther scrolled off than that and tack them on to the other side of the mountain collection.
 // OK, this means permanently updating the data, not the lines.
@@ -129,6 +127,7 @@ const reducer = (
   state: OffsetMountainDataType,
   action: ActionType
 ): OffsetMountainDataType => {
+  const myNewState = { ...state };
   switch (action.type) {
     case "UPDATE_GAME_OFFSET":
       const theNewState = {
@@ -156,17 +155,29 @@ const reducer = (
           state.gameOffset
         ),
       };
-
       return stateWithNewWidth;
+
+    case "ACTIVATE_BULLET1":
+      myNewState.bullets.bullet1.isVisible = true;
+      myNewState.bullets.bullet1.tStart = 0;
+      myNewState.bullets.bullet1.lastTimeStamp = 0;
+      return myNewState;
+
+    case "DEACTIVATE_BULLET1":
+      myNewState.bullets.bullet1.isVisible = false;
+      myNewState.bullets.bullet1.tStart = 0;
+      myNewState.bullets.bullet1.lastTimeStamp = 0;
+      return myNewState;
 
     case "START_BULLET1":
       const newState = { ...state };
-      newState.bullets.bullet1.isVisible = true;
+
       newState.bullets.bullet1.location.x += action.cargo.pixelsToMove;
       if (newState.bullets.bullet1.location.x > action.cargo.screenWidth) {
         newState.bullets.bullet1.isVisible = false;
       }
-
+      newState.bullets.bullet1.tStart = action.cargo.tStart;
+      newState.bullets.bullet1.lastTimeStamp = action.cargo.lastTimeStamp;
       return newState;
 
     case "MOVE_BULLET1":
