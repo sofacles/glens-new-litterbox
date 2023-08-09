@@ -50,7 +50,7 @@ const adjustMountainPointsForScreenHeight = (
   return adjustedPoints;
 };
 
-//Start Bullet Section
+///Adding bullet movement here.  If I keep it here, I should change this hook's name to NonShipObjectsOffsetData or something.
 const inactiveBullet = {
   location: { x: 0, y: 0 },
   isVisible: false,
@@ -161,46 +161,29 @@ const reducer = (
       newState.bullets.bullet1.lastTimeStamp = 0;
       return newState;
 
-    case "DEACTIVATE_BULLET1":
-      newState.bullets.bullet1.isVisible = false;
-      newState.bullets.bullet1.tStart = 0;
-      newState.bullets.bullet1.lastTimeStamp = 0;
-      return newState;
-
     case "START_BULLET1":
       newState.bullets.bullet1.tStart = action.cargo.tStart;
       newState.bullets.bullet1.lastTimeStamp = action.cargo.lastTimeStamp;
       return newState;
 
     case "MOVE_BULLET1":
-      const moveBullet1State = { ...state };
-
       if (
-        moveBullet1State.bullets.bullet1.location.x +
-          action.cargo.pixelsToMove >
+        newState.bullets.bullet1.location.x + action.cargo.pixelsToMove >
         action.cargo.screenWidth
       ) {
-        moveBullet1State.bullets.bullet1.isVisible = false;
-        moveBullet1State.bullets.bullet1.location.x = 0;
+        newState.bullets.bullet1.isVisible = false;
+        newState.bullets.bullet1.location.x = 0;
       } else {
-        moveBullet1State.bullets.bullet1.isVisible = true;
-        moveBullet1State.bullets.bullet1.location.x +=
-          action.cargo.pixelsToMove;
+        newState.bullets.bullet1.isVisible = true;
+        newState.bullets.bullet1.location.x += action.cargo.pixelsToMove;
       }
-      return moveBullet1State;
-
-    case "HIDE_BULLET1":
-      const newState1 = { ...state };
-      newState1.bullets.bullet1.isVisible = false;
-      newState1.bullets.bullet1.location.x = 0;
-      return newState1;
+      return newState;
 
     default:
       return state;
   }
 };
 
-//Adding bullet movement here.  If I keep it here, I should change this hook's name to NonShipObjectsOffsetData or something.
 export const OffsetMountainDataContext = createContext<{
   state: OffsetMountainDataType;
   dispatch: Dispatch<ActionType>;
