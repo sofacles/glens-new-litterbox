@@ -60,3 +60,12 @@ my fresh new app has:
 OK, maybe I can just copy typingUseContext/\* into the new CRA folder and see what happens.
 
 It works. So, I copied the dependencies from the fresh new app to replace what I have in my current version of glens-new-litterbox.
+
+Aug 2023. I am working on shooting bullets in Pretender. I have one bullet shooting, but I notice it goes across the screen twice. This seems to be
+about the behavior in CRA Dev mode. If you:
+npm run build
+cd build
+http-server --push-state (Might need to `npm i spa-http-server -g` ...see https://www.linkedin.com/pulse/how-test-production-build-react-js-app-locally-vinay-sharma-he-him-)
+
+then you can see the prod build, and sure enough, the bullet only crosses the screen once. This is a bummer.
+I added it as a "script" command in package.json.

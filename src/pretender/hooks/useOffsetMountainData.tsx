@@ -182,9 +182,7 @@ const reducer = (
 
     case "MOVE_BULLET1":
       const moveBullet1State = { ...state };
-      console.log(
-        `In MOVE_BULLET1 we're meant to move ${action.cargo.pixelsToMove}`
-      );
+
       if (
         moveBullet1State.bullets.bullet1.location.x +
           action.cargo.pixelsToMove >
@@ -197,7 +195,6 @@ const reducer = (
         moveBullet1State.bullets.bullet1.location.x +=
           action.cargo.pixelsToMove;
       }
-
       return moveBullet1State;
 
     case "HIDE_BULLET1":

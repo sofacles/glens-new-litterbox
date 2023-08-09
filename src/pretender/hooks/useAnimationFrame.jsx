@@ -60,7 +60,6 @@ const useAnimationFrame = () => {
       }
 
       if (bullet1.isVisible) {
-        console.log(`bullet1.lastTimeStamp: ${bullet1.lastTimeStamp}`);
         if (bullet1.lastTimeStamp === 0) {
           dispatch({
             type: "START_BULLET1",
@@ -72,12 +71,14 @@ const useAnimationFrame = () => {
             },
           });
         } else {
+          const pixelsToMove =
+            (((time - bullet1.lastTimeStamp) * PX_PER_SECOND) / 1000) * 0.5;
+
           const { width } = screenSize;
           dispatch({
             type: "MOVE_BULLET1",
             cargo: {
-              pixelsToMove:
-                (((time - bullet1.lastTimeStamp) * PX_PER_SECOND) / 1000) * 0.5,
+              pixelsToMove,
               screenWidth: width,
               //tStart: bullet1.tStart, should already be set from the block above, right?
               lastTimeStamp: time,
@@ -140,7 +141,6 @@ const useAnimationFrame = () => {
         return newDirection;
       });
     },
-
     shoot: () => {
       dispatch({ type: "ACTIVATE_BULLET1" });
     },
