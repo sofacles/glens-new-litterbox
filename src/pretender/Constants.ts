@@ -1,7 +1,8 @@
 import { UP_DOWN_NEITHER_type } from "./types";
 
 export const WRAP_DISTANCE = 2000;
-
+// The amount the ship moves up or down per animation frame if you're pressing the UP/DOWN arrows
+export const UP_ARROW_PIXELS = 6;
 export const PANEL_WIDTH = 100; //The distance between mountain points
 
 export const INSTRUMENT_PANEL_HEIGHT = 50;
