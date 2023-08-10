@@ -16,7 +16,7 @@ const useAnimationFrame = () => {
   const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
 
-  const bullet1 = state.bullets.bullet1;
+  const bullet1 = state.bullets[0];
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
@@ -71,8 +71,9 @@ const useAnimationFrame = () => {
     if (bullet1.isVisible) {
       if (bullet1.lastTimeStamp === 0) {
         dispatch({
-          type: "START_BULLET1",
+          type: "START_BULLET",
           cargo: {
+            index: 0,
             tStart: time,
             lastTimeStamp: time,
           },
@@ -83,8 +84,9 @@ const useAnimationFrame = () => {
 
         const { width } = screenSize;
         dispatch({
-          type: "MOVE_BULLET1",
+          type: "MOVE_BULLET",
           cargo: {
+            index: 0,
             pixelsToMove,
             screenWidth: width,
             //tStart: bullet1.tStart, should already be set from the block above, right?
@@ -148,7 +150,7 @@ const useAnimationFrame = () => {
       });
     },
     shoot: () => {
-      dispatch({ type: "ACTIVATE_BULLET1" });
+      dispatch({ type: "ACTIVATE_BULLET", cargo: { index: 0 } });
     },
   };
 };

@@ -61,8 +61,8 @@ const MainScreen = () => {
       >
         <Ship x={shipX} y={shipState.offsetY} />
         <Bullet
-          isVisible={bullets.bullet1.isVisible}
-          x={bullets.bullet1.location.x + shipX}
+          isVisible={bullets[0].isVisible}
+          x={bullets[0].location.x + shipX}
           y={shipState.offsetY}
         />
         <Mountains />

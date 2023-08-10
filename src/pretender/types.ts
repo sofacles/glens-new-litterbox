@@ -20,19 +20,13 @@ export type BulletType = {
   lastTimeStamp: number;
 };
 
-export type BulletCollectionType = {
-  bullet1: BulletType;
-  bullet2: BulletType;
-  bullet3: BulletType;
-};
-
 export type OffsetMountainDataType = {
   gameOffset: number;
   allPointsCorrected: PointType[];
   screenDimensions: screenDimensionsType;
   //shipOffset is really just here for the instrument panel?
   shipOffset: number;
-  bullets: BulletCollectionType;
+  bullets: BulletType[];
 };
 
 export type ShipDataType = {

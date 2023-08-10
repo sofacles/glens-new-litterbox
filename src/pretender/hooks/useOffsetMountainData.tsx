@@ -58,11 +58,11 @@ const inactiveBullet = {
   lastTimeStamp: 0,
 };
 // when a bullet is more than two seconds old, it disappears and becomes available for another shooting event
-const defaultBulletPositions = {
-  bullet1: { ...inactiveBullet },
-  bullet2: { ...inactiveBullet },
-  bullet3: { ...inactiveBullet },
-};
+const defaultBulletPositions = [
+  { ...inactiveBullet },
+  { ...inactiveBullet },
+  { ...inactiveBullet },
+];
 
 //End Bullet Section
 
@@ -128,6 +128,7 @@ const reducer = (
   action: ActionType
 ): OffsetMountainDataType => {
   const newState = { ...state };
+  const index = action.cargo?.index;
   switch (action.type) {
     case "UPDATE_GAME_OFFSET":
       newState.gameOffset = state.gameOffset + action.cargo.offsetDifference;
@@ -155,27 +156,27 @@ const reducer = (
       };
       return stateWithNewWidth;
 
-    case "ACTIVATE_BULLET1":
-      newState.bullets.bullet1.isVisible = true;
-      newState.bullets.bullet1.tStart = 0;
-      newState.bullets.bullet1.lastTimeStamp = 0;
+    case "ACTIVATE_BULLET":
+      newState.bullets[index].isVisible = true;
+      newState.bullets[index].tStart = 0;
+      newState.bullets[index].lastTimeStamp = 0;
       return newState;
 
-    case "START_BULLET1":
-      newState.bullets.bullet1.tStart = action.cargo.tStart;
-      newState.bullets.bullet1.lastTimeStamp = action.cargo.lastTimeStamp;
+    case "START_BULLET":
+      newState.bullets[index].tStart = action.cargo.tStart;
+      newState.bullets[index].lastTimeStamp = action.cargo.lastTimeStamp;
       return newState;
 
-    case "MOVE_BULLET1":
+    case "MOVE_BULLET":
       if (
-        newState.bullets.bullet1.location.x + action.cargo.pixelsToMove >
+        newState.bullets[index].location.x + action.cargo.pixelsToMove >
         action.cargo.screenWidth
       ) {
-        newState.bullets.bullet1.isVisible = false;
-        newState.bullets.bullet1.location.x = 0;
+        newState.bullets[index].isVisible = false;
+        newState.bullets[index].location.x = 0;
       } else {
-        newState.bullets.bullet1.isVisible = true;
-        newState.bullets.bullet1.location.x += action.cargo.pixelsToMove;
+        newState.bullets[index].isVisible = true;
+        newState.bullets[index].location.x += action.cargo.pixelsToMove;
       }
       return newState;
 
