@@ -1,7 +1,7 @@
-import LinkedList from "./RemoveNthNode";
+import LinkedList from "./LinkedList";
 const foo = jest.spyOn(console, "error");
 
-xdescribe("RemoveNthNode", () => {
+describe("RemoveNthNode", () => {
   let linkedListUnderTest;
   describe(" and linked list does contain nodes", () => {
     beforeEach(() => {
