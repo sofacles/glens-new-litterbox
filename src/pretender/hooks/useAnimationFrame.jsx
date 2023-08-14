@@ -16,7 +16,7 @@ const useAnimationFrame = () => {
   const PX_PER_SECOND = 400;
   const [direction, setDirection] = React.useState("right");
 
-  const bullet1 = state.bullets[0];
+  const { bullets } = state;
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
@@ -67,32 +67,38 @@ const useAnimationFrame = () => {
       shipDispatch(dispatchObj);
     }
 
-    //not using a ref for the last time this animate function ran.  I'm putting it in the state that is stored in useOffsetMountainData
-    if (bullet1.isVisible) {
-      if (bullet1.lastTimeStamp === 0) {
-        dispatch({
-          type: "START_BULLET",
-          cargo: {
-            index: 0,
-            tStart: time,
-            lastTimeStamp: time,
-          },
-        });
-      } else {
-        const pixelsToMove =
-          (((time - bullet1.lastTimeStamp) * PX_PER_SECOND) / 1000) * 0.5;
+    //Not using a ref for the last time this animate function ran.  I'm putting it in the state that is stored in useOffsetMountainData
+    //const bulletDispatches = [];
+    for (let i = 0; i < bullets.length; i++) {
+      if (bullets[i].isVisible) {
+        if (bullets[i].lastTimeStamp === 0) {
+          dispatch({
+            type: "START_BULLET",
+            cargo: {
+              index: i,
+              tStart: time,
+              lastTimeStamp: time,
+            },
+          });
+        } else {
+          const pixelsToMove =
+            (((time - bullets[i].lastTimeStamp) * PX_PER_SECOND) / 1000) * 0.5;
 
-        const { width } = screenSize;
-        dispatch({
-          type: "MOVE_BULLET",
-          cargo: {
-            index: 0,
-            pixelsToMove,
-            screenWidth: width,
-            //tStart: bullet1.tStart, should already be set from the block above, right?
-            lastTimeStamp: time,
-          },
-        });
+          console.log(
+            `In useAnimationFrame, bullet ${i} isVisible and has a non-zero lastTimeStamp and is going to move: ${pixelsToMove} px.`
+          );
+
+          const { width } = screenSize;
+          dispatch({
+            type: "MOVE_BULLET",
+            cargo: {
+              index: i,
+              pixelsToMove,
+              screenWidth: width,
+              lastTimeStamp: time,
+            },
+          });
+        }
       }
     }
 
@@ -116,7 +122,7 @@ const useAnimationFrame = () => {
     if (
       isThrusting ||
       shipMovingUpOrDown !== "NEITHER" ||
-      bullet1.isVisible == true
+      bullets.some((b) => b.isVisible)
     ) {
       requestRef.current = requestAnimationFrame(animateCallback);
       return () => cancelAnimationFrame(requestRef.current);
@@ -126,7 +132,9 @@ const useAnimationFrame = () => {
   }, [
     animateCallback,
     direction,
-    bullet1.isActive,
+    bullets[0].isActive,
+    bullets[1].isActive,
+    bullets[2].isActive,
     isThrusting,
     shipMovingUpOrDown,
   ]);
@@ -150,7 +158,13 @@ const useAnimationFrame = () => {
       });
     },
     shoot: () => {
-      dispatch({ type: "ACTIVATE_BULLET", cargo: { index: 0 } });
+      const nextBulletIndex = bullets.findIndex((b) => b.isVisible == false);
+      if (nextBulletIndex != -1) {
+        dispatch({
+          type: "ACTIVATE_BULLET",
+          cargo: { index: nextBulletIndex },
+        });
+      }
     },
   };
 };
