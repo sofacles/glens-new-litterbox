@@ -176,7 +176,10 @@ const reducer = (
         newState.bullets[index].location.x = 0;
       } else {
         newState.bullets[index].isVisible = true;
-        newState.bullets[index].location.x += action.cargo.pixelsToMove;
+        console.log(`action.cargo.pixelsToMove: ${action.cargo.pixelsToMove}`);
+        if (action.cargo.pixelsToMove) {
+          newState.bullets[index].location.x += action.cargo.pixelsToMove;
+        }
       }
       return newState;
 

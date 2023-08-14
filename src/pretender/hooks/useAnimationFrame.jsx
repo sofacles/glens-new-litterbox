@@ -67,8 +67,7 @@ const useAnimationFrame = () => {
       shipDispatch(dispatchObj);
     }
 
-    //Not using a ref for the last time this animate function ran.  I'm putting it in the state that is stored in useOffsetMountainData
-    //const bulletDispatches = [];
+    const bulletDispatches = [];
     for (let i = 0; i < bullets.length; i++) {
       if (bullets[i].isVisible) {
         if (bullets[i].lastTimeStamp === 0) {
@@ -82,21 +81,30 @@ const useAnimationFrame = () => {
           });
         } else {
           const pixelsToMove =
-            (((time - bullets[i].lastTimeStamp) * PX_PER_SECOND) / 1000) * 0.5;
-
-          console.log(
-            `In useAnimationFrame, bullet ${i} isVisible and has a non-zero lastTimeStamp and is going to move: ${pixelsToMove} px.`
-          );
+            (((time - bullets[i].lastTimeStamp) * PX_PER_SECOND) / 1000) * 0.1;
 
           const { width } = screenSize;
-          dispatch({
-            type: "MOVE_BULLET",
-            cargo: {
-              index: i,
-              pixelsToMove,
-              screenWidth: width,
-              lastTimeStamp: time,
-            },
+          if (bullets[i].location.x < width) {
+            bulletDispatches.push({
+              type: "MOVE_BULLET",
+              cargo: {
+                index: i,
+                screenWidth: width,
+                lastTimeStamp: time,
+              },
+            });
+          }
+
+          bulletDispatches.forEach((bd, idx) => {
+            const cargoWithCorrectedPixelsToMove = {
+              ...bd.cargo,
+            };
+
+            cargoWithCorrectedPixelsToMove.pixelsToMove = pixelsToMove;
+            console.log(
+              `In useAnimationFrame, bullet ${idx} isVisible and has a non-zero lastTimeStamp and is going to move: ${pixelsToMove} px.`
+            );
+            dispatch({ ...bd, cargo: cargoWithCorrectedPixelsToMove });
           });
         }
       }
