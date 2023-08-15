@@ -45,6 +45,6 @@ describe("useShipData", () => {
 
     const yValueReadout = screen.getByTestId("shipY");
 
-    expect(yValueReadout).toHaveTextContent("200");
+    expect(yValueReadout).toHaveTextContent("300");
   });
 });

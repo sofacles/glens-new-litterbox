@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+  </head>
+  <body>
+	<script>
+        
+  function ListNode(val, next) {
+      this.val = (val===undefined ? 0 : val)
+      this.next = (next===undefined ? null : next)
+  }
+debugger;
+  var node3 = {val: 3, next: null}
+  var node2 = {val: 2, next: node3}
+  var node1 = {val: 1, next: node2}
+  var b =  ListNode.bind(node1);
+
+  var nodeX = {val: 10, next: null};
+  b(4, nodeX);
+
+  console.log(`this.val: ${this.val}. this.next: ${this.next}`);
+  console.log(node1.val);
+
+
+    </script>
+    <div>
+        This page shows how you might be able to use the poorly written <a href="https://leetcode.com/problems/merge-k-sorted-lists/description/">
+          merge k linked lists
+        </a>
+        
+        <pre>
+        Definition for singly-linked list.
+        function ListNode(val, next) {
+            this.val = (val===undefined ? 0 : val)
+             this.next = (next===undefined ? null : next)
+        }
+      
+      </pre>
+
+      <p>But how am I supposed to use this?  Every time I call ListNode (with or without "new"), I will be overwriting a single pair of global variables:
+         val and next. I don't see how I could make a linked list any longer than one node except by doing somthing like:</p>
+      </div>
+    </div>
+  </body>
+</html>
