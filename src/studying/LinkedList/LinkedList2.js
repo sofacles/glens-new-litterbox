@@ -51,13 +51,13 @@ function LinkedList(values) {
 
   function pop() {
     if (isEmpty()) {
-      //foo
       return null;
     }
-    const retVal = head;
+    //make a copy so you don't return the whole list.  Why did it work with retVal = head and then setting head = head.next.  Shouldn't retVal also
+    // have been pointing at head.next?  Is there some kind of shallow copy going on.
+    const retVal = new ListNode(head.val);
     if (head.next !== null) {
       head = head.next;
-      console.log(JSON.stringify(head));
     } else {
       head = null;
     }

@@ -70,7 +70,7 @@ describe("LinkedList", () => {
       expect(linkedListUnderTest.pop().val).toBe(3);
     });
 
-    it("should preserve the contents of the list", () => {
+    it("should update the contents of the list", () => {
       expect(linkedListUnderTest.pop().val).toBe(3);
       expect(linkedListUnderTest.print()).toBe(`val: 5, val: 6, `);
     });
@@ -109,15 +109,108 @@ describe("LinkedList", () => {
 
   describe("merge two lists", () => {
     let merged;
-    beforeEach(() => {
-      const a = new LinkedList([1]);
-      const b = new LinkedList([2]);
+    describe("Two linkedLists, but one is empty", () => {
+      beforeEach(() => {
+        const a = new LinkedList([]);
+        const b = new LinkedList([2]);
 
-      merged = MergeKSorted([a, b]);
+        merged = MergeKSorted([a, b]);
+      });
+
+      it("should preserve the contents of the list", () => {
+        expect(merged.print()).toBe(`val: 2, `);
+      });
     });
 
-    it("should preserve the contents of the list", () => {
-      expect(merged.print()).toBe(`val: 1, val: 2, `);
+    describe("two LinkedLists with no duplicates across them", () => {
+      beforeEach(() => {
+        const a = new LinkedList([1]);
+        const b = new LinkedList([2]);
+
+        merged = MergeKSorted([a, b]);
+      });
+
+      it("should preserve the contents of the list", () => {
+        expect(merged.print()).toBe(`val: 1, val: 2, `);
+      });
+    });
+
+    describe("two LinkedLists with duplicates across them", () => {
+      beforeEach(() => {
+        const a = new LinkedList([1]);
+        const b = new LinkedList([1, 2]);
+
+        merged = MergeKSorted([a, b]);
+      });
+
+      it("should preserve the contents of the list", () => {
+        expect(merged.print()).toBe(`val: 1, val: 1, val: 2, `);
+      });
+    });
+
+    describe("two LinkedLists that are kind of interleaved", () => {
+      beforeEach(() => {
+        const a = new LinkedList([2, 4]);
+        const b = new LinkedList([1, 3]);
+        merged = MergeKSorted([a, b]);
+      });
+
+      it("should preserve the contents of the list", () => {
+        expect(merged.print()).toBe(`val: 1, val: 2, val: 3, val: 4, `);
+      });
+    });
+
+    describe("two LinkedLists that are kind of interleaved and have some dupes", () => {
+      beforeEach(() => {
+        const a = new LinkedList([2, 4]);
+        const b = new LinkedList([1, 2, 3]);
+        merged = MergeKSorted([a, b]);
+      });
+
+      it("should preserve the contents of the list", () => {
+        expect(merged.print()).toBe(`val: 1, val: 2, val: 2, val: 3, val: 4, `);
+      });
+    });
+
+    describe("two LinkedLists with gaps", () => {
+      beforeEach(() => {
+        const a = new LinkedList([6, 8]);
+        const b = new LinkedList([1, 3]);
+        merged = MergeKSorted([a, b]);
+      });
+
+      it("should preserve the contents of the list", () => {
+        expect(merged.print()).toBe(`val: 1, val: 3, val: 6, val: 8, `);
+      });
+    });
+
+    describe("two LinkedLists with with different lengths", () => {
+      beforeEach(() => {
+        const a = new LinkedList([6, 7, 8, 9]);
+        const b = new LinkedList([1, 3]);
+        merged = MergeKSorted([a, b]);
+      });
+
+      it("should preserve the contents of the list", () => {
+        expect(merged.print()).toBe(
+          "val: 1, val: 3, val: 6, val: 7, val: 8, val: 9, "
+        );
+      });
+    });
+
+    describe("three LinkedLists that are kind of interleaved", () => {
+      beforeEach(() => {
+        const a = new LinkedList([9, 14]);
+        const b = new LinkedList([1, 2, 3, 5]);
+        const c = new LinkedList([6, 8]);
+        merged = MergeKSorted([a, b, c]);
+      });
+
+      it("should preserve the contents of the list", () => {
+        expect(merged.print()).toBe(
+          "val: 1, val: 2, val: 3, val: 5, val: 6, val: 8, val: 9, val: 14, "
+        );
+      });
     });
   });
 });

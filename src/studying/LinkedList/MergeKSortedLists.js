@@ -18,12 +18,12 @@ const MergeKSorted = (linkedLists) => {
             return 1;
           }
 
-          retVal = a.peek() < b.peek();
+          retVal = a.peek() < b.peek() ? -1 : 1;
+          return retVal;
         });
     } catch (err) {
       console.error(err);
     }
-
     return lowest[0];
   };
 
