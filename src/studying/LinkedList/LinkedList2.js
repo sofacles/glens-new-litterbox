@@ -17,29 +17,19 @@
 
  *  */
 
-function ListNode(val, next = null) {
-  var _val = val;
-  var _next = next;
-  return {
-    get: function () {
-      console.log(`val: ${val}, next: ${JSON.stringify(next)}`);
-      return { val, next };
-    },
-    val: _val,
-    next: _next,
-  };
-}
-
 function LinkedList(values) {
   let head;
   if (!values || values.length == 0) {
     head = null;
   } else {
-    head = ListNode(values[0]);
+    head = {
+      val: values[0],
+      next: null,
+    };
     let currentNode = head;
 
     for (var i = 1; i < values.length; i++) {
-      const theNext1 = ListNode(values[i]);
+      const theNext1 = { val: values[i], next: null };
       currentNode.next = theNext1;
       currentNode = currentNode.next;
     }
@@ -53,9 +43,11 @@ function LinkedList(values) {
     if (isEmpty()) {
       return null;
     }
-    //make a copy so you don't return the whole list.  Why did it work with retVal = head and then setting head = head.next.  Shouldn't retVal also
-    // have been pointing at head.next?  Is there some kind of shallow copy going on.
-    const retVal = new ListNode(head.val);
+    //  Why can I assign retVal = head and then set head = head.next without retVal changing?  Shouldn't retVal also
+    // have been pointing at head.next?  Is there some kind of shallow copy going on?
+
+    // head is an instance of ListNode, but that doesn't help anything. I can still replace it.
+    const retVal = head;
     if (head.next !== null) {
       head = head.next;
     } else {
@@ -104,4 +96,4 @@ function LinkedList(values) {
   };
 }
 
-export { ListNode, LinkedList };
+export { LinkedList };
