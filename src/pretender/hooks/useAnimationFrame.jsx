@@ -89,23 +89,16 @@ const useAnimationFrame = () => {
               type: "MOVE_BULLET",
               cargo: {
                 index: i,
+                pixelsToMove: 30,
                 screenWidth: width,
                 lastTimeStamp: time,
               },
             });
           }
 
-          bulletDispatches.forEach((bd, idx) => {
-            const cargoWithCorrectedPixelsToMove = {
-              ...bd.cargo,
-            };
-
-            cargoWithCorrectedPixelsToMove.pixelsToMove = pixelsToMove;
-            console.log(
-              `In useAnimationFrame, bullet ${idx} isVisible and has a non-zero lastTimeStamp and is going to move: ${pixelsToMove} px.`
-            );
-            dispatch({ ...bd, cargo: cargoWithCorrectedPixelsToMove });
-          });
+          for (let i = 0; i < bulletDispatches.length; i++) {
+            dispatch(bulletDispatches[i]);
+          }
         }
       }
     }
@@ -140,9 +133,9 @@ const useAnimationFrame = () => {
   }, [
     animateCallback,
     direction,
-    bullets[0].isActive,
-    bullets[1].isActive,
-    bullets[2].isActive,
+    bullets[0].isVisible,
+    bullets[1].isVisible,
+    bullets[2].isVisible,
     isThrusting,
     shipMovingUpOrDown,
   ]);

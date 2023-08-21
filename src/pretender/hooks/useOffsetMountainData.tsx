@@ -159,19 +159,22 @@ const reducer = (
     case "ACTIVATE_BULLET":
       newState.bullets[index].isVisible = true;
       newState.bullets[index].tStart = 0;
+      newState.bullets[index].location.x = 0;
       newState.bullets[index].lastTimeStamp = 0;
+      console.log("ACTIVATE_BULLET");
+      console.log(JSON.stringify(newState.bullets[0]));
       return newState;
 
     case "START_BULLET":
+      newState.bullets[index].location.x = 0;
       newState.bullets[index].tStart = action.cargo.tStart;
       newState.bullets[index].lastTimeStamp = action.cargo.lastTimeStamp;
+      console.log("START_BULLET");
+      console.log(JSON.stringify(newState.bullets[0]));
       return newState;
 
     case "MOVE_BULLET":
-      if (
-        newState.bullets[index].location.x + action.cargo.pixelsToMove >
-        action.cargo.screenWidth
-      ) {
+      if (newState.bullets[index].location.x > action.cargo.screenWidth - 100) {
         newState.bullets[index].isVisible = false;
         newState.bullets[index].location.x = 0;
       } else {
@@ -181,6 +184,8 @@ const reducer = (
           newState.bullets[index].location.x += action.cargo.pixelsToMove;
         }
       }
+      console.log("MOVE_BULLET");
+      console.log(JSON.stringify(newState.bullets[0]));
       return newState;
 
     default:
