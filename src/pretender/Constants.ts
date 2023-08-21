@@ -1,5 +1,7 @@
 import { UP_DOWN_NEITHER_type } from "./types";
 
+export const BULLET_PX_PER_FRAME = 30;
+
 export const WRAP_DISTANCE = 2000;
 // The amount the ship moves up or down per animation frame if you're pressing the UP/DOWN arrows
 export const UP_ARROW_PIXELS = 6;

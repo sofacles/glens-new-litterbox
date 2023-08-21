@@ -5,7 +5,7 @@ import { useScreenDimensions } from "./useScreenDimensions";
 import { ShipDataContext } from "./useShipData";
 
 import { UP_DOWN_NEITHER_type } from "../types";
-import { MAX_BULLET_AGE, UP_ARROW_PIXELS } from "../Constants";
+import { BULLET_PX_PER_FRAME, UP_ARROW_PIXELS } from "../Constants";
 
 const useAnimationFrame = () => {
   const { state, dispatch } = useContext(OffsetMountainDataContext);
@@ -89,7 +89,7 @@ const useAnimationFrame = () => {
               type: "MOVE_BULLET",
               cargo: {
                 index: i,
-                pixelsToMove: 30,
+                pixelsToMove: BULLET_PX_PER_FRAME,
                 screenWidth: width,
                 lastTimeStamp: time,
               },
@@ -162,7 +162,7 @@ const useAnimationFrame = () => {
       const nextBulletIndex = bullets.findIndex((b) => b.isVisible == false);
       if (nextBulletIndex != -1) {
         dispatch({
-          type: "ACTIVATE_BULLET",
+          type: "START_BULLET",
           cargo: { index: nextBulletIndex },
         });
       }
