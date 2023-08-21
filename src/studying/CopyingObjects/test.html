@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+</head>
+
+<body onload="updateReadout()">
+    <script src="copyingObjects.js"></script>
+    <script>
+        debugger;
+        var a = initialState;
+
+        function updateReadout() {
+            document.getElementById('bullet0').innerText = `bullet0.x: ${a.bullets[0].location.x}`;
+            document.getElementById('bullet1').innerText = `bullet1.x: ${a.bullets[1].location.x}`;
+            document.getElementById('bullet2').innerText = `bullet2.x: ${a.bullets[2].location.x}`;
+        }
+
+        //updateReadout();
+
+
+        function updateBullet1(evt) {
+            a.bullets[1].location.x = 10;
+            updateReadout();
+        }
+    </script>
+    <div>
+        <h2> All the bullets are being updated!</h2>
+        <div id="bullet0"></div>
+        <div id="bullet1"></div>
+        <div id="bullet2"></div>
+
+        <p>
+            <button onclick="updateBullet1()">
+                set bullet 1 x
+            </button>
+        </p>
+    </div>
+
+</body>
+
+</html>
