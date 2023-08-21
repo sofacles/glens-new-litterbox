@@ -9,12 +9,11 @@ import { BULLET_PX_PER_FRAME, UP_ARROW_PIXELS } from "../Constants";
 
 const useAnimationFrame = () => {
   const { state, dispatch } = useContext(OffsetMountainDataContext);
-  const { shipDispatch } = useContext(ShipDataContext);
+  const { shipState, shipDispatch } = useContext(ShipDataContext);
   const screenSize = useScreenDimensions();
   const { width } = screenSize;
 
   const PX_PER_SECOND = 800;
-  const [direction, setDirection] = React.useState("right");
 
   const { bullets } = state;
   const [isThrusting, setIsThrusting] = React.useState(false);
@@ -38,7 +37,7 @@ const useAnimationFrame = () => {
       if (isThrusting) {
         const deltaTime_Thrust = time - previousTimeRef_Thrust.current;
         const amtToMove =
-          direction === "right"
+          shipState.direction === "right"
             ? Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000)
             : -Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000);
         dispatch({
@@ -125,7 +124,7 @@ const useAnimationFrame = () => {
     }
   }, [
     animateCallback,
-    direction,
+    shipState.direction,
     bullets[0].isVisible,
     bullets[1].isVisible,
     bullets[2].isVisible,
@@ -146,10 +145,7 @@ const useAnimationFrame = () => {
       setIsThrusting(false);
     },
     changeShipDirection: () => {
-      setDirection((dir) => {
-        const newDirection = dir === "right" ? "left" : "right";
-        return newDirection;
-      });
+      shipDispatch({ type: "CHANGE_DIRECTION" });
     },
     shoot: () => {
       const nextBulletIndex = bullets.findIndex((b) => b.isVisible == false);

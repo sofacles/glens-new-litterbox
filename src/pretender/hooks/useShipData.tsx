@@ -10,6 +10,7 @@ import { useScreenDimensions } from "./useScreenDimensions";
 
 const halfShipHeight = 25;
 const initialState = {
+  direction: "right",
   offsetY: 300,
   screenDimensions: {
     height: 0,
@@ -20,6 +21,9 @@ const initialState = {
 const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
   const { screenDimensions } = state;
   switch (action.type) {
+    case "CHANGE_DIRECTION":
+      let newDirection = state.direction === "right" ? "left" : "right";
+      return { ...state, direction: newDirection };
     case "UPDATE_SHIP_Y":
       let theNewOffset = state.offsetY + action.cargo.changeInY;
       //  if the ship is at the top of the screen
@@ -55,6 +59,7 @@ export const ShipDataContext = createContext<{
 
 export const ShipDataProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
   const shipDispatch = dispatch;
   const shipState = state;
   const screenSize = useScreenDimensions();

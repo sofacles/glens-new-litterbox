@@ -30,6 +30,7 @@ export type OffsetMountainDataType = {
 };
 
 export type ShipDataType = {
+  direction: string;
   offsetY: number;
   screenDimensions: { height: number; width: number };
 };

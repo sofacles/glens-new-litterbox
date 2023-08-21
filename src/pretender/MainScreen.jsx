@@ -61,18 +61,21 @@ const MainScreen = () => {
       >
         <Ship x={shipX} y={shipState.offsetY} />
         <Bullet
+          direction={shipState.direction}
           fill="orange"
           isVisible={bullets[0].isVisible}
           x={bullets[0].location.x + shipX}
           y={shipState.offsetY}
         />
         <Bullet
+          direction={shipState.direction}
           fill="green"
           isVisible={bullets[1].isVisible}
           x={bullets[1].location.x + shipX}
           y={shipState.offsetY}
         />
         <Bullet
+          direction={shipState.direction}
           fill="blue"
           isVisible={bullets[2].isVisible}
           x={bullets[2].location.x + shipX}
