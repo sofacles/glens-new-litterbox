@@ -15,9 +15,9 @@
         var a = initialState;
 
         function updateReadout() {
-            document.getElementById('bullet0').innerText = `bullet0.x: ${a.bullets[0].location.x}`;
-            document.getElementById('bullet1').innerText = `bullet1.x: ${a.bullets[1].location.x}`;
-            document.getElementById('bullet2').innerText = `bullet2.x: ${a.bullets[2].location.x}`;
+            document.getElementById('bullet0').innerText = `bullet0: x: ${a.bullets[0].location.x}.  isVisible: ${a.bullets[0].isVisible}`;
+            document.getElementById('bullet1').innerText = `bullet1: x: ${a.bullets[1].location.x}.  isVisible: ${a.bullets[1].isVisible}`;
+            document.getElementById('bullet2').innerText = `bullet2: x: ${a.bullets[2].location.x}.  isVisible: ${a.bullets[2].isVisible}`;
         }
 
         //updateReadout();
@@ -25,11 +25,13 @@
 
         function updateBullet1(evt) {
             a.bullets[1].location.x = 10;
+            a.bullets[1].isVisible = true;
             updateReadout();
         }
     </script>
     <div>
-        <h2> All the bullets are being updated!</h2>
+        <h2> All the bullets location.xes are being updated!</h2>
+        <h3>but not their isVisibleProperty</h3>
         <div id="bullet0"></div>
         <div id="bullet1"></div>
         <div id="bullet2"></div>
@@ -39,6 +41,24 @@
                 set bullet 1 x
             </button>
         </p>
+
+        <p>the problem is that when you copy an object like this, any non-primitives that it has will have their
+            REFERENCES copied, and all the bullets end up pointing at a single object </p>
+        <pre>
+            var inactiveBullet = {
+                location: { x: 0, y: 0 },
+                isVisible: false,
+                tStart: 0,
+                lastTimeStamp: 0,
+              };
+              
+              var defaultBulletPositions = [
+                { ...inactiveBullet },
+                { ...inactiveBullet },
+                { ...inactiveBullet },
+              ];
+              
+        </pre>
     </div>
 
 </body>

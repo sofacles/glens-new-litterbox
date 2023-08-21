@@ -59,9 +59,24 @@ const inactiveBullet = {
 };
 // when a bullet is more than two seconds old, it disappears and becomes available for another shooting event
 const defaultBulletPositions = [
-  { ...inactiveBullet },
-  { ...inactiveBullet },
-  { ...inactiveBullet },
+  {
+    location: { x: 0, y: 0 },
+    isVisible: false,
+    tStart: 0,
+    lastTimeStamp: 0,
+  },
+  {
+    location: { x: 0, y: 0 },
+    isVisible: false,
+    tStart: 0,
+    lastTimeStamp: 0,
+  },
+  {
+    location: { x: 0, y: 0 },
+    isVisible: false,
+    tStart: 0,
+    lastTimeStamp: 0,
+  },
 ];
 
 //End Bullet Section
@@ -156,22 +171,13 @@ const reducer = (
       };
       return stateWithNewWidth;
 
-    // case "ACTIVATE_BULLET":
-    //   newState.bullets[index].isVisible = true;
-    //   newState.bullets[index].tStart = 0;
-    //   newState.bullets[index].location.x = 0;
-    //   newState.bullets[index].lastTimeStamp = 0;
-    //   console.log("ACTIVATE_BULLET");
-    //   console.log(JSON.stringify(newState.bullets[0]));
-    //   return newState;
-
     case "START_BULLET":
       newState.bullets[index].isVisible = true;
       newState.bullets[index].location.x = 0;
 
       newState.bullets[index].tStart = action.cargo.tStart || 0;
       newState.bullets[index].lastTimeStamp = action.cargo.lastTimeStamp || 0;
-      console.log("START_BULLET");
+      console.log(`START_BULLET for bullet ${index}`);
       console.log(JSON.stringify(newState.bullets));
       return newState;
 
@@ -186,7 +192,7 @@ const reducer = (
           newState.bullets[index].location.x += action.cargo.pixelsToMove;
         }
       }
-      console.log("MOVE_BULLET");
+      console.log(`MOVE_BULLET for bullet: ${index}`);
       console.log(JSON.stringify(newState.bullets));
       return newState;
 

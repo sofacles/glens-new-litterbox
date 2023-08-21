@@ -67,7 +67,6 @@ const useAnimationFrame = () => {
       shipDispatch(dispatchObj);
     }
 
-    const bulletDispatches = [];
     for (let i = 0; i < bullets.length; i++) {
       if (bullets[i].isVisible) {
         if (bullets[i].lastTimeStamp === 0) {
@@ -80,12 +79,9 @@ const useAnimationFrame = () => {
             },
           });
         } else {
-          const pixelsToMove =
-            (((time - bullets[i].lastTimeStamp) * PX_PER_SECOND) / 1000) * 0.1;
-
           const { width } = screenSize;
           if (bullets[i].location.x < width) {
-            bulletDispatches.push({
+            dispatch({
               type: "MOVE_BULLET",
               cargo: {
                 index: i,
@@ -94,10 +90,6 @@ const useAnimationFrame = () => {
                 lastTimeStamp: time,
               },
             });
-          }
-
-          for (let i = 0; i < bulletDispatches.length; i++) {
-            dispatch(bulletDispatches[i]);
           }
         }
       }
