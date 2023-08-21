@@ -51,12 +51,7 @@ const adjustMountainPointsForScreenHeight = (
 };
 
 ///Adding bullet movement here.  If I keep it here, I should change this hook's name to NonShipObjectsOffsetData or something.
-const inactiveBullet = {
-  location: { x: 0, y: 0 },
-  isVisible: false,
-  tStart: 0,
-  lastTimeStamp: 0,
-};
+
 // when a bullet is more than two seconds old, it disappears and becomes available for another shooting event
 const defaultBulletPositions = [
   {

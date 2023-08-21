@@ -1,6 +1,8 @@
 import { UP_DOWN_NEITHER_type } from "./types";
 
 export const BULLET_PX_PER_FRAME = 8;
+export const SHIP_HEIGHT = 8;
+export const SHIP_WIDTH = 30; //Length, I guess... the distance of the ship from bow to stern
 
 export const WRAP_DISTANCE = 2000;
 // The amount the ship moves up or down per animation frame if you're pressing the UP/DOWN arrows

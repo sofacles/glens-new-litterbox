@@ -13,7 +13,7 @@ const useAnimationFrame = () => {
   const screenSize = useScreenDimensions();
   const { width } = screenSize;
 
-  const PX_PER_SECOND = 400;
+  const PX_PER_SECOND = 800;
   const [direction, setDirection] = React.useState("right");
 
   const { bullets } = state;
@@ -37,13 +37,14 @@ const useAnimationFrame = () => {
     if (previousTimeRef_Thrust.current !== undefined) {
       if (isThrusting) {
         const deltaTime_Thrust = time - previousTimeRef_Thrust.current;
+        const amtToMove =
+          direction === "right"
+            ? Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000)
+            : -Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000);
         dispatch({
           type: "UPDATE_GAME_OFFSET",
           cargo: {
-            offsetDifference:
-              direction === "right"
-                ? Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000)
-                : -Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000),
+            offsetDifference: amtToMove,
           },
         });
       }
