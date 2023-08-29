@@ -27,8 +27,28 @@ describe("Median of two arrays", () => {
       median = findMedianSortedArrays([1, 3, 7], [1, 4]);
     });
 
-    it("should return 2", () => {
+    it("should return 3", () => {
       expect(median).toEqual(3);
+    });
+  });
+
+  describe("two arrays of different size, with one empty", () => {
+    beforeEach(() => {
+      median = findMedianSortedArrays([1, 3, 7], []);
+    });
+
+    it("should return 3", () => {
+      expect(median).toEqual(3);
+    });
+  });
+
+  describe("one array is has all the middle values", () => {
+    beforeEach(() => {
+      median = findMedianSortedArrays([6, 7, 9], [1, 2, 11]);
+    });
+
+    it("should return 6.5", () => {
+      expect(median).toEqual(6.5);
     });
   });
 });

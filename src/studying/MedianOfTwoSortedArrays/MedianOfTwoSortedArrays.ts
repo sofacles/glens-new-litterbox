@@ -29,17 +29,20 @@ export default function findMedianSortedArrays(
     }
   }
 
-  const MedianOrFirstMemberOfSecondHalf = Math.floor((combined.length + 1) / 2);
+  const medianOrFirstMemberOfSecondHalf =
+    combined.length % 2 === 1
+      ? Math.floor(combined.length / 2)
+      : combined.length / 2;
 
   if (combined.length === 1) {
     return combined[0];
   } else if (combined.length % 2 === 0) {
     return (
-      (combined[MedianOrFirstMemberOfSecondHalf - 1] +
-        combined[MedianOrFirstMemberOfSecondHalf]) /
+      (combined[medianOrFirstMemberOfSecondHalf - 1] +
+        combined[medianOrFirstMemberOfSecondHalf]) /
       2
     );
   } else {
-    return combined[MedianOrFirstMemberOfSecondHalf];
+    return combined[medianOrFirstMemberOfSecondHalf];
   }
 }
