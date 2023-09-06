@@ -172,8 +172,6 @@ const reducer = (
 
       newState.bullets[index].tStart = action.cargo.tStart || 0;
       newState.bullets[index].lastTimeStamp = action.cargo.lastTimeStamp || 0;
-      console.log(`START_BULLET for bullet ${index}`);
-      console.log(JSON.stringify(newState.bullets));
       return newState;
 
     case "MOVE_BULLET":

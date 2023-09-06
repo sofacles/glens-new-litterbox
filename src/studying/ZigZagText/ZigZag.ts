@@ -8,7 +8,6 @@ const ZigZag = (letters: string, nRows: number) => {
   rowCount = nRows;
   debugger;
   grid = new Array<string>(nRows).fill("");
-  console.log(JSON.stringify(grid));
   //which row you're in
   let rowIndex = 0;
   //where we are in the input string
@@ -37,9 +36,6 @@ const ZigZag = (letters: string, nRows: number) => {
 };
 
 const printGrid = () => {
-  console.log("in printGrid, grid is: ");
-  console.log(JSON.stringify(grid));
-
   const arrRowStrings = [];
   for (let row = 0; row < rowCount; row++) {
     arrRowStrings.push(grid[row]);

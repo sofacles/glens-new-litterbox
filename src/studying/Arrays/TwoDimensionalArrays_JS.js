@@ -13,6 +13,4 @@ grid[0][0] = 9;
 grid = new Array(2).fill().map((x) => [1, 2]);
 grid[0][0] = 9;
 
-const getGrid = () => console.log(JSON.stringify(grid));
-
 export { grid, getGrid };

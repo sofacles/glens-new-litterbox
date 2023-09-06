@@ -53,7 +53,7 @@ describe("ZigZag", () => {
       zigZagUnderTest = ZigZag("PAYPAL", 3);
     });
     it("should display acb", () => {
-      console.info(JSON.stringify(printGrid()));
+      //console.info(JSON.stringify(printGrid()));
       expect(printOutput()).toEqual("PAAPLY");
     });
   });

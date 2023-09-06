@@ -1,5 +1,3 @@
-console.log("remove the nth node");
-
 class LinkedList {
   constructor(arrNodes) {
     this.head = {};

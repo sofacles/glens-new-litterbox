@@ -22,7 +22,6 @@ function ListNode(val, next = null) {
   var _next = next;
   return {
     get: function () {
-      console.log(`val: ${val}, next: ${JSON.stringify(next)}`);
       return { val, next };
     },
     val: _val,
@@ -82,7 +81,6 @@ function LinkedList(values) {
 
   function print() {
     if (isEmpty()) {
-      console.log("List is empty");
     } else {
       let currentNode = head;
       let retVal = "";
@@ -90,7 +88,6 @@ function LinkedList(values) {
         retVal += `val: ${currentNode.val}, `;
         currentNode = currentNode.next;
       }
-      console.log(retVal);
       return retVal;
     }
   }

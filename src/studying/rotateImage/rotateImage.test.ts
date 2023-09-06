@@ -20,4 +20,19 @@ describe("rotateImage", () => {
       ]);
     });
   });
+
+  describe(" 2x2", () => {
+    beforeEach(() => {
+      transformed = rotateImage([
+        [1, 2],
+        [3, 4],
+      ]);
+    });
+    it("needs an it", () => {
+      expect(transformed).toEqual([
+        [3, 1],
+        [4, 2],
+      ]);
+    });
+  });
 });
