@@ -96,8 +96,9 @@ export const rotateImage = (matrix: number[][]) => {
       }
       //now we need to move the src cell one to the right
       visualize(matrix);
-      topRowIdx++;
+      console.log(`topRowIdx about to be ${topRowIdx++}`);
     }
-    return matrix;
+    depth++;
   }
+  return matrix;
 };
