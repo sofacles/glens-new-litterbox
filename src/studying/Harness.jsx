@@ -1,11 +1,15 @@
-import { LinkedList } from "./LinkedList/LinkedList2";
+import { rotateImage } from "../studying/rotateImage/rotateImage";
 import React from "react";
 
-const Harness = () => {
-  debugger;
-  const myList = LinkedList([1, 2]);
-  myList.print();
-  return <div></div>;
-};
+function Harness() {
+  let m = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+  ];
+  const rotated = rotateImage(m);
+
+  return <div>Hello</div>;
+}
 
 export default Harness;
