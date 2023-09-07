@@ -1,3 +1,6 @@
+// Sep 7 I am having trouble figuring out a general expression for how many squares I need to move left in getTargetCoordinates.
+// See ~/temp for the latest version, where you can debug it in ts-node.
+
 import { visualize } from "./helper";
 
 class Point {
@@ -81,7 +84,9 @@ export const rotateImage = (matrix: number[][]) => {
     let topRowIdx = depth;
     //while we are still in the top row for this depth
     while (topRowIdx < width - depth - 1) {
-      let src = new Point(depth + topRowIdx, depth);
+      console.log(`new src: ${topRowIdx},${depth}`);
+      //was  let src = new Point(depth + topRowIdx, depth);
+      let src = new Point(topRowIdx, depth);
       let target = getTargetCoordinates(depth, src);
       let nextValue = matrix[src.y][src.x];
       let temp;
@@ -95,8 +100,8 @@ export const rotateImage = (matrix: number[][]) => {
         target = getTargetCoordinates(depth, src);
       }
       //now we need to move the src cell one to the right
-      visualize(matrix);
-      console.log(`topRowIdx about to be ${topRowIdx++}`);
+      // visualize(matrix);
+      console.log(`topRowIdx about to be ${++topRowIdx}`);
     }
     depth++;
   }
