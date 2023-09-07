@@ -1,5 +1,5 @@
 import React, { KeyboardEvent, useContext, useState } from "react";
-import { SHIP_UP_KEY, SHIP_DOWN_KEY, UP_DOWN_NEITHER } from "../Constants";
+import { UP_DOWN_NEITHER } from "../Constants";
 import { KeyBindingContext } from "./useKeyBindings";
 import { UseMultipleKeysPropsType } from "../types";
 

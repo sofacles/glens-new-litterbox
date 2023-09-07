@@ -82,7 +82,7 @@ const useAnimationFrame = () => {
           const { width } = screenSize;
           if (bullets[i].location.x < width) {
             dispatch({
-              type: "MOVE_BULLET",
+              type: "MOVE_BULLET_RIGHT",
               cargo: {
                 index: i,
                 pixelsToMove: BULLET_PX_PER_FRAME,

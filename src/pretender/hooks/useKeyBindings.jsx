@@ -10,7 +10,6 @@ import {
   SHIP_UP_KEY,
   SHOOT_KEY,
 } from "../Constants";
-import { ActionType } from "../types";
 
 const defaultKeyBindings = {
   bindings: {

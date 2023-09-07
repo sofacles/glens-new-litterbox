@@ -8,10 +8,9 @@ import React, {
 import peaks from "../MountainData.js";
 import { ActionType, OffsetMountainDataType, PointType } from "../types";
 
-import { MAX_BULLET_AGE, PANEL_WIDTH } from "../Constants";
+import { PANEL_WIDTH } from "../Constants";
 
 import { useScreenDimensions } from "./useScreenDimensions";
-import useAnimationFrame from "./useAnimationFrame";
 
 // I think I'll be able to remove this?  The unrendered points on either side of the screen are in margins of width slopWidth
 const slopWidth = 100;
@@ -174,7 +173,7 @@ const reducer = (
       newState.bullets[index].lastTimeStamp = action.cargo.lastTimeStamp || 0;
       return newState;
 
-    case "MOVE_BULLET":
+    case "MOVE_BULLET_RIGHT":
       if (newState.bullets[index].location.x > action.cargo.screenWidth - 100) {
         newState.bullets[index].isVisible = false;
         newState.bullets[index].location.x = 0;
@@ -185,7 +184,7 @@ const reducer = (
           newState.bullets[index].location.x += action.cargo.pixelsToMove;
         }
       }
-      console.log(`MOVE_BULLET for bullet: ${index}`);
+      console.log(`MOVE_BULLET_RIGHT for bullet: ${index}`);
       console.log(JSON.stringify(newState.bullets));
       return newState;
 
