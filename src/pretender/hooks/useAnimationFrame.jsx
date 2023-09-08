@@ -1,9 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { OffsetMountainDataContext } from "./useOffsetMountainData";
 import { useScreenDimensions } from "./useScreenDimensions";
-
-import { ShipDataContext } from "./useShipData";
-
+import { useSelector, useDispatch } from "react-redux";
+import { changeDirection, updateShipY } from "../app/ShipSlice";
 import {
   BULLET_PX_PER_FRAME,
   LEFT,
@@ -12,9 +11,14 @@ import {
 } from "../Constants";
 
 const useAnimationFrame = () => {
+  const reduxDispatch = useDispatch();
+  const { ship } = useSelector((state) => {
+    return state;
+  });
   const { state, dispatch } = useContext(OffsetMountainDataContext);
-  const { shipState, shipDispatch } = useContext(ShipDataContext);
+
   const screenSize = useScreenDimensions();
+
   const { width } = screenSize;
 
   const PX_PER_SECOND = 800;
@@ -41,7 +45,7 @@ const useAnimationFrame = () => {
       if (isThrusting) {
         const deltaTime_Thrust = time - previousTimeRef_Thrust.current;
         const amtToMove =
-          shipState.direction === "right"
+          ship.direction === "right"
             ? Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000)
             : -Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000);
         dispatch({
@@ -61,14 +65,13 @@ const useAnimationFrame = () => {
 
     if (shipMovingUpOrDown !== "NEITHER") {
       const dispatchObj = {
-        type: "UPDATE_SHIP_Y",
         cargo: {
           upOrDown: shipMovingUpOrDown,
           changeInY:
             shipMovingUpOrDown === "UP" ? -UP_ARROW_PIXELS : UP_ARROW_PIXELS,
         },
       };
-      shipDispatch(dispatchObj);
+      reduxDispatch(updateShipY(dispatchObj));
     }
 
     for (let i = 0; i < bullets.length; i++) {
@@ -130,7 +133,7 @@ const useAnimationFrame = () => {
     }
   }, [
     animateCallback,
-    shipState.direction,
+    ship.direction,
     bullets[0].isVisible,
     bullets[1].isVisible,
     bullets[2].isVisible,
@@ -151,7 +154,7 @@ const useAnimationFrame = () => {
       setIsThrusting(false);
     },
     changeShipDirection: () => {
-      shipDispatch({ type: "CHANGE_DIRECTION" });
+      reduxDispatch(changeDirection());
     },
     shoot: () => {
       const nextBulletIndex = bullets.findIndex((b) => b.isVisible === false);
@@ -160,8 +163,8 @@ const useAnimationFrame = () => {
           type: "START_BULLET",
           cargo: {
             index: nextBulletIndex,
-            direction: shipState.direction,
-            shipX: shipState.offsetX,
+            direction: ship.direction,
+            shipX: ship.offsetX,
           },
         });
       }

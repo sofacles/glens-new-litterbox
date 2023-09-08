@@ -5,15 +5,15 @@ import Mountains from "./Mountains";
 import Ship from "./Ship";
 import useAnimationFrame from "./hooks/useAnimationFrame";
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
-import { ShipDataContext } from "./hooks/useShipData";
 import { useMultipleKeys } from "./hooks/useMultipleKeys";
+import { useSelector } from "react-redux";
 
 const MainScreen = () => {
   const { state } = useContext(OffsetMountainDataContext);
   const { bullets } = state;
-  const { shipState } = useContext(ShipDataContext);
   const { gameOffset, screenDimensions } = state;
   const screenRef = useRef();
+  const ship = useSelector((state) => state.ship);
 
   useEffect(() => {
     if (screenRef.current) {
@@ -30,8 +30,6 @@ const MainScreen = () => {
     shoot,
   } = useAnimationFrame();
 
-  let shipX = 300;
-
   const { onKeyDown, onKeyUp } = useMultipleKeys({
     changeShipDirectionHandler: changeShipDirection,
     changeShipYHandler: changeShipY,
@@ -43,7 +41,7 @@ const MainScreen = () => {
 
   return (
     <>
-      <InstrumentPanel shipOffset={shipState.offsetY} gameOffset={gameOffset} />
+      <InstrumentPanel shipOffset={ship.offsetY} gameOffset={gameOffset} />
       <svg
         height={screenDimensions.height}
         ref={screenRef}
@@ -59,27 +57,27 @@ const MainScreen = () => {
         }}
         tabIndex="0"
       >
-        <Ship x={shipState.offsetX} y={shipState.offsetY} />
+        <Ship x={ship.offsetX} y={ship.offsetY} />
         <Bullet
-          direction={shipState.direction}
+          direction={ship.direction}
           fill="orange"
           isVisible={bullets[0].isVisible}
           x={bullets[0].location.x}
-          y={shipState.offsetY}
+          y={ship.offsetY}
         />
         <Bullet
-          direction={shipState.direction}
+          direction={ship.direction}
           fill="green"
           isVisible={bullets[1].isVisible}
           x={bullets[1].location.x}
-          y={shipState.offsetY}
+          y={ship.offsetY}
         />
         <Bullet
-          direction={shipState.direction}
+          direction={ship.direction}
           fill="blue"
           isVisible={bullets[2].isVisible}
           x={bullets[2].location.x}
-          y={shipState.offsetY}
+          y={ship.offsetY}
         />
 
         <Mountains />

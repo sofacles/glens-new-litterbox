@@ -1,15 +1,16 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { OffsetMountainDataProvider } from "./hooks/useOffsetMountainData";
-import { ShipDataProvider } from "./hooks/useShipData";
 import { KeyBindingProvider } from "./hooks/useKeyBindings";
 import MainScreen from "./MainScreen";
 import KeyMappingsPane from "./KeyMappingsPane";
+import { Provider } from "react-redux";
+import store from "./app/store";
 
 const GameWrapper = () => {
   return (
-    <KeyBindingProvider>
-      <ShipDataProvider>
+    <Provider store={store}>
+      <KeyBindingProvider>
         <OffsetMountainDataProvider>
           <BrowserRouter>
             <Routes>
@@ -18,8 +19,8 @@ const GameWrapper = () => {
             </Routes>
           </BrowserRouter>
         </OffsetMountainDataProvider>
-      </ShipDataProvider>
-    </KeyBindingProvider>
+      </KeyBindingProvider>
+    </Provider>
   );
 };
 

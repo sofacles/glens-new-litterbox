@@ -2,7 +2,6 @@ import React, {
   createContext,
   Dispatch,
   PropsWithChildren,
-  useContext,
   useEffect,
   useReducer,
 } from "react";
@@ -12,18 +11,16 @@ import {
   BulletPropsType,
   OffsetMountainDataType,
   PointType,
-  ShipDataType,
 } from "../types";
 
 import { PANEL_WIDTH } from "../Constants";
 
 import { useScreenDimensions } from "./useScreenDimensions";
-import { ShipDataContext } from "./useShipData";
+import { useDispatch } from "react-redux";
+import { updateScreenDimensions } from "../app/ShipSlice.js";
 
 // I think I'll be able to remove this?  The unrendered points on either side of the screen are in margins of width slopWidth
 const slopWidth = 100;
-
-const ScreenWidth = 2000; //TODO: I can't use useScreenDimensions outside of my provider component below, so how do I know screen width in here?
 
 // mountain data is in cartesian coordinates, so convert to screen Y by subtacting the data's y value + instrument panel height from screenHeight
 const adjustMountainPointsForScreenHeight = (
@@ -216,20 +213,20 @@ const reducer = (
 export const OffsetMountainDataContext = createContext<{
   state: OffsetMountainDataType;
   dispatch: Dispatch<ActionType>;
-  shipState: ShipDataType | null;
-}>({ state: initialState, dispatch: () => null, shipState: null });
+}>({ state: initialState, dispatch: () => null });
 
 export const OffsetMountainDataProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const reduxDispatch = useDispatch();
   const screenSize = useScreenDimensions();
-  const { shipState } = useContext(ShipDataContext);
 
   useEffect(() => {
     dispatch({ type: "UPDATE_GAME_DIMENSIONS", cargo: screenSize });
+    reduxDispatch(updateScreenDimensions({ cargo: screenSize }));
   }, [screenSize]);
 
   return (
-    <OffsetMountainDataContext.Provider value={{ state, dispatch, shipState }}>
+    <OffsetMountainDataContext.Provider value={{ state, dispatch }}>
       {children}
     </OffsetMountainDataContext.Provider>
   );
