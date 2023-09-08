@@ -1,5 +1,5 @@
 import React from "react";
-import { SHIP_HEIGHT, SHIP_WIDTH } from "./Constants";
+import { LEFT, SHIP_WIDTH } from "./Constants";
 import { BulletPropsType } from "./types";
 
 const Bullet = (props) => {
@@ -7,12 +7,12 @@ const Bullet = (props) => {
   // For now, make the visual corrections for bullets right here.
   // Make the tracers behind the bullet appear on the correct side of the bullet
   // transform the x coordinate of the bullet so that it looks like it comes out of the front of the ship, whichever way it's moving
-  const correctedX = direction === "left" ? x - SHIP_WIDTH : x + SHIP_WIDTH;
+  const correctedX = direction === LEFT ? x - SHIP_WIDTH : x + SHIP_WIDTH;
   let trailingCorrection1 = 2;
   let trailingCorrection2 = 8;
   let trailingCorrection3 = 16;
   const bulletWidth = 4;
-  if (direction === "left") {
+  if (direction === LEFT) {
     trailingCorrection1 *= -1;
     trailingCorrection2 *= -1;
     trailingCorrection3 *= -1;

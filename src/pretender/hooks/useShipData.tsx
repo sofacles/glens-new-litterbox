@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
-import { RIGHT } from "../Constants";
+import { LEFT, RIGHT } from "../Constants";
 import { ActionType, ShipDataType, DirectionType } from "../types";
 import { useScreenDimensions } from "./useScreenDimensions";
 
@@ -24,11 +24,11 @@ const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
   const { screenDimensions } = state;
   switch (action.type) {
     case "CHANGE_DIRECTION":
-      let newDirection = state.direction === "right" ? "left" : "right";
+      let newDirection = state.direction === RIGHT ? LEFT : RIGHT;
       return {
         ...state,
         direction: newDirection as DirectionType,
-        offsetX: newDirection === "left" ? screenDimensions.width / 2 : 300,
+        offsetX: newDirection === LEFT ? screenDimensions.width / 2 : 300,
       };
     case "UPDATE_SHIP_Y":
       let theNewOffset = state.offsetY + action.cargo.changeInY;

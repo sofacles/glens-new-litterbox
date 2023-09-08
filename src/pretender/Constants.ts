@@ -18,6 +18,7 @@ export const SHIP_DOWN_KEY = "s"; //TODO: if this is "capslock" the key up handl
 export const SHIP_UP_KEY = "a";
 export const CHANGE_SHIP_DIRECTION_KEY = " ";
 
+export const LEFT: DirectionType = "left";
 export const RIGHT: DirectionType = "right";
 
 export const UP_DOWN_NEITHER: {

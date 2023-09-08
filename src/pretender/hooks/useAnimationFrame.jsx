@@ -4,7 +4,12 @@ import { useScreenDimensions } from "./useScreenDimensions";
 
 import { ShipDataContext } from "./useShipData";
 
-import { BULLET_PX_PER_FRAME, RIGHT, UP_ARROW_PIXELS } from "../Constants";
+import {
+  BULLET_PX_PER_FRAME,
+  LEFT,
+  RIGHT,
+  UP_ARROW_PIXELS,
+} from "../Constants";
 
 const useAnimationFrame = () => {
   const { state, dispatch } = useContext(OffsetMountainDataContext);
@@ -80,10 +85,9 @@ const useAnimationFrame = () => {
             },
           });
         } else if (
-          bullets[i].direction === "left" &&
+          bullets[i].direction === LEFT &&
           bullets[i].location.x > 50
         ) {
-          console.log(`dispatching MOVE_BULLET_LEFT`);
           dispatch({
             type: "MOVE_BULLET_LEFT",
             cargo: {

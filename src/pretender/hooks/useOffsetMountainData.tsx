@@ -177,12 +177,12 @@ const reducer = (
       return stateWithNewWidth;
 
     case "START_BULLET":
-      newState.bullets[index].isVisible = true;
-      newState.bullets[index].location.x = action.cargo.shipX;
-
-      newState.bullets[index].tStart = action.cargo.tStart || 0;
-      newState.bullets[index].lastTimeStamp = action.cargo.lastTimeStamp || 0;
-      newState.bullets[index].direction = action.cargo.direction;
+      let bullet = newState.bullets[index];
+      bullet.isVisible = true;
+      bullet.location.x = action.cargo.shipX;
+      bullet.tStart = action.cargo.tStart || 0;
+      bullet.lastTimeStamp = action.cargo.lastTimeStamp || 0;
+      bullet.direction = action.cargo.direction;
       return newState;
 
     case "MOVE_BULLET_RIGHT":
