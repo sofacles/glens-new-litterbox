@@ -13,7 +13,8 @@ export type PointType = {
   y: number;
 };
 
-export type BulletType = {
+export type BulletPropsType = {
+  direction: DirectionType;
   location: PointType;
   isVisible: boolean;
   tStart: number;
@@ -26,11 +27,12 @@ export type OffsetMountainDataType = {
   screenDimensions: screenDimensionsType;
   //shipOffset is really just here for the instrument panel?
   shipOffset: number;
-  bullets: BulletType[];
+  bullets: BulletPropsType[];
 };
 
 export type ShipDataType = {
-  direction: string;
+  direction: DirectionType;
+  offsetX: number;
   offsetY: number;
   screenDimensions: { height: number; width: number };
 };
@@ -50,3 +52,5 @@ export type KeyBindingType = {
   mappedKey: string;
   name: string;
 };
+
+export type DirectionType = "left" | "right";

@@ -2,15 +2,23 @@ import React, {
   createContext,
   Dispatch,
   PropsWithChildren,
+  useContext,
   useEffect,
   useReducer,
 } from "react";
 import peaks from "../MountainData.js";
-import { ActionType, OffsetMountainDataType, PointType } from "../types";
+import {
+  ActionType,
+  BulletPropsType,
+  OffsetMountainDataType,
+  PointType,
+  ShipDataType,
+} from "../types";
 
 import { PANEL_WIDTH } from "../Constants";
 
 import { useScreenDimensions } from "./useScreenDimensions";
+import { ShipDataContext } from "./useShipData";
 
 // I think I'll be able to remove this?  The unrendered points on either side of the screen are in margins of width slopWidth
 const slopWidth = 100;
@@ -39,7 +47,7 @@ const adjustMountainPointsForScreenHeight = (
       : peaks.map((a) => a.y);
 
   //a positive offset is when the ship has gone right, the mountains move left.
-  const adjustedPoints = [];
+  const adjustedPoints: PointType[] = [];
   for (let i = 0; i < points.length; i++) {
     adjustedPoints.push({
       x: points[i].x,
@@ -52,20 +60,23 @@ const adjustMountainPointsForScreenHeight = (
 ///Adding bullet movement here.  If I keep it here, I should change this hook's name to NonShipObjectsOffsetData or something.
 
 // when a bullet is more than two seconds old, it disappears and becomes available for another shooting event
-const defaultBulletPositions = [
+const defaultBulletPositions: BulletPropsType[] = [
   {
+    direction: "right",
     location: { x: 0, y: 0 },
     isVisible: false,
     tStart: 0,
     lastTimeStamp: 0,
   },
   {
+    direction: "right",
     location: { x: 0, y: 0 },
     isVisible: false,
     tStart: 0,
     lastTimeStamp: 0,
   },
   {
+    direction: "right",
     location: { x: 0, y: 0 },
     isVisible: false,
     tStart: 0,
@@ -167,10 +178,11 @@ const reducer = (
 
     case "START_BULLET":
       newState.bullets[index].isVisible = true;
-      newState.bullets[index].location.x = 0;
+      newState.bullets[index].location.x = action.cargo.shipX;
 
       newState.bullets[index].tStart = action.cargo.tStart || 0;
       newState.bullets[index].lastTimeStamp = action.cargo.lastTimeStamp || 0;
+      newState.bullets[index].direction = action.cargo.direction;
       return newState;
 
     case "MOVE_BULLET_RIGHT":
@@ -179,15 +191,23 @@ const reducer = (
         newState.bullets[index].location.x = 0;
       } else {
         newState.bullets[index].isVisible = true;
-        console.log(`action.cargo.pixelsToMove: ${action.cargo.pixelsToMove}`);
         if (action.cargo.pixelsToMove) {
           newState.bullets[index].location.x += action.cargo.pixelsToMove;
         }
       }
-      console.log(`MOVE_BULLET_RIGHT for bullet: ${index}`);
-      console.log(JSON.stringify(newState.bullets));
       return newState;
 
+    case "MOVE_BULLET_LEFT":
+      if (newState.bullets[index].location.x < 100) {
+        newState.bullets[index].isVisible = false;
+        newState.bullets[index].location.x = 0;
+      } else {
+        newState.bullets[index].isVisible = true;
+        if (action.cargo.pixelsToMove) {
+          newState.bullets[index].location.x -= action.cargo.pixelsToMove;
+        }
+      }
+      return newState;
     default:
       return state;
   }
@@ -196,18 +216,20 @@ const reducer = (
 export const OffsetMountainDataContext = createContext<{
   state: OffsetMountainDataType;
   dispatch: Dispatch<ActionType>;
-}>({ state: initialState, dispatch: () => null });
+  shipState: ShipDataType | null;
+}>({ state: initialState, dispatch: () => null, shipState: null });
 
 export const OffsetMountainDataProvider = ({ children }: PropsWithChildren) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const screenSize = useScreenDimensions();
+  const { shipState } = useContext(ShipDataContext);
 
   useEffect(() => {
     dispatch({ type: "UPDATE_GAME_DIMENSIONS", cargo: screenSize });
   }, [screenSize]);
 
   return (
-    <OffsetMountainDataContext.Provider value={{ state, dispatch }}>
+    <OffsetMountainDataContext.Provider value={{ state, dispatch, shipState }}>
       {children}
     </OffsetMountainDataContext.Provider>
   );

@@ -9,16 +9,16 @@ import KeyMappingsPane from "./KeyMappingsPane";
 const GameWrapper = () => {
   return (
     <KeyBindingProvider>
-      <OffsetMountainDataProvider>
-        <ShipDataProvider>
+      <ShipDataProvider>
+        <OffsetMountainDataProvider>
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<MainScreen />} />
               <Route path="/keys" element={<KeyMappingsPane />} />
             </Routes>
           </BrowserRouter>
-        </ShipDataProvider>
-      </OffsetMountainDataProvider>
+        </OffsetMountainDataProvider>
+      </ShipDataProvider>
     </KeyBindingProvider>
   );
 };

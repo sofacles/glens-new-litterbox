@@ -5,12 +5,13 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
-import { ActionType, ShipDataType } from "../types";
+import { ActionType, ShipDataType, DirectionType } from "../types";
 import { useScreenDimensions } from "./useScreenDimensions";
 
 const halfShipHeight = 25;
 const initialState = {
-  direction: "right",
+  direction: "right" as DirectionType, //TODO how can I stop using 'as'?
+  offsetX: 300,
   offsetY: 300,
   screenDimensions: {
     height: 0,
@@ -23,7 +24,11 @@ const reducer = (state: ShipDataType, action: ActionType): ShipDataType => {
   switch (action.type) {
     case "CHANGE_DIRECTION":
       let newDirection = state.direction === "right" ? "left" : "right";
-      return { ...state, direction: newDirection };
+      return {
+        ...state,
+        direction: newDirection as DirectionType,
+        offsetX: newDirection === "left" ? screenDimensions.width / 2 : 300,
+      };
     case "UPDATE_SHIP_Y":
       let theNewOffset = state.offsetY + action.cargo.changeInY;
       //  if the ship is at the top of the screen

@@ -69,28 +69,31 @@ const useAnimationFrame = () => {
 
     for (let i = 0; i < bullets.length; i++) {
       if (bullets[i].isVisible) {
-        if (bullets[i].lastTimeStamp === 0) {
+        const { width } = screenSize;
+        if (bullets[i].direction == "right" && bullets[i].location.x < width) {
           dispatch({
-            type: "START_BULLET",
+            type: "MOVE_BULLET_RIGHT",
             cargo: {
               index: i,
-              tStart: time,
+              pixelsToMove: BULLET_PX_PER_FRAME,
+              screenWidth: width,
               lastTimeStamp: time,
             },
           });
-        } else {
-          const { width } = screenSize;
-          if (bullets[i].location.x < width) {
-            dispatch({
-              type: "MOVE_BULLET_RIGHT",
-              cargo: {
-                index: i,
-                pixelsToMove: BULLET_PX_PER_FRAME,
-                screenWidth: width,
-                lastTimeStamp: time,
-              },
-            });
-          }
+        } else if (
+          bullets[i].direction == "left" &&
+          bullets[i].location.x > 50
+        ) {
+          console.log(`dispatching MOVE_BULLET_LEFT`);
+          dispatch({
+            type: "MOVE_BULLET_LEFT",
+            cargo: {
+              index: i,
+              pixelsToMove: BULLET_PX_PER_FRAME,
+              screenWidth: width,
+              lastTimeStamp: time,
+            },
+          });
         }
       }
     }
@@ -152,7 +155,11 @@ const useAnimationFrame = () => {
       if (nextBulletIndex != -1) {
         dispatch({
           type: "START_BULLET",
-          cargo: { index: nextBulletIndex },
+          cargo: {
+            index: nextBulletIndex,
+            direction: shipState.direction,
+            shipX: shipState.offsetX,
+          },
         });
       }
     },
