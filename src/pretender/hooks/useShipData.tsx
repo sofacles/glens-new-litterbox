@@ -5,12 +5,13 @@ import React, {
   useEffect,
   useReducer,
 } from "react";
+import { RIGHT } from "../Constants";
 import { ActionType, ShipDataType, DirectionType } from "../types";
 import { useScreenDimensions } from "./useScreenDimensions";
 
 const halfShipHeight = 25;
 const initialState = {
-  direction: "right" as DirectionType, //TODO how can I stop using 'as'?
+  direction: RIGHT,
   offsetX: 300,
   offsetY: 300,
   screenDimensions: {

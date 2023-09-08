@@ -1,11 +1,10 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useContext } from "react";
 import { OffsetMountainDataContext } from "./useOffsetMountainData";
 import { useScreenDimensions } from "./useScreenDimensions";
 
 import { ShipDataContext } from "./useShipData";
 
-import { UP_DOWN_NEITHER_type } from "../types";
-import { BULLET_PX_PER_FRAME, UP_ARROW_PIXELS } from "../Constants";
+import { BULLET_PX_PER_FRAME, RIGHT, UP_ARROW_PIXELS } from "../Constants";
 
 const useAnimationFrame = () => {
   const { state, dispatch } = useContext(OffsetMountainDataContext);
@@ -70,7 +69,7 @@ const useAnimationFrame = () => {
     for (let i = 0; i < bullets.length; i++) {
       if (bullets[i].isVisible) {
         const { width } = screenSize;
-        if (bullets[i].direction == "right" && bullets[i].location.x < width) {
+        if (bullets[i].direction === RIGHT && bullets[i].location.x < width) {
           dispatch({
             type: "MOVE_BULLET_RIGHT",
             cargo: {
@@ -81,7 +80,7 @@ const useAnimationFrame = () => {
             },
           });
         } else if (
-          bullets[i].direction == "left" &&
+          bullets[i].direction === "left" &&
           bullets[i].location.x > 50
         ) {
           console.log(`dispatching MOVE_BULLET_LEFT`);
@@ -151,8 +150,8 @@ const useAnimationFrame = () => {
       shipDispatch({ type: "CHANGE_DIRECTION" });
     },
     shoot: () => {
-      const nextBulletIndex = bullets.findIndex((b) => b.isVisible == false);
-      if (nextBulletIndex != -1) {
+      const nextBulletIndex = bullets.findIndex((b) => b.isVisible === false);
+      if (nextBulletIndex !== -1) {
         dispatch({
           type: "START_BULLET",
           cargo: {

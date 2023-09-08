@@ -1,4 +1,4 @@
-import { UP_DOWN_NEITHER_type } from "./types";
+import { DirectionType, UP_DOWN_NEITHER_type } from "./types";
 
 export const BULLET_PX_PER_FRAME = 8;
 export const SHIP_HEIGHT = 8;
@@ -17,6 +17,8 @@ export const THRUST_KEY = ";";
 export const SHIP_DOWN_KEY = "s"; //TODO: if this is "capslock" the key up handler doesn't really work, even with prevent default
 export const SHIP_UP_KEY = "a";
 export const CHANGE_SHIP_DIRECTION_KEY = " ";
+
+export const RIGHT: DirectionType = "right";
 
 export const UP_DOWN_NEITHER: {
   UP: UP_DOWN_NEITHER_type;
