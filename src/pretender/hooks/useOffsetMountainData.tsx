@@ -222,7 +222,7 @@ export const OffsetMountainDataProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     dispatch({ type: "UPDATE_GAME_DIMENSIONS", cargo: screenSize });
-    reduxDispatch(updateScreenDimensions({ cargo: screenSize }));
+    reduxDispatch(updateScreenDimensions(screenSize));
   }, [screenSize]);
 
   return (

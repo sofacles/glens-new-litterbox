@@ -22,7 +22,7 @@ export const shipSlice = createSlice({
         newDirection === LEFT ? state.screenDimensions.width / 2 : 300;
     },
     updateShipY: (state, action) => {
-      let theNewOffset = state.offsetY + action.payload.cargo.changeInY;
+      let theNewOffset = state.offsetY + action.payload.changeInY;
       //  if the ship is at the top of the screen
       if (theNewOffset < halfShipHeight) {
         theNewOffset = halfShipHeight;
@@ -35,7 +35,7 @@ export const shipSlice = createSlice({
       state.offsetY = theNewOffset;
     },
     updateScreenDimensions: (state, action) => {
-      state.screenDimensions = action.payload.cargo;
+      state.screenDimensions = action.payload;
     },
   },
 });

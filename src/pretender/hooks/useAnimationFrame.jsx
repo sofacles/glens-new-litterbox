@@ -65,11 +65,9 @@ const useAnimationFrame = () => {
 
     if (shipMovingUpOrDown !== "NEITHER") {
       const dispatchObj = {
-        cargo: {
-          upOrDown: shipMovingUpOrDown,
-          changeInY:
-            shipMovingUpOrDown === "UP" ? -UP_ARROW_PIXELS : UP_ARROW_PIXELS,
-        },
+        upOrDown: shipMovingUpOrDown,
+        changeInY:
+          shipMovingUpOrDown === "UP" ? -UP_ARROW_PIXELS : UP_ARROW_PIXELS,
       };
       reduxDispatch(updateShipY(dispatchObj));
     }
