@@ -4,6 +4,11 @@ import { useScreenDimensions } from "./useScreenDimensions";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDirection, updateShipY } from "../app/ShipSlice";
 import {
+  moveBulletLeft,
+  moveBulletRight,
+  startBullet,
+} from "../app/BulletSlice";
+import {
   BULLET_PX_PER_FRAME,
   LEFT,
   RIGHT,
@@ -12,18 +17,15 @@ import {
 
 const useAnimationFrame = () => {
   const reduxDispatch = useDispatch();
-  const { ship } = useSelector((state) => {
+  const { bullets, ship } = useSelector((state) => {
     return state;
   });
-  const { state, dispatch } = useContext(OffsetMountainDataContext);
+  const { dispatch } = useContext(OffsetMountainDataContext);
 
   const screenSize = useScreenDimensions();
 
-  const { width } = screenSize;
-
   const PX_PER_SECOND = 800;
 
-  const { bullets } = state;
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
@@ -76,28 +78,25 @@ const useAnimationFrame = () => {
       if (bullets[i].isVisible) {
         const { width } = screenSize;
         if (bullets[i].direction === RIGHT && bullets[i].location.x < width) {
-          dispatch({
-            type: "MOVE_BULLET_RIGHT",
-            cargo: {
+          reduxDispatch(
+            moveBulletRight({
               index: i,
               pixelsToMove: BULLET_PX_PER_FRAME,
               screenWidth: width,
               lastTimeStamp: time,
-            },
-          });
+            })
+          );
         } else if (
           bullets[i].direction === LEFT &&
           bullets[i].location.x > 50
         ) {
-          dispatch({
-            type: "MOVE_BULLET_LEFT",
-            cargo: {
+          reduxDispatch(
+            moveBulletLeft({
               index: i,
               pixelsToMove: BULLET_PX_PER_FRAME,
-              screenWidth: width,
               lastTimeStamp: time,
-            },
-          });
+            })
+          );
         }
       }
     }
@@ -155,16 +154,16 @@ const useAnimationFrame = () => {
       reduxDispatch(changeDirection());
     },
     shoot: () => {
+      debugger;
       const nextBulletIndex = bullets.findIndex((b) => b.isVisible === false);
       if (nextBulletIndex !== -1) {
-        dispatch({
-          type: "START_BULLET",
-          cargo: {
+        reduxDispatch(
+          startBullet({
             index: nextBulletIndex,
             direction: ship.direction,
             shipX: ship.offsetX,
-          },
-        });
+          })
+        );
       }
     },
   };

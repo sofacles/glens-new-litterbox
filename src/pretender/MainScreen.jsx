@@ -10,10 +10,11 @@ import { useSelector } from "react-redux";
 
 const MainScreen = () => {
   const { state } = useContext(OffsetMountainDataContext);
-  const { bullets } = state;
+
   const { gameOffset, screenDimensions } = state;
   const screenRef = useRef();
   const ship = useSelector((state) => state.ship);
+  const bullets = useSelector((state) => state.bullets);
 
   useEffect(() => {
     if (screenRef.current) {

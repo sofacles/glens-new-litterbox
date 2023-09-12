@@ -27,7 +27,6 @@ export type OffsetMountainDataType = {
   screenDimensions: screenDimensionsType;
   //shipOffset is really just here for the instrument panel?
   shipOffset: number;
-  bullets: BulletPropsType[];
 };
 
 export type ShipDataType = {

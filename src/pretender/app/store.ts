@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import shipReducer from "./ShipSlice";
 import keyMappingsReducer from "./KeyMappingSlice";
+import bulletsReducer from "./BulletSlice";
 
 const store = configureStore({
   reducer: {
     ship: shipReducer,
     keyMappings: keyMappingsReducer,
+    bullets: bulletsReducer,
   },
 });
 

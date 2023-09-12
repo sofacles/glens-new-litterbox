@@ -6,12 +6,7 @@ import React, {
   useReducer,
 } from "react";
 import peaks from "../MountainData.js";
-import {
-  ActionType,
-  BulletPropsType,
-  OffsetMountainDataType,
-  PointType,
-} from "../types";
+import { ActionType, OffsetMountainDataType, PointType } from "../types";
 
 import { PANEL_WIDTH } from "../Constants";
 
@@ -55,31 +50,6 @@ const adjustMountainPointsForScreenHeight = (
 };
 
 ///Adding bullet movement here.  If I keep it here, I should change this hook's name to NonShipObjectsOffsetData or something.
-
-// when a bullet is more than two seconds old, it disappears and becomes available for another shooting event
-const defaultBulletPositions: BulletPropsType[] = [
-  {
-    direction: "right",
-    location: { x: 0, y: 0 },
-    isVisible: false,
-    tStart: 0,
-    lastTimeStamp: 0,
-  },
-  {
-    direction: "right",
-    location: { x: 0, y: 0 },
-    isVisible: false,
-    tStart: 0,
-    lastTimeStamp: 0,
-  },
-  {
-    direction: "right",
-    location: { x: 0, y: 0 },
-    isVisible: false,
-    tStart: 0,
-    lastTimeStamp: 0,
-  },
-];
 
 //End Bullet Section
 
@@ -137,7 +107,6 @@ const initialState = {
   allPointsCorrected: adjustMountainPointsForScreenHeight(peaks, 800),
   screenDimensions: { height: 600, width: 1000 },
   shipOffset: 300,
-  bullets: defaultBulletPositions,
 };
 
 const reducer = (
@@ -145,7 +114,6 @@ const reducer = (
   action: ActionType
 ): OffsetMountainDataType => {
   const newState = { ...state };
-  const index = action.cargo?.index;
   switch (action.type) {
     case "UPDATE_GAME_OFFSET":
       newState.gameOffset = state.gameOffset + action.cargo.offsetDifference;
@@ -173,38 +141,6 @@ const reducer = (
       };
       return stateWithNewWidth;
 
-    case "START_BULLET":
-      let bullet = newState.bullets[index];
-      bullet.isVisible = true;
-      bullet.location.x = action.cargo.shipX;
-      bullet.tStart = action.cargo.tStart || 0;
-      bullet.lastTimeStamp = action.cargo.lastTimeStamp || 0;
-      bullet.direction = action.cargo.direction;
-      return newState;
-
-    case "MOVE_BULLET_RIGHT":
-      if (newState.bullets[index].location.x > action.cargo.screenWidth - 100) {
-        newState.bullets[index].isVisible = false;
-        newState.bullets[index].location.x = 0;
-      } else {
-        newState.bullets[index].isVisible = true;
-        if (action.cargo.pixelsToMove) {
-          newState.bullets[index].location.x += action.cargo.pixelsToMove;
-        }
-      }
-      return newState;
-
-    case "MOVE_BULLET_LEFT":
-      if (newState.bullets[index].location.x < 100) {
-        newState.bullets[index].isVisible = false;
-        newState.bullets[index].location.x = 0;
-      } else {
-        newState.bullets[index].isVisible = true;
-        if (action.cargo.pixelsToMove) {
-          newState.bullets[index].location.x -= action.cargo.pixelsToMove;
-        }
-      }
-      return newState;
     default:
       return state;
   }
