@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useContext, useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
 import { UP_DOWN_NEITHER } from "../Constants";
 import { useSelector } from "react-redux";
 import { UseMultipleKeysPropsType } from "../types";
@@ -10,7 +10,7 @@ import { RootState } from "../app/store";
 //So if this thing just handles the logic of determining which functions to call based on what keys are being pressed
 /*
 goHandler is whatever function this hook should call to that makes the ship go
-stopHandler       "        "
+stopHandler       "        "        "        "                           stop
 changeShipYHander whatever function should be called to tell the ship what direction it shoould be moving
 */
 export const useMultipleKeys = ({

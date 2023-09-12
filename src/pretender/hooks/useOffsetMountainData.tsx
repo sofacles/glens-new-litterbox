@@ -17,7 +17,7 @@ import { PANEL_WIDTH } from "../Constants";
 
 import { useScreenDimensions } from "./useScreenDimensions";
 import { useDispatch } from "react-redux";
-import { updateScreenDimensions } from "../app/ShipSlice.js";
+import { updateScreenDimensions } from "../app/ShipSlice";
 
 // I think I'll be able to remove this?  The unrendered points on either side of the screen are in margins of width slopWidth
 const slopWidth = 100;
@@ -223,7 +223,7 @@ export const OffsetMountainDataProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     dispatch({ type: "UPDATE_GAME_DIMENSIONS", cargo: screenSize });
     reduxDispatch(updateScreenDimensions(screenSize));
-  }, [screenSize]);
+  }, [screenSize, reduxDispatch]);
 
   return (
     <OffsetMountainDataContext.Provider value={{ state, dispatch }}>
