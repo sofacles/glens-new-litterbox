@@ -78,6 +78,9 @@ const useAnimationFrame = () => {
       if (bullets[i].isVisible) {
         const { width } = screenSize;
         if (bullets[i].direction === RIGHT && bullets[i].location.x < width) {
+          console.log(
+            `about to move bullet[${i}] ${BULLET_PX_PER_FRAME} pixels at ${time}`
+          );
           reduxDispatch(
             moveBulletRight({
               index: i,
@@ -154,7 +157,6 @@ const useAnimationFrame = () => {
       reduxDispatch(changeDirection());
     },
     shoot: () => {
-      debugger;
       const nextBulletIndex = bullets.findIndex((b) => b.isVisible === false);
       if (nextBulletIndex !== -1) {
         reduxDispatch(
