@@ -1,7 +1,8 @@
 import React, { KeyboardEvent, useContext, useState } from "react";
 import { UP_DOWN_NEITHER } from "../Constants";
-import { KeyBindingContext } from "./useKeyBindings";
+import { useSelector } from "react-redux";
 import { UseMultipleKeysPropsType } from "../types";
+import { RootState } from "../app/store";
 
 //I want to be able to test the ship moving up and down, but I'm having trouble getting the onKeyDown handler to be called
 // in a unit test, which is because React or maybe react-testing-library doesn't really handle svg elements.
@@ -21,9 +22,8 @@ export const useMultipleKeys = ({
   changeShipDirectionHandler,
 }: UseMultipleKeysPropsType) => {
   const [currentlyPressedKeys] = useState(new Map());
-  const { state } = useContext(KeyBindingContext);
-  const { changeShipDirection, shipUp, shipDown, shoot, thrust } =
-    state.bindings;
+  const keyMappings = useSelector((state: RootState) => state.keyMappings);
+  const { changeShipDirection, shipUp, shipDown, shoot, thrust } = keyMappings;
 
   const onKeyDown = (evt: KeyboardEvent) => {
     const plainKey = evt.key.toLowerCase();

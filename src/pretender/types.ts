@@ -48,7 +48,7 @@ export type UseMultipleKeysPropsType = {
   fireShotHandler: () => {};
 };
 
-export type KeyBindingType = {
+export type KeyMappingType = {
   mappedKey: string;
   name: string;
 };
