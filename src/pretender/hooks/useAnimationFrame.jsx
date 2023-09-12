@@ -73,6 +73,9 @@ const useAnimationFrame = () => {
 
     for (let i = 0; i < bullets.length; i++) {
       if (bullets[i].isVisible) {
+        console.log(
+          `about to move bullet[${i}] ${BULLET_PX_PER_FRAME} pixels at ${time}`
+        );
         const { width } = screenSize;
         if (bullets[i].direction === RIGHT && bullets[i].location.x < width) {
           dispatch({
