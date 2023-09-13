@@ -12,7 +12,7 @@ import { PANEL_WIDTH } from "../Constants";
 
 import { useScreenDimensions } from "./useScreenDimensions";
 import { useDispatch } from "react-redux";
-import { updateScreenDimensions } from "../app/ShipSlice";
+import { updateScreenDimensions } from "../store/ShipSlice.js";
 
 // I think I'll be able to remove this?  The unrendered points on either side of the screen are in margins of width slopWidth
 const slopWidth = 100;
@@ -48,19 +48,6 @@ const adjustMountainPointsForScreenHeight = (
   }
   return adjustedPoints;
 };
-
-///Adding bullet movement here.  If I keep it here, I should change this hook's name to NonShipObjectsOffsetData or something.
-
-//End Bullet Section
-
-// When a mountain point has scrolled more than slopWidth off the viewport
-// I move the mountains that are any farther scrolled off than that and tack them on to the other side of the mountain collection.
-// OK, this means permanently updating the data, not the lines.
-// This function does not recalculate the y values
-// offset is how much to move them since the last time they were moved.  A positive offset means the ship is flying left, so the
-// mountains are moving to the right
-
-// Aug 2023, where should I put the flying bullets?  I have the mountains moving when the ship moves, and the ship just moves itself up and down
 
 const adjustCurrentPointsForOffset = (
   currentPoints: PointType[],

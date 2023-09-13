@@ -2,12 +2,12 @@ import React, { useContext, useEffect } from "react";
 import { OffsetMountainDataContext } from "./useOffsetMountainData";
 import { useScreenDimensions } from "./useScreenDimensions";
 import { useSelector, useDispatch } from "react-redux";
-import { changeDirection, updateShipY } from "../app/ShipSlice";
+import { changeDirection, updateShipY } from "../store/ShipSlice";
 import {
   moveBulletLeft,
   moveBulletRight,
   startBullet,
-} from "../app/BulletSlice";
+} from "../store/BulletSlice";
 import {
   BULLET_PX_PER_FRAME,
   LEFT,

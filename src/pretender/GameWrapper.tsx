@@ -5,7 +5,7 @@ import { OffsetMountainDataProvider } from "./hooks/useOffsetMountainData";
 import MainScreen from "./MainScreen";
 import KeyMappingsPane from "./KeyMappingsPane";
 import { Provider } from "react-redux";
-import store from "./app/store";
+import store from "./store/store";
 
 const GameWrapper = () => {
   return (
