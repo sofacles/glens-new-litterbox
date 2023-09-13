@@ -106,7 +106,6 @@ const initialState = {
   gameOffset: 0,
   allPointsCorrected: adjustMountainPointsForScreenHeight(peaks, 800),
   screenDimensions: { height: 600, width: 1000 },
-  shipOffset: 300,
 };
 
 const reducer = (

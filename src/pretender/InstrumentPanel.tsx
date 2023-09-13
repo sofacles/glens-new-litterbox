@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 import { OffsetMountainDataType } from "./types";
+import { RootState } from "./app/store";
 
-const InstrumentPanel = ({
-  gameOffset,
-  shipOffset,
-}: OffsetMountainDataType) => {
+const InstrumentPanel = ({ gameOffset }: OffsetMountainDataType) => {
   //subBoxes are the three boxes of the control panel: lives, pilots map, and controlPanel
   const { state } = useContext(OffsetMountainDataContext);
+  const shipState = useSelector((store: RootState) => store.ship);
   const subBoxStyle = {
     flex: "1 1 auto",
     justifyContent: "stretch",
@@ -33,7 +33,7 @@ const InstrumentPanel = ({
         style={{ ...subBoxStyle, borderRight: `${borderWidth} solid red` }}
       ></div>
       <div style={subBoxStyle}>gameOffset: {gameOffset}</div>
-      <div style={subBoxStyle}>shipOffset: {shipOffset}</div>
+      <div style={subBoxStyle}>ship offsetX: {shipState.offsetX}</div>
       <div style={subBoxStyle}>
         state.screenDimensions.height: {state.screenDimensions.height}
       </div>

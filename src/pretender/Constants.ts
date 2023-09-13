@@ -1,6 +1,6 @@
 import { DirectionType, UP_DOWN_NEITHER_type } from "./types";
 
-export const BULLET_PX_PER_FRAME = 8;
+export const BULLET_PX_PER_FRAME = 24;
 export const SHIP_HEIGHT = 8;
 export const SHIP_WIDTH = 30; //Length, I guess... the distance of the ship from bow to stern
 
