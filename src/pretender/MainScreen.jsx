@@ -4,17 +4,24 @@ import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
 import useAnimationFrame from "./hooks/useAnimationFrame";
-import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
 import { useMultipleKeys } from "./hooks/useMultipleKeys";
 import { useSelector } from "react-redux";
+import { updateGameDimensions } from "./store/MountainsSlice";
+import { useScreenDimensions } from "./hooks/useScreenDimensions";
+
+import { useDispatch } from "react-redux";
 
 const MainScreen = () => {
-  const { state } = useContext(OffsetMountainDataContext);
-
-  const { gameOffset, screenDimensions } = state;
   const screenRef = useRef();
   const ship = useSelector((state) => state.ship);
   const bullets = useSelector((state) => state.bullets);
+  const mountains = useSelector((state) => state.mountains);
+
+  const screenSize = useScreenDimensions();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(updateGameDimensions(screenSize));
+  }, [screenSize, dispatch]);
 
   useEffect(() => {
     if (screenRef.current) {
@@ -42,11 +49,14 @@ const MainScreen = () => {
 
   return (
     <>
-      <InstrumentPanel shipOffset={ship.offsetY} gameOffset={gameOffset} />
+      <InstrumentPanel
+        shipOffset={ship.offsetY}
+        gameOffset={mountains.gameOffset}
+      />
       <svg
-        height={screenDimensions.height}
+        height={mountains.screenDimensions.height}
         ref={screenRef}
-        width={screenDimensions.width}
+        width={mountains.screenDimensions.width}
         xmlns="http://www.w3.org/2000/svg"
         onKeyDown={onKeyDown}
         onKeyUp={onKeyUp}

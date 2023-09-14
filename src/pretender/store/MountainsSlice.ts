@@ -1,20 +1,9 @@
-import React, {
-  createContext,
-  Dispatch,
-  PropsWithChildren,
-  useEffect,
-  useReducer,
-} from "react";
+import { createSlice } from "@reduxjs/toolkit";
 import peaks from "../MountainData.js";
-import { ActionType, OffsetMountainDataType, PointType } from "../types";
-
+import { OffsetMountainDataType, PointType } from "../types";
 import { PANEL_WIDTH } from "../Constants";
+import { RootState } from "./store";
 
-import { useScreenDimensions } from "./useScreenDimensions";
-import { useDispatch } from "react-redux";
-import { updateScreenDimensions } from "../store/ShipSlice.js";
-
-// I think I'll be able to remove this?  The unrendered points on either side of the screen are in margins of width slopWidth
 const slopWidth = 100;
 
 // mountain data is in cartesian coordinates, so convert to screen Y by subtacting the data's y value + instrument panel height from screenHeight
@@ -89,67 +78,46 @@ const adjustCurrentPointsForOffset = (
   }
   return adjustedPoints;
 };
+
 const initialState = {
   gameOffset: 0,
   allPointsCorrected: adjustMountainPointsForScreenHeight(peaks, 800),
-  screenDimensions: { height: 600, width: 1000 },
+  screenDimensions: { height: 800, width: 1000 },
 };
 
-const reducer = (
-  state: OffsetMountainDataType,
-  action: ActionType
-): OffsetMountainDataType => {
-  const newState = { ...state };
-  switch (action.type) {
-    case "UPDATE_GAME_OFFSET":
-      newState.gameOffset = state.gameOffset + action.cargo.offsetDifference;
-      newState.allPointsCorrected = adjustCurrentPointsForOffset(
+export type mountainsStateType = {
+  gameOffset: number;
+  allPointsCorrected: PointType[];
+  screenDimensions: { height: number; width: number };
+};
+
+const mountainsSlice = createSlice({
+  name: "mountains",
+  initialState,
+  reducers: {
+    updateGameOffset: (state: typeof initialState, action) => {
+      state.gameOffset += action.payload.offsetDifference;
+      state.allPointsCorrected = adjustCurrentPointsForOffset(
         state.allPointsCorrected,
-        action.cargo.offsetDifference,
+        action.payload.offsetDifference,
         state.screenDimensions.width
       );
+    },
+    updateGameDimensions: (
+      state: mountainsStateType,
+      action: { payload: { height: number; width: number } }
+    ) => {
+      state.screenDimensions = action.payload;
+      state.allPointsCorrected = adjustCurrentPointsForOffset(
+        state.allPointsCorrected,
+        state.gameOffset,
+        state.screenDimensions.width
+      );
+    },
+  },
+});
 
-      return newState;
+export const { updateGameDimensions, updateGameOffset } =
+  mountainsSlice.actions;
 
-    case "UPDATE_GAME_DIMENSIONS":
-      // InitialState gets calculated with height: 800, so we may have lost the original y values of the mountain data.  We could just use peaks, but what if the ship has
-      // moved and the mountain data's x values have been updated too?  For now, map the currently scrolled points to the untainted mountain
-      // data (peaks).  Take the current offset and figure out how what the frameshift is and then read the orginal y values and update all the y values in
-      // allPointsCorrected with the value in that mapping.
-      const stateWithNewWidth = {
-        ...state,
-        screenDimensions: action.cargo,
-        allPointsCorrected: adjustMountainPointsForScreenHeight(
-          state.allPointsCorrected,
-          action.cargo.height,
-          state.gameOffset
-        ),
-      };
-      return stateWithNewWidth;
-
-    default:
-      return state;
-  }
-};
-
-export const OffsetMountainDataContext = createContext<{
-  state: OffsetMountainDataType;
-  dispatch: Dispatch<ActionType>;
-}>({ state: initialState, dispatch: () => null });
-
-export const OffsetMountainDataProvider = ({ children }: PropsWithChildren) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const reduxDispatch = useDispatch();
-  const screenSize = useScreenDimensions();
-
-  useEffect(() => {
-    dispatch({ type: "UPDATE_GAME_DIMENSIONS", cargo: screenSize });
-    reduxDispatch(updateScreenDimensions(screenSize));
-  }, [screenSize, reduxDispatch]);
-
-  return (
-    <OffsetMountainDataContext.Provider value={{ state, dispatch }}>
-      {children}
-    </OffsetMountainDataContext.Provider>
-  );
-};
+export default mountainsSlice.reducer;

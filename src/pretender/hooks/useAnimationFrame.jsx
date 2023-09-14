@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import { OffsetMountainDataContext } from "./useOffsetMountainData";
 import { useScreenDimensions } from "./useScreenDimensions";
 import { useSelector, useDispatch } from "react-redux";
 import { changeDirection, updateShipY } from "../store/ShipSlice";
@@ -8,6 +7,8 @@ import {
   moveBulletRight,
   startBullet,
 } from "../store/BulletSlice";
+
+import { updateGameOffset } from "../store/MountainsSlice";
 import {
   BULLET_PX_PER_FRAME,
   LEFT,
@@ -17,11 +18,9 @@ import {
 
 const useAnimationFrame = () => {
   const reduxDispatch = useDispatch();
-  const { bullets, ship } = useSelector((state) => {
+  const { bullets, mountains, ship } = useSelector((state) => {
     return state;
   });
-  const { dispatch } = useContext(OffsetMountainDataContext);
-
   const screenSize = useScreenDimensions();
 
   const PX_PER_SECOND = 800;
@@ -50,12 +49,8 @@ const useAnimationFrame = () => {
           ship.direction === "right"
             ? Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000)
             : -Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000);
-        dispatch({
-          type: "UPDATE_GAME_OFFSET",
-          cargo: {
-            offsetDifference: amtToMove,
-          },
-        });
+
+        reduxDispatch(updateGameOffset({ offsetDifference: amtToMove }));
       }
     }
 
@@ -78,9 +73,6 @@ const useAnimationFrame = () => {
       if (bullets[i].isVisible) {
         const { width } = screenSize;
         if (bullets[i].direction === RIGHT && bullets[i].location.x < width) {
-          console.log(
-            `about to move bullet[${i}] ${BULLET_PX_PER_FRAME} pixels at ${time}`
-          );
           reduxDispatch(
             moveBulletRight({
               index: i,

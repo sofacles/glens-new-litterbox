@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import shipReducer from "./ShipSlice";
 import keyMappingsReducer from "./KeyMappingSlice";
 import bulletsReducer from "./BulletSlice";
+import mountainsReducer from "./MountainsSlice";
 
 const store = configureStore({
   reducer: {
     ship: shipReducer,
     keyMappings: keyMappingsReducer,
     bullets: bulletsReducer,
+    mountains: mountainsReducer,
   },
 });
 
