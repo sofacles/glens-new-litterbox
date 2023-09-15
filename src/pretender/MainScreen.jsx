@@ -1,15 +1,16 @@
-import React, { useContext, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import Bullet from "./Bullet";
+import useAnimationFrame from "./hooks/useAnimationFrame";
+import { useMultipleKeys } from "./hooks/useMultipleKeys";
+import { useScreenDimensions } from "./hooks/useScreenDimensions";
 import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
-import useAnimationFrame from "./hooks/useAnimationFrame";
-import { useMultipleKeys } from "./hooks/useMultipleKeys";
-import { useSelector } from "react-redux";
 import { updateGameDimensions } from "./store/MountainsSlice";
-import { useScreenDimensions } from "./hooks/useScreenDimensions";
-
-import { useDispatch } from "react-redux";
 
 const MainScreen = () => {
   const screenRef = useRef();

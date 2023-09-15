@@ -1,10 +1,12 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useRef, useState } from "react";
+
 import { useDispatch, useSelector } from "react-redux";
-import { updateKeyMapping } from "./store/KeyMappingSlice";
+import { Link } from "react-router-dom";
+
 import KeyMappingEditor from "./KeyMappingEditor";
-import { KeyMappingType } from "./types";
+import { updateKeyMapping } from "./store/KeyMappingSlice";
 import { RootState } from "./store/store";
+import { KeyMappingType } from "./types";
 
 const KeyMappingsPane = () => {
   const keyMappings = useSelector((state: RootState) => state.keyMappings);

@@ -1,8 +1,10 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+
 import { useSelector } from "react-redux";
-import { OffsetMountainDataType } from "./types";
+import { Link } from "react-router-dom";
+
 import { RootState } from "./store/store";
+import { OffsetMountainDataType } from "./types";
 
 const InstrumentPanel = ({ gameOffset }: OffsetMountainDataType) => {
   //subBoxes are the three boxes of the control panel: lives, pilots map, and controlPanel

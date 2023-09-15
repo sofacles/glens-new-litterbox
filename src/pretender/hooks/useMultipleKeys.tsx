@@ -1,8 +1,10 @@
 import React, { KeyboardEvent, useState } from "react";
-import { UP_DOWN_NEITHER } from "../Constants";
+
 import { useSelector } from "react-redux";
-import { UseMultipleKeysPropsType } from "../types";
+
+import { UP_DOWN_NEITHER } from "../Constants";
 import { RootState } from "../store/store";
+import { UseMultipleKeysPropsType } from "../types";
 
 //I want to be able to test the ship moving up and down, but I'm having trouble getting the onKeyDown handler to be called
 // in a unit test, which is because React or maybe react-testing-library doesn't really handle svg elements.

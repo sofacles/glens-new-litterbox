@@ -1,20 +1,21 @@
 import React, { useContext, useEffect } from "react";
-import { useScreenDimensions } from "./useScreenDimensions";
-import { useSelector, useDispatch } from "react-redux";
-import { changeDirection, updateShipY } from "../store/ShipSlice";
-import {
-  moveBulletLeft,
-  moveBulletRight,
-  startBullet,
-} from "../store/BulletSlice";
 
-import { updateGameOffset } from "../store/MountainsSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   BULLET_PX_PER_FRAME,
   LEFT,
   RIGHT,
   UP_ARROW_PIXELS,
 } from "../Constants";
+import {
+  moveBulletLeft,
+  moveBulletRight,
+  startBullet,
+} from "../store/BulletSlice";
+import { updateGameOffset } from "../store/MountainsSlice";
+import { changeDirection, updateShipY } from "../store/ShipSlice";
+import { useScreenDimensions } from "./useScreenDimensions";
 
 const useAnimationFrame = () => {
   const reduxDispatch = useDispatch();
