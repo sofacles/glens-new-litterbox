@@ -1,15 +1,18 @@
 import React, { useContext } from "react";
 import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
-const Mountains = (props) => {
+import { PointType } from "./types";
+
+const Mountains = () => {
   //initial state: we are in the middle of the world: x = 0;
   // we want to show a portion of the mountains that's equal to the screen width
-  const mountains = useSelector((state) => {
+  const mountains = useSelector((state: RootState) => {
     return state.mountains;
   });
   const { allPointsCorrected } = mountains;
 
-  const generateAdjustedLines = (points) => {
+  const generateAdjustedLines = (points: PointType[]) => {
     const adjustedLines = [];
     for (var i = 0; i < points.length - 1; i++) {
       adjustedLines.push({

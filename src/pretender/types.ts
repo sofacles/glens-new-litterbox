@@ -13,12 +13,13 @@ export type PointType = {
   y: number;
 };
 
+//For the Bullet component
 export type BulletPropsType = {
   direction: DirectionType;
-  location: PointType;
   isVisible: boolean;
-  tStart: number;
-  lastTimeStamp: number;
+  x: number;
+  y: number;
+  fill: string;
 };
 
 export type OffsetMountainDataType = {
