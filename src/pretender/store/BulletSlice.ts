@@ -28,9 +28,9 @@ const defaultBulletPositions = [
 export interface startBulletActionType {
   index: number;
   shipX: number;
-  tStart: number;
+  tStart?: number;
   direction: DirectionType;
-  lastTimeStamp: number;
+  lastTimeStamp?: number;
 }
 
 export interface MoveBulletActionType {

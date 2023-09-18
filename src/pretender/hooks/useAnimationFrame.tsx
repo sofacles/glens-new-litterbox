@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 import {
   BULLET_PX_PER_FRAME,
@@ -13,13 +14,16 @@ import {
   moveBulletRight,
   startBullet,
 } from "../store/BulletSlice";
+
+import { UP_DOWN_NEITHER_type } from "../types";
 import { updateGameOffset } from "../store/MountainsSlice";
 import { changeDirection, updateShipY } from "../store/ShipSlice";
 import { useScreenDimensions } from "./useScreenDimensions";
+import { Root } from "react-dom/client";
 
 const useAnimationFrame = () => {
   const reduxDispatch = useDispatch();
-  const { bullets, mountains, ship } = useSelector((state) => {
+  const { bullets, mountains, ship } = useSelector((state: RootState) => {
     return state;
   });
   const screenSize = useScreenDimensions();
@@ -31,21 +35,21 @@ const useAnimationFrame = () => {
 
   // Use useRef for mutable variables that we want to persist
   // without triggering a re-render on their change
-  // https://css-tricks.com/using-requestanimationframe-with-react-hooks/
-  const requestRef = React.useRef();
+  // https://css-tricks.com/using-requestanimationframe-with-react-hooks/ //(cb: FrameRequestCallback) => number
+  const requestRef = React.useRef<number>(0);
 
   //for calculating how much the landscape moves by when you're thrusting
-  const previousTimeRef_Thrust = React.useRef();
+  const previousTimeRef_Thrust = React.useRef<number | undefined>();
 
   // Unwrapping this useCallback and just assigning the fxn of time
   // to animateCallback doesn't seem to hurt performance.  There may be other reasons for doing this, but I recently read that this can
   // be an issue because every time a component gets rendered, a brand new function gets re-created, so if you happen to be passing a function
   // as a prop to a child component and that component is memoized, memoization won't work.  Memoization means the the component won't rerender unless
   // the props change, but in this case the function prop will change every time.
-  const animateCallback = (time) => {
+  const animateCallback = (time: number) => {
     if (previousTimeRef_Thrust.current !== undefined) {
       if (isThrusting) {
-        const deltaTime_Thrust = time - previousTimeRef_Thrust.current;
+        const deltaTime_Thrust = time! - previousTimeRef_Thrust.current;
         const amtToMove =
           ship.direction === "right"
             ? Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000)
@@ -138,7 +142,7 @@ const useAnimationFrame = () => {
     go: () => {
       setIsThrusting(true);
     },
-    changeShipY: (upOrDown) => {
+    changeShipY: (upOrDown: UP_DOWN_NEITHER_type) => {
       setShipMovingUpOrDown(upOrDown);
     },
     resetAnimationTimer,
