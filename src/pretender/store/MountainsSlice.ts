@@ -109,7 +109,11 @@ const mountainsSlice = createSlice({
     ) => {
       state.screenDimensions = action.payload;
       state.allPointsCorrected = adjustCurrentPointsForOffset(
-        state.allPointsCorrected,
+        adjustMountainPointsForScreenHeight(
+          state.allPointsCorrected,
+          action.payload.height,
+          state.gameOffset
+        ),
         state.gameOffset,
         state.screenDimensions.width
       );

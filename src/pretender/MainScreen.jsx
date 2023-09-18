@@ -11,6 +11,7 @@ import InstrumentPanel from "./InstrumentPanel";
 import Mountains from "./Mountains";
 import Ship from "./Ship";
 import { updateGameDimensions } from "./store/MountainsSlice";
+import { updateScreenDimensions } from "./store/ShipSlice";
 
 const MainScreen = () => {
   const screenRef = useRef();
@@ -21,7 +22,9 @@ const MainScreen = () => {
   const screenSize = useScreenDimensions();
   const dispatch = useDispatch();
   useEffect(() => {
+    //Both ship and mountain slices need to know about screen size.  I wonder what is the best way to share data between slices.
     dispatch(updateGameDimensions(screenSize));
+    dispatch(updateScreenDimensions(screenSize));
   }, [screenSize, dispatch]);
 
   useEffect(() => {
