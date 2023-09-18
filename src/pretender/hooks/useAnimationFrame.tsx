@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-import { OffsetMountainDataContext } from "./useOffsetMountainData";
-import { useScreenDimensions } from "./useScreenDimensions";
+import React, { useContext, useEffect } from "react";
 
-import { ShipDataContext } from "./useShipData";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../store/store";
 
 import {
   BULLET_PX_PER_FRAME,
@@ -10,46 +9,53 @@ import {
   RIGHT,
   UP_ARROW_PIXELS,
 } from "../Constants";
+import {
+  moveBulletLeft,
+  moveBulletRight,
+  startBullet,
+} from "../store/BulletSlice";
+
+import { UP_DOWN_NEITHER_type } from "../types";
+import { updateGameOffset } from "../store/MountainsSlice";
+import { changeDirection, updateShipY } from "../store/ShipSlice";
+import { useScreenDimensions } from "./useScreenDimensions";
+import { Root } from "react-dom/client";
 
 const useAnimationFrame = () => {
-  const { state, dispatch } = useContext(OffsetMountainDataContext);
-  const { shipState, shipDispatch } = useContext(ShipDataContext);
+  const reduxDispatch = useDispatch();
+  const { bullets, mountains, ship } = useSelector((state: RootState) => {
+    return state;
+  });
   const screenSize = useScreenDimensions();
-  const { width } = screenSize;
 
   const PX_PER_SECOND = 800;
 
-  const { bullets } = state;
   const [isThrusting, setIsThrusting] = React.useState(false);
   const [shipMovingUpOrDown, setShipMovingUpOrDown] = React.useState("NEITHER");
 
   // Use useRef for mutable variables that we want to persist
   // without triggering a re-render on their change
-  // https://css-tricks.com/using-requestanimationframe-with-react-hooks/
-  const requestRef = React.useRef();
+  // https://css-tricks.com/using-requestanimationframe-with-react-hooks/ //(cb: FrameRequestCallback) => number
+  const requestRef = React.useRef<number>(0);
 
   //for calculating how much the landscape moves by when you're thrusting
-  const previousTimeRef_Thrust = React.useRef();
+  const previousTimeRef_Thrust = React.useRef<number | undefined>();
 
   // Unwrapping this useCallback and just assigning the fxn of time
   // to animateCallback doesn't seem to hurt performance.  There may be other reasons for doing this, but I recently read that this can
   // be an issue because every time a component gets rendered, a brand new function gets re-created, so if you happen to be passing a function
   // as a prop to a child component and that component is memoized, memoization won't work.  Memoization means the the component won't rerender unless
   // the props change, but in this case the function prop will change every time.
-  const animateCallback = (time) => {
+  const animateCallback = (time: number) => {
     if (previousTimeRef_Thrust.current !== undefined) {
       if (isThrusting) {
-        const deltaTime_Thrust = time - previousTimeRef_Thrust.current;
+        const deltaTime_Thrust = time! - previousTimeRef_Thrust.current;
         const amtToMove =
-          shipState.direction === "right"
+          ship.direction === "right"
             ? Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000)
             : -Math.floor((deltaTime_Thrust * PX_PER_SECOND) / 1000);
-        dispatch({
-          type: "UPDATE_GAME_OFFSET",
-          cargo: {
-            offsetDifference: amtToMove,
-          },
-        });
+
+        reduxDispatch(updateGameOffset({ offsetDifference: amtToMove }));
       }
     }
 
@@ -61,14 +67,11 @@ const useAnimationFrame = () => {
 
     if (shipMovingUpOrDown !== "NEITHER") {
       const dispatchObj = {
-        type: "UPDATE_SHIP_Y",
-        cargo: {
-          upOrDown: shipMovingUpOrDown,
-          changeInY:
-            shipMovingUpOrDown === "UP" ? -UP_ARROW_PIXELS : UP_ARROW_PIXELS,
-        },
+        upOrDown: shipMovingUpOrDown,
+        changeInY:
+          shipMovingUpOrDown === "UP" ? -UP_ARROW_PIXELS : UP_ARROW_PIXELS,
       };
-      shipDispatch(dispatchObj);
+      reduxDispatch(updateShipY(dispatchObj));
     }
 
     for (let i = 0; i < bullets.length; i++) {
@@ -78,28 +81,25 @@ const useAnimationFrame = () => {
         );
         const { width } = screenSize;
         if (bullets[i].direction === RIGHT && bullets[i].location.x < width) {
-          dispatch({
-            type: "MOVE_BULLET_RIGHT",
-            cargo: {
+          reduxDispatch(
+            moveBulletRight({
               index: i,
               pixelsToMove: BULLET_PX_PER_FRAME,
               screenWidth: width,
               lastTimeStamp: time,
-            },
-          });
+            })
+          );
         } else if (
           bullets[i].direction === LEFT &&
           bullets[i].location.x > 50
         ) {
-          dispatch({
-            type: "MOVE_BULLET_LEFT",
-            cargo: {
+          reduxDispatch(
+            moveBulletLeft({
               index: i,
               pixelsToMove: BULLET_PX_PER_FRAME,
-              screenWidth: width,
               lastTimeStamp: time,
-            },
-          });
+            })
+          );
         }
       }
     }
@@ -133,7 +133,7 @@ const useAnimationFrame = () => {
     }
   }, [
     animateCallback,
-    shipState.direction,
+    ship.direction,
     bullets[0].isVisible,
     bullets[1].isVisible,
     bullets[2].isVisible,
@@ -145,7 +145,7 @@ const useAnimationFrame = () => {
     go: () => {
       setIsThrusting(true);
     },
-    changeShipY: (upOrDown) => {
+    changeShipY: (upOrDown: UP_DOWN_NEITHER_type) => {
       setShipMovingUpOrDown(upOrDown);
     },
     resetAnimationTimer,
@@ -154,19 +154,18 @@ const useAnimationFrame = () => {
       setIsThrusting(false);
     },
     changeShipDirection: () => {
-      shipDispatch({ type: "CHANGE_DIRECTION" });
+      reduxDispatch(changeDirection());
     },
     shoot: () => {
       const nextBulletIndex = bullets.findIndex((b) => b.isVisible === false);
       if (nextBulletIndex !== -1) {
-        dispatch({
-          type: "START_BULLET",
-          cargo: {
+        reduxDispatch(
+          startBullet({
             index: nextBulletIndex,
-            direction: shipState.direction,
-            shipX: shipState.offsetX,
-          },
-        });
+            direction: ship.direction,
+            shipX: ship.offsetX,
+          })
+        );
       }
     },
   };

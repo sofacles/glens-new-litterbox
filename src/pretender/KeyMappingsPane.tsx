@@ -1,15 +1,17 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { KeyBindingContext } from "./hooks/useKeyBindings";
-import { UPDATE_KEY_BINDING } from "./Constants";
-import { ItemFlexContext } from "../flexbox/ItemFlexContext";
+
 import KeyMappingEditor from "./KeyMappingEditor";
-import { KeyBindingType } from "./types";
+import { updateKeyMapping } from "./store/KeyMappingSlice";
+import { RootState } from "./store/store";
+import { KeyMappingType } from "./types";
 
 const KeyMappingsPane = () => {
-  const { state, dispatch } = useContext(KeyBindingContext);
-  const { bindings } = state;
-  const { changeShipDirection, shipUp, shipDown, shoot, thrust } = bindings;
+  const keyMappings = useSelector((state: RootState) => state.keyMappings);
+  const reduxDispatch = useDispatch();
+  const { changeShipDirection, shipUp, shipDown, shoot, thrust } = keyMappings;
   const [isEditing, setIsEditing] = useState(false);
   const [keyBeingEdited, setKeyBeingEdited] = useState<string | undefined>(
     undefined
@@ -23,8 +25,8 @@ const KeyMappingsPane = () => {
     }
   }, []);
 
-  const toggleEditModeFor = (keyBinding: KeyBindingType) => {
-    setKeyBeingEdited(keyBinding.name);
+  const toggleEditModeFor = (keyMapping: KeyMappingType) => {
+    setKeyBeingEdited(keyMapping.name);
     setIsEditing(true);
     refToPaneDiv.current?.focus();
   };
@@ -39,10 +41,9 @@ const KeyMappingsPane = () => {
       }}
       onKeyDown={(evt) => {
         if (isEditing) {
-          dispatch({
-            type: UPDATE_KEY_BINDING,
-            cargo: { key: keyBeingEdited, value: evt.key },
-          });
+          reduxDispatch(
+            updateKeyMapping({ key: keyBeingEdited, value: evt.key })
+          );
           setKeyBeingEdited(undefined);
         }
       }}
@@ -50,28 +51,28 @@ const KeyMappingsPane = () => {
     >
       <h1>Mappings</h1>
       <KeyMappingEditor
-        keyBinding={thrust}
+        keyMapping={thrust}
         isEditing={thrust.name === keyBeingEdited}
         toggleEditMode={toggleEditModeFor}
       />
       <KeyMappingEditor
-        keyBinding={shipUp}
+        keyMapping={shipUp}
         isEditing={shipUp.name === keyBeingEdited}
         toggleEditMode={toggleEditModeFor}
       />
 
       <KeyMappingEditor
-        keyBinding={shipDown}
+        keyMapping={shipDown}
         isEditing={shipDown.name === keyBeingEdited}
         toggleEditMode={toggleEditModeFor}
       />
       <KeyMappingEditor
-        keyBinding={changeShipDirection}
+        keyMapping={changeShipDirection}
         isEditing={changeShipDirection.name === keyBeingEdited}
         toggleEditMode={toggleEditModeFor}
       />
       <KeyMappingEditor
-        keyBinding={shoot}
+        keyMapping={shoot}
         isEditing={shoot.name === keyBeingEdited}
         toggleEditMode={toggleEditModeFor}
       />

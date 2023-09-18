@@ -1,13 +1,18 @@
 import React, { useContext } from "react";
-import { OffsetMountainDataContext } from "./hooks/useOffsetMountainData";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
-const Mountains = (props) => {
+import { PointType } from "./types";
+
+const Mountains = () => {
   //initial state: we are in the middle of the world: x = 0;
   // we want to show a portion of the mountains that's equal to the screen width
-  const { state } = useContext(OffsetMountainDataContext);
-  const { allPointsCorrected } = state;
+  const mountains = useSelector((state: RootState) => {
+    return state.mountains;
+  });
+  const { allPointsCorrected } = mountains;
 
-  const generateAdjustedLines = (points) => {
+  const generateAdjustedLines = (points: PointType[]) => {
     const adjustedLines = [];
     for (var i = 0; i < points.length - 1; i++) {
       adjustedLines.push({
@@ -37,7 +42,7 @@ const Mountains = (props) => {
     );
   });
 
-  //I need to give the ridgelines their new dimensions.  For now I'll just offset all the points and hope that Reactt is smart enough
+  //I need to give the ridgelines their new dimensions.  For now I'll just offset all the points and hope that React is smart enough
   //to only draw the ones that appear on screen
 
   return <>{myLines}</>;

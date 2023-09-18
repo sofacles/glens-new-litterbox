@@ -1,17 +1,16 @@
 import React, { useState } from "react";
-import { KeyBindingContext } from "./hooks/useKeyBindings";
-import { KeyBindingType } from "./types";
+import { KeyMappingType } from "./types";
 
-type toggleEditModeType = (keyBinding: KeyBindingType) => void;
+type toggleEditModeType = (keyMapping: KeyMappingType) => void;
 type KeyMappingEditorProps = {
   toggleEditMode: toggleEditModeType;
-  keyBinding: KeyBindingType;
+  keyMapping: KeyMappingType;
   isEditing: boolean;
 };
 
 const KeyMappingEditor = (props: KeyMappingEditorProps) => {
-  const { toggleEditMode, isEditing, keyBinding } = props;
-  const { name, mappedKey } = keyBinding;
+  const { toggleEditMode, isEditing, keyMapping } = props;
+  const { name, mappedKey } = keyMapping;
   const normalizeKeyName = (key: string) => {
     if (key == " ") {
       return "space";
@@ -32,7 +31,7 @@ const KeyMappingEditor = (props: KeyMappingEditorProps) => {
           <span>{normalizeKeyName(mappedKey)}</span>
           <button
             onClick={() => {
-              toggleEditMode(keyBinding);
+              toggleEditMode(keyMapping);
             }}
           >
             edit

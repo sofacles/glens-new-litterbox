@@ -1,6 +1,9 @@
-import React, { KeyboardEvent, useContext, useState } from "react";
+import React, { KeyboardEvent, useState } from "react";
+
+import { useSelector } from "react-redux";
+
 import { UP_DOWN_NEITHER } from "../Constants";
-import { KeyBindingContext } from "./useKeyBindings";
+import { RootState } from "../store/store";
 import { UseMultipleKeysPropsType } from "../types";
 
 //I want to be able to test the ship moving up and down, but I'm having trouble getting the onKeyDown handler to be called
@@ -9,7 +12,7 @@ import { UseMultipleKeysPropsType } from "../types";
 //So if this thing just handles the logic of determining which functions to call based on what keys are being pressed
 /*
 goHandler is whatever function this hook should call to that makes the ship go
-stopHandler       "        "
+stopHandler       "        "        "        "                           stop
 changeShipYHander whatever function should be called to tell the ship what direction it shoould be moving
 */
 export const useMultipleKeys = ({
@@ -21,9 +24,8 @@ export const useMultipleKeys = ({
   changeShipDirectionHandler,
 }: UseMultipleKeysPropsType) => {
   const [currentlyPressedKeys] = useState(new Map());
-  const { state } = useContext(KeyBindingContext);
-  const { changeShipDirection, shipUp, shipDown, shoot, thrust } =
-    state.bindings;
+  const keyMappings = useSelector((state: RootState) => state.keyMappings);
+  const { changeShipDirection, shipUp, shipDown, shoot, thrust } = keyMappings;
 
   const onKeyDown = (evt: KeyboardEvent) => {
     const plainKey = evt.key.toLowerCase();

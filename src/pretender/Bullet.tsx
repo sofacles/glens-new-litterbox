@@ -1,8 +1,8 @@
 import React from "react";
 import { LEFT, SHIP_WIDTH } from "./Constants";
-import { BulletPropsType } from "./types";
+import { BulletPropsType, DirectionType } from "./types";
 
-const Bullet = (props) => {
+const Bullet = (props: BulletPropsType) => {
   const { direction, isVisible, x, y, fill } = props;
   // For now, make the visual corrections for bullets right here.
   // Make the tracers behind the bullet appear on the correct side of the bullet

@@ -1,25 +1,21 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { OffsetMountainDataProvider } from "./hooks/useOffsetMountainData";
-import { ShipDataProvider } from "./hooks/useShipData";
-import { KeyBindingProvider } from "./hooks/useKeyBindings";
-import MainScreen from "./MainScreen";
-import KeyMappingsPane from "./KeyMappingsPane";
 
+import { Provider } from "react-redux";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import KeyMappingsPane from "./KeyMappingsPane";
+import MainScreen from "./MainScreen";
+import store from "./store/store";
 const GameWrapper = () => {
   return (
-    <KeyBindingProvider>
-      <ShipDataProvider>
-        <OffsetMountainDataProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<MainScreen />} />
-              <Route path="/keys" element={<KeyMappingsPane />} />
-            </Routes>
-          </BrowserRouter>
-        </OffsetMountainDataProvider>
-      </ShipDataProvider>
-    </KeyBindingProvider>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainScreen />} />
+          <Route path="/keys" element={<KeyMappingsPane />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 };
 

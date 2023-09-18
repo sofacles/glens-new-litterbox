@@ -13,21 +13,19 @@ export type PointType = {
   y: number;
 };
 
+//For the Bullet component
 export type BulletPropsType = {
   direction: DirectionType;
-  location: PointType;
   isVisible: boolean;
-  tStart: number;
-  lastTimeStamp: number;
+  x: number;
+  y: number;
+  fill: string;
 };
 
 export type OffsetMountainDataType = {
   gameOffset: number;
   allPointsCorrected: PointType[];
   screenDimensions: screenDimensionsType;
-  //shipOffset is really just here for the instrument panel?
-  shipOffset: number;
-  bullets: BulletPropsType[];
 };
 
 export type ShipDataType = {
@@ -48,7 +46,7 @@ export type UseMultipleKeysPropsType = {
   fireShotHandler: () => {};
 };
 
-export type KeyBindingType = {
+export type KeyMappingType = {
   mappedKey: string;
   name: string;
 };
