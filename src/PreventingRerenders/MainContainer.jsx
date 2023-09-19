@@ -52,7 +52,9 @@ const MainContainer = ({ children }) => {
           value="update name of nested data"
         />
       </div>
-      <UnrelatedProps count={localCount} className="count2" />
+      <UnrelatedProps count={localCount} className="count2">
+        This gets re-rendered when (unused) setState is called.
+      </UnrelatedProps>
     </div>
   );
 };

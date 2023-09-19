@@ -70,6 +70,9 @@ div {
     justify-items: space-around;
     position: relative;
 }
+.order-detail span {
+    margin-right: 10px;
+}
 
 ul li {
     list-style: none;
