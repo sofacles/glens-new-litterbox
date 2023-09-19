@@ -1,0 +1,34 @@
+div {
+    display: static;
+}
+
+.my-grid {
+    height: 600px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: [first] 100px [line2] 150px [line3] auto [col4-start] 150px [five] 100px [end];
+    grid-template-rows: [row1-start] 25% [row1-end] auto [third-line] 25% [last-line];
+  
+    background-color: lightcyan;
+
+}
+
+.count1 {
+    background-color: aquamarine;
+    grid-column-start: first;
+    grid-column-end: line2;
+    grid-row-start: row1-start;
+    grid-row-end: row1-end;
+}
+
+.top-right {
+    background-color: aquamarine;
+    grid-column-start: five;
+    grid-column-end: end;
+    grid-row-start: row1-start;
+    grid-row-end: row1-end;
+}
+
+ul li {
+    list-style: none;
+}
