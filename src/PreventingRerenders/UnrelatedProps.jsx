@@ -4,10 +4,11 @@
 // Yes
 import React from "react";
 
-export const UnrelatedProps = ({ count, topPx = 0 }) => {
+export const UnrelatedProps = ({ children, count, className = "" }) => {
   return (
-    <div style={{ position: "absolute", left: "0", top: `${topPx}px` }}>
+    <div className={className}>
       count: {count}
+      <div>{children}</div>
     </div>
   );
 };

@@ -1,0 +1,84 @@
+:root {
+    /* You can use variables in CSS now */
+    --custom-color: #f0f0f0;
+  }
+
+div {
+    display: grid;
+}
+
+.my-grid {
+    height: 600px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: [first] 150px [second] auto [third] 150px;
+    grid-template-rows: [row1-start] 15% [row1-end] 15% [row2-end] 15% [row3-end] auto [end];
+    background-color: var(--custom-color);
+}
+
+.my-grid * {
+    overflow: hidden;
+}
+
+.count1 {
+    background-color: rgb(203, 159, 209);
+    grid-column-start: first;
+    /* If you skip grid-column-end, you occupy one column grid-column-end: col4-start; */
+    grid-row-start: row1-start;
+    grid-row-end: row1-end;
+}
+.count2 {
+    background-color: blue;
+    border: 1px solid orange;
+    color: orange;
+    grid-column-start: first;
+    /* If you skip grid-column-end, you occupy one column grid-column-end: col4-start; */
+    grid-row-start: row1-end;
+}
+
+.top-right {
+    background-color: aquamarine;
+    grid-column-start: third;
+    grid-row-start: row1-start;
+    overflow: hidden;
+}
+
+.top-center {
+    grid-column: second;
+    grid-row-start: row1-start;
+    grid-row-end: row3-end;
+}
+
+.just-below-top-right {
+    background-color: #aaa;
+    grid-column-start: third;
+    grid-row-start: row1-end;
+   
+}
+
+.bottom-center {
+    grid-column: second;
+    grid-row: row3-end;
+    
+}
+
+.eject {
+    /* Make it so the children of this element don't actually participate in the grid layout. */
+    display: flex;
+    flex-direction: column;
+}
+
+.eject div {
+    display: flex;
+   
+    justify-content:flex-start;
+    justify-items: space-around;
+    position: relative;
+}
+.order-detail span {
+    margin-right: 10px;
+}
+
+ul li {
+    list-style: none;
+}
