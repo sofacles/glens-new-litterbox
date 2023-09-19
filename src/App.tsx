@@ -11,7 +11,11 @@ function App() {
   const foo = 4;
   return (
     <div className="App">
-      <Demo />
+      <MainContainer>
+        <UnrelatedProps count={foo} className="childOfApp">
+          child of App does NOT get rerendered
+        </UnrelatedProps>
+      </MainContainer>
     </div>
   );
 }
