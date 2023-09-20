@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DeliveryDriver from "./DeliveryDriver";
 import { UnrelatedProps } from "./UnrelatedProps";
-import { data } from "./Data";
+import { data } from "../Data";
 import "./style.css";
 
 const MainContainer = ({ children }) => {
@@ -46,7 +46,17 @@ const MainContainer = ({ children }) => {
           type="button"
           onClick={(evt) => {
             const newData = { ...datum };
-            newData.orders[0].items[0].name = "bucatini";
+            //OK, I'm doing this demonstrate that since the definition of  <Order /> is wrapped in a memo(...) call, the first order will be rerendered
+            // but not the second.
+            newData.orders[0] = {
+              id: 98,
+              customerId: 12,
+              items: [
+                { id: 89932, name: "Duplex cremes" },
+                { id: 82636, name: "Orange Juice" },
+                { id: 87235, name: "Pens" },
+              ],
+            };
             setDatum(newData);
           }}
           value="update name of nested data"

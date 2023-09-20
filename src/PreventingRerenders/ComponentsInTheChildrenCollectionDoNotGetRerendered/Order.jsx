@@ -1,6 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 
-const Order = ({ order }) => {
+const Order = memo(({ order }) => {
+  console.log(`rendering Order ${order.id}`);
   const items = order.items.map((item) => <li key={item.id}>{item.name}</li>);
   return (
     <div className="order-detail">
@@ -9,6 +10,6 @@ const Order = ({ order }) => {
       <ul>{items}</ul>
     </div>
   );
-};
+});
 
 export default Order;
