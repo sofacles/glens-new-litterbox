@@ -1,3 +1,8 @@
+:root {
+    /* You can use variables in CSS now */
+    --custom-color: #f0f0f0;
+  }
+
 div {
     display: grid;
 }
@@ -8,7 +13,7 @@ div {
     display: grid;
     grid-template-columns: [first] 150px [second] auto [third] 150px;
     grid-template-rows: [row1-start] 15% [row1-end] 15% [row2-end] 15% [row3-end] auto [end];
-    background-color: lightcyan;
+    background-color: var(--custom-color);
 }
 
 .my-grid * {
