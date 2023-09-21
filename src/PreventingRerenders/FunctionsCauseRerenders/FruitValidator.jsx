@@ -1,4 +1,6 @@
-const FruitValidator = ({ fruit, onValidationComplete }) => {
+import React, { memo } from "react";
+
+const FruitValidator = memo(({ fruit, onValidationComplete }) => {
   console.log(`FruitValidator rendered`);
   return (
     <div>
@@ -14,6 +16,6 @@ const FruitValidator = ({ fruit, onValidationComplete }) => {
       </p>
     </div>
   );
-};
+});
 
 export default FruitValidator;

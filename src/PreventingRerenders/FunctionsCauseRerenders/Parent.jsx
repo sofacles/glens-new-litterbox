@@ -7,12 +7,12 @@ import FruitValidator from "./FruitValidator";
 const Parent = () => {
   console.log(`parent rendered`);
   //Maybe I need to put this in state?  Yeah.  This creates a mew object every time this thing is rerendered.
-  //   const strawberry = {
+  //   const fruit = {
   //     name: "Strawberry",
   //     nSeeds: 0,
   //   };
 
-  const [fruit] = useState({
+  const [strawberry] = useState({
     name: "Strawberry",
     nSeeds: 0,
   });
@@ -42,7 +42,10 @@ const Parent = () => {
           MacGuffinate Me
         </button>
       </p>
-      <FruitValidator fruit={fruit} onValidationComplete={myValidationFxn} />
+      <FruitValidator
+        fruit={strawberry}
+        onValidationComplete={myValidationFxn}
+      />
     </div>
   );
 };
