@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import DeliveryDriver from "./DeliveryDriver";
 import { UnrelatedProps } from "./UnrelatedProps";
-import { data } from "./Data";
+import { data } from "../Data";
 import "./style.css";
 
 const MainContainer = ({ children }) => {

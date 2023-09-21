@@ -4,17 +4,12 @@
 import MainContainer from "./ComponentsInTheChildrenCollectionDoNotGetRerendered/MainContainer";
 import { UnrelatedProps } from "./ComponentsInTheChildrenCollectionDoNotGetRerendered/UnrelatedProps";
 import BasicRerenderingContainer from "./UseStateCausesRerenders/BasicRerenderingContainer";
+import Parent from "./FunctionsCauseRerenders/Parent";
 
 const Wrapper = () => {
-  const foo = 4;
   return (
     <>
-      <MainContainer>
-        <UnrelatedProps count={foo} className="childOfApp">
-          child of App does NOT get rerendered
-        </UnrelatedProps>
-      </MainContainer>
-      {/* <BasicRerenderingContainer /> */}
+      <Parent />
     </>
   );
 };
