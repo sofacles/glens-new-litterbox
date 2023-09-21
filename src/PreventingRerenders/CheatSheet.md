@@ -61,3 +61,15 @@ But, memoizing FruitValidator is not enough.
     );
   }, []); //don't forget the empty dependency array or it won't work.  The `useCallback`` hook is called every time Parent rerenders.
 ```
+
+## useMemo vs useEffect
+
+They look like they might do the same thing: caching a value betweeen rerenders. In fact, useRef seems like it also does the same thing, but let's think about that later. [This page]|(https://www.reddit.com/r/react/comments/w56gyb/arent_useeffect_with_dependencies_and_usememo_the) has a comment about the difference, which I'll quote:
+
+```
+No they are not the same. They happen at different times and have different purposes.
+
+The function you pass to useMemo runs during rendering to recalculate the a value when a dependency changes. The results of a useMemo calculation can be used in the current render. The useMemo function should not have side effects.
+
+The function you pass to useEffect runs after every render in which a dependency changes. The results of a useEffect function can do thinks like manipulate the DOM independent of React, interact with other browser APIs (e.g. fetch), or trigger future renders of the component by setting state, but it can not impact the current render since it is happening after the render is already done. The useEffect function is intended specifically for side effects (hence the name).
+```

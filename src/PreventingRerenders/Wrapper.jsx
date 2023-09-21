@@ -4,7 +4,8 @@
 import MainContainer from "./ComponentsInTheChildrenCollectionDoNotGetRerendered/MainContainer";
 import { UnrelatedProps } from "./ComponentsInTheChildrenCollectionDoNotGetRerendered/UnrelatedProps";
 import BasicRerenderingContainer from "./UseStateCausesRerenders/BasicRerenderingContainer";
-import Parent from "./FunctionsCauseRerenders/Parent";
+//import Parent from "./FunctionsCauseRerenders/Parent";
+import Parent from "./UsingUseMemoInsteadOfMemo/Parent";
 
 const Wrapper = () => {
   return (
